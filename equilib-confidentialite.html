@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Politique de confidentialité — Equilib</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F9F5EE;--cream2:#F2EDE3;--sage:#6B9E6F;--sage-light:#B8D4BA;
+  --sage-dark:#3D6B44;--terra:#C4714A;--terra-light:#EDD5C4;--terra-dark:#8B4A28;
+  --brown:#3A2B1E;--muted:#8A7868;--border:#DDD5C8;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--brown);line-height:1.7;}
+
+nav{background:var(--cream);border-bottom:1px solid var(--border);padding:16px 48px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+.logo{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--sage-dark);text-decoration:none;}
+.logo em{color:var(--terra);font-style:italic;}
+.nav-back{font-size:13px;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px;}
+.nav-back:hover{color:var(--brown);}
+
+.hero-strip{background:var(--brown);padding:64px 48px 48px;text-align:center;}
+.hero-strip .tag{display:inline-block;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);font-size:11px;font-weight:500;padding:5px 14px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px;}
+.hero-strip h1{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,52px);font-weight:300;color:white;margin-bottom:12px;}
+.hero-strip h1 em{color:var(--terra-light);font-style:italic;}
+.hero-strip p{font-size:14px;color:rgba(255,255,255,.5);max-width:480px;margin:0 auto;}
+
+.main{max-width:760px;margin:0 auto;padding:64px 32px 96px;}
+
+/* TOC */
+.toc{background:white;border:1px solid var(--border);border-radius:16px;padding:24px 28px;margin-bottom:48px;}
+.toc-title{font-size:12px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:var(--terra);margin-bottom:14px;}
+.toc-list{list-style:none;display:grid;gap:6px;}
+.toc-list a{font-size:14px;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .2s;}
+.toc-list a::before{content:'→';font-size:12px;color:var(--sage);}
+.toc-list a:hover{color:var(--brown);}
+
+/* SECTIONS */
+.section{margin-bottom:52px;scroll-margin-top:80px;}
+.section-num{font-size:11px;font-weight:600;color:var(--terra);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+.section h2{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;margin-bottom:18px;color:var(--brown);}
+.section p{font-size:15px;color:#5A4A3C;line-height:1.8;margin-bottom:14px;}
+.section p:last-child{margin-bottom:0;}
+.section ul{list-style:none;display:grid;gap:8px;margin-bottom:14px;}
+.section ul li{font-size:15px;color:#5A4A3C;line-height:1.7;padding-left:18px;position:relative;}
+.section ul li::before{content:'·';position:absolute;left:0;color:var(--terra);font-size:18px;line-height:1.5;}
+
+/* CALLOUTS */
+.callout{border-radius:12px;padding:18px 22px;margin:20px 0;font-size:14px;line-height:1.7;}
+.callout-green{background:var(--sage-light);border-left:3px solid var(--sage-dark);color:var(--sage-dark);}
+.callout-orange{background:var(--terra-light);border-left:3px solid var(--terra);color:var(--terra-dark);}
+.callout-brown{background:var(--cream2);border-left:3px solid var(--muted);color:var(--brown);}
+.callout strong{display:block;font-size:13px;font-weight:600;margin-bottom:4px;letter-spacing:.3px;}
+
+/* TABLE */
+.data-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px;}
+.data-table th{background:var(--brown);color:white;padding:10px 16px;text-align:left;font-weight:500;font-size:12px;letter-spacing:.5px;}
+.data-table th:first-child{border-radius:8px 0 0 0;}
+.data-table th:last-child{border-radius:0 8px 0 0;}
+.data-table td{padding:12px 16px;border-bottom:1px solid var(--border);color:#5A4A3C;vertical-align:top;line-height:1.6;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:nth-child(even) td{background:var(--cream2);}
+
+/* DROITS */
+.droits-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;}
+.droit-card{background:white;border:1px solid var(--border);border-radius:12px;padding:16px 18px;}
+.droit-card .di{font-size:22px;margin-bottom:8px;}
+.droit-card h4{font-size:14px;font-weight:500;margin-bottom:4px;}
+.droit-card p{font-size:13px;color:var(--muted);line-height:1.5;}
+
+/* CONTACT BOX */
+.contact-box{background:linear-gradient(135deg,var(--sage-dark),var(--sage));border-radius:16px;padding:28px;color:white;text-align:center;margin-top:32px;}
+.contact-box h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;margin-bottom:8px;}
+.contact-box p{font-size:14px;opacity:.85;margin-bottom:20px;}
+.contact-btn{display:inline-block;background:white;color:var(--sage-dark);border-radius:8px;padding:10px 24px;font-size:14px;font-weight:500;text-decoration:none;font-family:'Jost',sans-serif;transition:all .2s;}
+.contact-btn:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.15);}
+
+/* BANNER COOKIE */
+.cookie-banner{position:fixed;bottom:0;left:0;right:0;background:var(--brown);color:white;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;gap:20px;z-index:1000;transform:translateY(0);transition:transform .4s ease;flex-wrap:wrap;}
+.cookie-banner.hidden{transform:translateY(100%);}
+.cookie-text{font-size:13px;opacity:.85;line-height:1.5;flex:1;min-width:200px;}
+.cookie-text a{color:var(--terra-light);text-decoration:underline;}
+.cookie-actions{display:flex;gap:10px;flex-shrink:0;}
+.cookie-btn{border:none;border-radius:7px;padding:9px 18px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;}
+.cookie-btn.accept{background:var(--sage);color:white;}
+.cookie-btn.accept:hover{background:var(--sage-dark);}
+.cookie-btn.refuse{background:rgba(255,255,255,.1);color:white;}
+.cookie-btn.refuse:hover{background:rgba(255,255,255,.2);}
+
+footer{background:var(--brown);padding:32px 48px;display:flex;align-items:center;justify-content:space-between;}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:20px;color:rgba(255,255,255,.5);}
+.footer-logo em{color:var(--terra-light);font-style:italic;}
+.footer-note{font-size:12px;color:rgba(255,255,255,.3);}
+
+@media(max-width:768px){
+  nav{padding:14px 20px;}
+  .hero-strip{padding:48px 20px 36px;}
+  .main{padding:40px 20px 64px;}
+  .droits-grid{grid-template-columns:1fr;}
+  .cookie-banner{padding:16px 20px;}
+  footer{flex-direction:column;gap:10px;text-align:center;padding:24px 20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="equilib-landing.html" class="logo">Equi<em>lib</em></a>
+  <a href="equilib-landing.html" class="nav-back">← Retour au site</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero-strip">
+  <div class="tag">Légal</div>
+  <h1>Politique de <em>confidentialité</em></h1>
+  <p>Dernière mise à jour : 30 avril 2026 · Applicable à equilib.fr et equilib.vercel.app</p>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <div class="callout callout-green">
+    <strong>✅ La version courte</strong>
+    On collecte le minimum. On ne revend rien. On ne partage rien avec des tiers sans ton accord. Tes données de santé restent sur nos serveurs et ne sont jamais utilisées à des fins commerciales tierces. Tu peux tout supprimer à tout moment en nous écrivant.
+  </div>
+
+  <!-- TABLE DES MATIÈRES -->
+  <div class="toc">
+    <div class="toc-title">Sommaire</div>
+    <ul class="toc-list">
+      <li><a href="#responsable">1. Qui est responsable de tes données ?</a></li>
+      <li><a href="#collecte">2. Quelles données on collecte et pourquoi ?</a></li>
+      <li><a href="#sante">3. Données de santé — règles spéciales</a></li>
+      <li><a href="#conservation">4. Combien de temps on les garde ?</a></li>
+      <li><a href="#partage">5. Avec qui on les partage ?</a></li>
+      <li><a href="#droits">6. Tes droits RGPD</a></li>
+      <li><a href="#cookies">7. Cookies et traceurs</a></li>
+      <li><a href="#securite">8. Comment on protège tes données ?</a></li>
+      <li><a href="#contact">9. Nous contacter</a></li>
+    </ul>
+  </div>
+
+  <!-- 1 -->
+  <div class="section" id="responsable">
+    <div class="section-num">01</div>
+    <h2>Qui est responsable de tes données ?</h2>
+    <p>Le responsable du traitement est <strong>Equilib</strong>, service en ligne accessible sur equilib.vercel.app.</p>
+    <p>Contact : <strong>jieasymn@gmail.com</strong> — nous répondons dans un délai maximum de 72 heures.</p>
+    <div class="callout callout-brown">
+      <strong>Pas encore de DPO obligatoire</strong>
+      En tant que petite structure traitant des données de santé, nous avons l'obligation de désigner un Délégué à la Protection des Données (DPO) dès lors que le traitement est régulier et systématique à grande échelle. Nous sommes actuellement en phase bêta et mettons en place cette désignation.
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="section" id="collecte">
+    <div class="section-num">02</div>
+    <h2>Quelles données on collecte et pourquoi ?</h2>
+    <table class="data-table">
+      <thead>
+        <tr><th>Données collectées</th><th>Pourquoi</th><th>Base légale</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Âge, sexe, taille, poids, objectif</strong></td>
+          <td>Calculer le bilan personnalisé (TMB, IMC, TDEE)</td>
+          <td>Consentement explicite</td>
+        </tr>
+        <tr>
+          <td><strong>Habitudes alimentaires</strong></td>
+          <td>Identifier les bloqueurs comportementaux</td>
+          <td>Consentement explicite</td>
+        </tr>
+        <tr>
+          <td><strong>Niveau de stress, sommeil, activité</strong></td>
+          <td>Affiner le diagnostic</td>
+          <td>Consentement explicite</td>
+        </tr>
+        <tr>
+          <td><strong>Adresse email</strong> (optionnelle)</td>
+          <td>T'envoyer ton bilan et, avec ton accord, des conseils</td>
+          <td>Consentement explicite</td>
+        </tr>
+        <tr>
+          <td><strong>Données de navigation</strong> (GA4, Clarity)</td>
+          <td>Améliorer le service (pages visitées, clics, durée)</td>
+          <td>Consentement cookies</td>
+        </tr>
+        <tr>
+          <td><strong>Données de paiement</strong></td>
+          <td>Traitement de l'abonnement</td>
+          <td>Exécution du contrat — gérées par Stripe, jamais par nous</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout callout-green">
+      <strong>Ce qu'on ne collecte PAS</strong>
+      Numéro de sécurité sociale · Données bancaires · Photo · Localisation précise · Données relatives à des mineurs (notre service est réservé aux +18 ans)
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="section" id="sante">
+    <div class="section-num">03</div>
+    <h2>Données de santé — règles spéciales</h2>
+    <p>Le poids, l'IMC, les habitudes alimentaires et le niveau de stress sont considérés comme des <strong>données de santé</strong> au sens de l'article 9 du RGPD. Ces données bénéficient d'une protection renforcée.</p>
+    <div class="callout callout-orange">
+      <strong>⚠️ Consentement explicite obligatoire</strong>
+      Conformément à l'article 9.2(a) du RGPD, nous ne traitons tes données de santé qu'avec ton <strong>consentement explicite et éclairé</strong>, donné librement avant le début du questionnaire. Tu peux le retirer à tout moment.
+    </div>
+    <p>Concrètement, cela signifie :</p>
+    <ul>
+      <li>Tes données de santé ne sont jamais croisées avec des données publicitaires</li>
+      <li>Elles ne sont jamais vendues ou louées à des assureurs, employeurs ou tiers</li>
+      <li>Elles sont traitées uniquement pour générer ton bilan personnalisé</li>
+      <li>L'IA qui analyse ton profil (Claude d'Anthropic) est soumise à des obligations contractuelles de confidentialité</li>
+    </ul>
+    <p><strong>Sous-traitant IA :</strong> Anthropic, PBC — 548 Market St, San Francisco, CA 94104. Anthropic traite les données uniquement pour générer la réponse et n'utilise pas tes données pour entraîner ses modèles dans le cadre de notre accord commercial. Voir leur politique : <a href="https://www.anthropic.com/privacy" style="color:var(--terra)">anthropic.com/privacy</a></p>
+  </div>
+
+  <!-- 4 -->
+  <div class="section" id="conservation">
+    <div class="section-num">04</div>
+    <h2>Combien de temps on garde tes données ?</h2>
+    <table class="data-table">
+      <thead>
+        <tr><th>Type de données</th><th>Durée de conservation</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Données du questionnaire (profil, bilan)</td><td>3 ans à compter de la dernière activité — ou jusqu'à ta demande de suppression</td></tr>
+        <tr><td>Adresse email</td><td>3 ans à compter de la collecte — ou jusqu'au désabonnement</td></tr>
+        <tr><td>Données de paiement</td><td>Gérées par Stripe selon leurs CGU (5 ans pour obligations légales)</td></tr>
+        <tr><td>Logs de connexion (sécurité)</td><td>12 mois</td></tr>
+        <tr><td>Données de navigation (GA4, Clarity)</td><td>14 mois maximum (paramétrage GA4 par défaut)</td></tr>
+      </tbody>
+    </table>
+    <p>Au-delà de ces durées, les données sont soit supprimées, soit anonymisées de façon irréversible à des fins statistiques.</p>
+  </div>
+
+  <!-- 5 -->
+  <div class="section" id="partage">
+    <div class="section-num">05</div>
+    <h2>Avec qui on partage tes données ?</h2>
+    <p>Nous ne <strong>vendons jamais</strong> tes données. Nous les partageons uniquement avec les sous-traitants strictement nécessaires au fonctionnement du service :</p>
+    <table class="data-table">
+      <thead>
+        <tr><th>Sous-traitant</th><th>Rôle</th><th>Pays</th><th>Garanties</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Anthropic</strong></td><td>Génération du bilan IA</td><td>🇺🇸 USA</td><td>Clauses contractuelles types UE</td></tr>
+        <tr><td><strong>Vercel</strong></td><td>Hébergement du site</td><td>🇺🇸 USA / 🇪🇺 EU</td><td>Clauses contractuelles types UE</td></tr>
+        <tr><td><strong>Stripe</strong></td><td>Paiement sécurisé</td><td>🇺🇸 USA / 🇮🇪 EU</td><td>PCI-DSS, clauses contractuelles</td></tr>
+        <tr><td><strong>Brevo (Sendinblue)</strong></td><td>Envoi des emails</td><td>🇫🇷 France</td><td>Hébergement EU, certifié ISO 27001</td></tr>
+        <tr><td><strong>Google Analytics 4</strong></td><td>Statistiques d'usage</td><td>🇺🇸 USA</td><td>Uniquement si cookies acceptés</td></tr>
+        <tr><td><strong>Microsoft Clarity</strong></td><td>Analyse comportementale</td><td>🇺🇸 USA</td><td>Uniquement si cookies acceptés</td></tr>
+      </tbody>
+    </table>
+    <div class="callout callout-orange">
+      <strong>Transfert hors UE</strong>
+      Certains sous-traitants sont basés aux États-Unis. Ces transferts sont encadrés par des Clauses Contractuelles Types (CCT) approuvées par la Commission Européenne, conformément à l'article 46 du RGPD.
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="section" id="droits">
+    <div class="section-num">06</div>
+    <h2>Tes droits RGPD</h2>
+    <p>Conformément au RGPD (articles 15 à 22), tu disposes des droits suivants. Tu peux les exercer à tout moment en écrivant à <strong>jieasymn@gmail.com</strong>. Nous répondons dans un délai de 30 jours maximum.</p>
+    <div class="droits-grid">
+      <div class="droit-card"><div class="di">👁️</div><h4>Droit d'accès</h4><p>Obtenir une copie de toutes les données qu'on détient sur toi.</p></div>
+      <div class="droit-card"><div class="di">✏️</div><h4>Droit de rectification</h4><p>Corriger des données inexactes ou incomplètes.</p></div>
+      <div class="droit-card"><div class="di">🗑️</div><h4>Droit à l'effacement</h4><p>Demander la suppression de toutes tes données ("droit à l'oubli").</p></div>
+      <div class="droit-card"><div class="di">⏸️</div><h4>Droit à la limitation</h4><p>Suspendre le traitement de tes données sans les supprimer.</p></div>
+      <div class="droit-card"><div class="di">📦</div><h4>Droit à la portabilité</h4><p>Recevoir tes données dans un format lisible par machine (JSON, CSV).</p></div>
+      <div class="droit-card"><div class="di">🚫</div><h4>Droit d'opposition</h4><p>T'opposer au traitement de tes données, notamment à des fins marketing.</p></div>
+      <div class="droit-card"><div class="di">🔙</div><h4>Retrait du consentement</h4><p>Retirer ton consentement à tout moment, sans justification.</p></div>
+      <div class="droit-card"><div class="di">⚖️</div><h4>Droit de réclamation</h4><p>Saisir la CNIL (cnil.fr) si tu estimes que tes droits ne sont pas respectés.</p></div>
+    </div>
+    <div class="callout callout-brown">
+      <strong>Comment exercer tes droits</strong>
+      Envoie un email à jieasymn@gmail.com avec l'objet "Exercice de mes droits RGPD" et indique le droit que tu souhaites exercer. Nous pouvons te demander de justifier de ton identité avant de donner suite (pour protéger tes données des demandes frauduleuses).
+    </div>
+  </div>
+
+  <!-- 7 -->
+  <div class="section" id="cookies">
+    <div class="section-num">07</div>
+    <h2>Cookies et traceurs</h2>
+    <p>Nous utilisons trois catégories de cookies :</p>
+    <table class="data-table">
+      <thead>
+        <tr><th>Cookie</th><th>Type</th><th>Durée</th><th>Consentement requis</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>sessionStorage (countdown)</strong></td><td>Technique / fonctionnel</td><td>Session</td><td>❌ Non — strictement nécessaire</td></tr>
+        <tr><td><strong>Google Analytics 4</strong></td><td>Mesure d'audience</td><td>14 mois</td><td>✅ Oui</td></tr>
+        <tr><td><strong>Microsoft Clarity</strong></td><td>Analyse comportementale</td><td>12 mois</td><td>✅ Oui</td></tr>
+      </tbody>
+    </table>
+    <p>Tu peux accepter ou refuser les cookies via la bannière en bas de page. Tu peux également modifier tes préférences à tout moment en vidant les cookies de ton navigateur.</p>
+    <p>Conformément aux lignes directrices de la CNIL, le refus des cookies analytiques est aussi simple que leur acceptation.</p>
+  </div>
+
+  <!-- 8 -->
+  <div class="section" id="securite">
+    <div class="section-num">08</div>
+    <h2>Comment on protège tes données ?</h2>
+    <ul>
+      <li><strong>HTTPS obligatoire</strong> — toutes les communications sont chiffrées en transit (TLS 1.3)</li>
+      <li><strong>Clé API sécurisée</strong> — la clé Anthropic est stockée en variable d'environnement serveur, jamais exposée au navigateur</li>
+      <li><strong>Rate limiting</strong> — max 5 requêtes par heure par IP pour prévenir les abus</li>
+      <li><strong>Headers de sécurité</strong> — X-Frame-Options, X-Content-Type-Options, XSS Protection activés sur toutes les pages</li>
+      <li><strong>Pas de stockage local sensible</strong> — aucune donnée de santé n'est stockée dans le navigateur (localStorage/sessionStorage)</li>
+      <li><strong>Stripe PCI-DSS</strong> — les données de paiement ne transitent jamais par nos serveurs</li>
+    </ul>
+    <div class="callout callout-orange">
+      <strong>En cas de violation de données</strong>
+      En cas de violation susceptible d'engendrer un risque pour tes droits et libertés, nous nous engageons à notifier la CNIL dans un délai de 72 heures conformément à l'article 33 du RGPD, et à t'informer directement si le risque est élevé.
+    </div>
+  </div>
+
+  <!-- 9 -->
+  <div class="section" id="contact">
+    <div class="section-num">09</div>
+    <h2>Nous contacter</h2>
+    <p>Pour toute question relative à cette politique ou à l'exercice de tes droits :</p>
+    <div class="contact-box">
+      <h3>Une question sur tes données ?</h3>
+      <p>On répond dans les 72 heures, toujours par une personne réelle.</p>
+      <a href="mailto:jieasymn@gmail.com" class="contact-btn">jieasymn@gmail.com</a>
+    </div>
+    <p style="margin-top:24px;font-size:13px;color:var(--muted)">Tu peux également contacter la <strong>CNIL</strong> (Commission Nationale de l'Informatique et des Libertés) si tu estimes que tes droits ne sont pas respectés : <a href="https://www.cnil.fr" style="color:var(--terra)">cnil.fr</a> · 3 Place de Fontenoy, 75007 Paris · 01 53 73 22 22</p>
+    <p style="margin-top:16px;font-size:13px;color:var(--muted)">Cette politique peut être mise à jour. La date de dernière modification figure toujours en haut de page. En cas de modification substantielle, nous t'en informerons par email si tu nous as communiqué ton adresse.</p>
+  </div>
+
+</div><!-- /main -->
+
+<!-- COOKIE BANNER -->
+<div class="cookie-banner" id="cookie-banner">
+  <div class="cookie-text">
+    🍪 On utilise Google Analytics et Microsoft Clarity pour améliorer le service — uniquement avec ton accord. Tes données de santé ne sont <strong>jamais</strong> utilisées à des fins publicitaires. <a href="#cookies">En savoir plus</a>
+  </div>
+  <div class="cookie-actions">
+    <button class="cookie-btn refuse" onclick="refuseCookies()">Refuser</button>
+    <button class="cookie-btn accept" onclick="acceptCookies()">Accepter</button>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Equi<em>lib</em></div>
+  <div class="footer-note">© 2026 Equilib · <a href="#" style="color:rgba(255,255,255,.3);text-decoration:none">Mentions légales</a></div>
+</footer>
+
+<script>
+// Cookie consent
+function acceptCookies() {
+  localStorage.setItem('equilib_cookies', 'accepted');
+  document.getElementById('cookie-banner').classList.add('hidden');
+  // Active GA4 et Clarity
+  if(typeof gtag !== 'undefined') gtag('consent', 'update', { analytics_storage: 'granted' });
+}
+function refuseCookies() {
+  localStorage.setItem('equilib_cookies', 'refused');
+  document.getElementById('cookie-banner').classList.add('hidden');
+  // Désactive GA4 et Clarity
+  if(typeof gtag !== 'undefined') gtag('consent', 'update', { analytics_storage: 'denied' });
+}
+
+// Vérifie si déjà choisi
+window.addEventListener('DOMContentLoaded', () => {
+  const choice = localStorage.getItem('equilib_cookies');
+  if(choice) document.getElementById('cookie-banner').classList.add('hidden');
+});
+
+// Smooth scroll pour le TOC
+document.querySelectorAll('.toc-list a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
