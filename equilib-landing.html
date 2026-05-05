@@ -3,571 +3,565 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Equilib — Ton bilan poids personnalisé</title>
-
-<!-- =============================================
-  GOOGLE ANALYTICS 4
-  👉 Remplace G-ESC33XPPQ5 par ton Measurement ID
-  Obtenir ton ID : analytics.google.com → Admin → Data Streams
-================================================ -->
+<title>Equilib — Comprendre ce qui bloque vraiment</title>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ESC33XPPQ5"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-ESC33XPPQ5');
-</script>
-
-<!-- =============================================
-  MICROSOFT CLARITY
-  👉 Remplace wkv9bow1lz par ton Project ID
-  Obtenir ton ID : clarity.microsoft.com → New Project
-================================================ -->
-<script type="text/javascript">
-  (function(c,l,a,r,i,t,y){
-    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-  })(window, document, "clarity", "script", "wkv9bow1lz");
-</script>
-
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ESC33XPPQ5');</script>
+<script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","wkv9bow1lz");</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --cream:#F9F5EE;--cream2:#F2EDE3;--sage:#6B9E6F;--sage-light:#B8D4BA;
-  --sage-dark:#3D6B44;--terra:#C4714A;--terra-light:#EDD5C4;--terra-dark:#8B4A28;
-  --brown:#3A2B1E;--muted:#8A7868;--card:#FFFFFF;--border:#DDD5C8;
+  --sage-deep:#2D5016;--sage:#4A7C3F;--sage-mid:#6B9E5E;--sage-light:#A8C99E;--sage-pale:#D4E8CE;--sage-mist:#EEF5EB;
+  --cream:#FAF8F3;--cream-warm:#F5F0E8;--linen:#EDE8DC;
+  --gold:#C9A84C;--gold-light:#E8D5A0;--gold-pale:#F7F0DC;
+  --brown-deep:#2A1F0F;--brown:#4A3520;--brown-mid:#7A6248;--muted:#9E8E7A;
+  --border:#DDD5C5;--white:#FDFCFA;
 }
-*{box-sizing:border-box;margin:0;padding:0;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--brown);overflow-x:hidden;}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--brown);overflow-x:hidden;cursor:none;}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(249,245,238,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(221,213,200,.4);}
-.nav-logo{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--sage-dark);}
-.nav-logo em{color:var(--terra);font-style:italic;}
-.nav-links{display:flex;align-items:center;gap:36px;}
-.nav-links a{font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s;}
+.cursor{width:8px;height:8px;background:var(--sage);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform 0.15s ease;mix-blend-mode:multiply;top:-20px;left:-20px;}
+.cursor-ring{width:36px;height:36px;border:1px solid var(--sage-mid);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transition:left 0.08s ease,top 0.08s ease,transform 0.3s ease;opacity:0.6;top:-20px;left:-20px;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:24px 64px;display:flex;align-items:center;justify-content:space-between;transition:all 0.5s ease;}
+nav.scrolled{padding:16px 64px;background:rgba(250,248,243,0.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:500;color:var(--sage-deep);text-decoration:none;}
+.nav-logo em{color:var(--gold);font-style:italic;}
+.nav-links{display:flex;align-items:center;gap:40px;}
+.nav-links a{font-size:13px;font-weight:400;color:var(--muted);text-decoration:none;letter-spacing:0.5px;transition:color 0.3s;}
 .nav-links a:hover{color:var(--brown);}
-.nav-cta{background:var(--terra);color:white;border:none;border-radius:8px;padding:10px 22px;font-family:'Jost',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;text-decoration:none;}
-.nav-cta:hover{background:var(--terra-dark);transform:translateY(-1px);}
+.nav-cta{font-size:13px;font-weight:500;color:var(--white);background:var(--sage-deep);padding:11px 28px;text-decoration:none;letter-spacing:0.5px;transition:background 0.3s ease;display:inline-block;}
+.nav-cta:hover{background:var(--sage);}
 
-.hero{min-height:100vh;display:flex;align-items:center;padding:120px 48px 80px;position:relative;overflow:hidden;}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 70% 40%,rgba(107,158,111,.12) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 20% 70%,rgba(196,113,74,.08) 0%,transparent 55%);}
-.hero-content{max-width:680px;position:relative;z-index:1;}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--sage-light);color:var(--sage-dark);font-size:12px;font-weight:500;padding:6px 14px;border-radius:20px;margin-bottom:32px;letter-spacing:.5px;animation:fadeUp .6s ease both;}
-.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--sage);}
-.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(46px,6vw,78px);line-height:1.08;font-weight:300;margin-bottom:24px;animation:fadeUp .6s .1s ease both;}
-.hero h1 em{color:var(--terra);font-style:italic;}
-.hero h1 strong{font-weight:600;}
-.hero-sub{font-size:17px;color:var(--muted);line-height:1.7;max-width:480px;margin-bottom:40px;font-weight:300;animation:fadeUp .6s .2s ease both;}
-.hero-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap;animation:fadeUp .6s .3s ease both;}
-.btn-hero{background:var(--terra);color:white;border:none;border-radius:10px;padding:16px 32px;font-family:'Jost',sans-serif;font-size:16px;font-weight:500;cursor:pointer;transition:all .25s;text-decoration:none;display:inline-block;}
-.btn-hero:hover{background:var(--terra-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(196,113,74,.3);}
-.hero-note{font-size:13px;color:var(--muted);}
-.hero-visual{position:absolute;right:4%;top:50%;transform:translateY(-50%);width:38%;max-width:480px;animation:fadeUp .8s .2s ease both;}
-.hero-card-float{background:white;border-radius:18px;padding:24px;box-shadow:0 20px 60px rgba(58,43,30,.12);border:1px solid var(--border);}
-.hcf-tag{font-size:11px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:var(--terra);margin-bottom:12px;}
-.hcf-score{font-family:'Cormorant Garamond',serif;font-size:48px;color:var(--sage-dark);font-weight:300;line-height:1;margin-bottom:4px;}
-.hcf-label{font-size:13px;color:var(--muted);margin-bottom:20px;}
-.hcf-bars{display:grid;gap:10px;}
-.hcf-bar{display:grid;gap:4px;}
-.hcf-bar-top{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);}
-.hcf-bar-track{height:6px;background:var(--cream2);border-radius:10px;overflow:hidden;}
-.hcf-bar-fill{height:100%;border-radius:10px;}
-.hcf-blk{margin-top:16px;background:var(--cream2);border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;}
-.hcf-blk-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:#FDDCD8;color:#C0392B;white-space:nowrap;margin-top:2px;}
-.hcf-blk-text{font-size:12px;color:var(--brown);line-height:1.5;}
-.hcf-blk-text strong{display:block;font-size:13px;margin-bottom:2px;}
-.hcf-lock{margin-top:12px;background:linear-gradient(135deg,var(--terra-light),#F5EDE7);border-radius:10px;padding:14px;text-align:center;}
-.hcf-lock-title{font-size:13px;font-weight:500;color:var(--terra-dark);margin-bottom:4px;}
-.hcf-lock-sub{font-size:11px;color:var(--muted);}
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:140px 64px 80px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 80% 30%,rgba(107,158,94,0.07) 0%,transparent 60%),radial-gradient(ellipse 50% 70% at 10% 80%,rgba(201,168,76,0.05) 0%,transparent 55%);}
+.hero-grain{position:absolute;inset:0;opacity:0.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px;}
+.hero-vline{position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--border) 30%,var(--border) 70%,transparent);opacity:0.4;}
 
-.social-strip{background:var(--brown);padding:20px 48px;display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap;}
-.sp-item{display:flex;align-items:center;gap:10px;color:white;}
-.sp-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;}
-.sp-label{font-size:13px;opacity:.7;font-weight:300;}
-.sp-div{width:1px;height:32px;background:rgba(255,255,255,.15);}
+.hero-content{position:relative;z-index:1;}
+.hero-tag{display:inline-flex;align-items:center;gap:12px;font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--sage-mid);margin-bottom:44px;opacity:0;animation:fadeUp 0.8s ease 0.2s forwards;}
+.hero-tag::before{content:'';width:28px;height:1px;background:var(--sage-mid);}
 
-section{padding:96px 48px;}
-.section-tag{font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--terra);margin-bottom:14px;}
-.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,52px);font-weight:300;line-height:1.15;margin-bottom:20px;}
-.section-title em{color:var(--terra);font-style:italic;}
-.section-sub{font-size:16px;color:var(--muted);line-height:1.7;max-width:520px;font-weight:300;}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(50px,5.2vw,82px);font-weight:300;line-height:1.07;letter-spacing:-1px;color:var(--brown-deep);margin-bottom:28px;opacity:0;animation:fadeUp 0.8s ease 0.35s forwards;}
+.hero h1 em{font-style:italic;color:var(--sage);}
+.hero h1 strong{font-weight:500;display:inline-block;position:relative;}
+.hero h1 strong::after{content:'';position:absolute;left:0;right:0;bottom:3px;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;animation:lineGrow 0.7s ease 1.1s forwards;}
+@keyframes lineGrow{to{transform:scaleX(1);}}
 
-.problem{background:var(--cream2);}
-.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;max-width:1100px;margin:0 auto;}
-.problem-cards{display:grid;gap:12px;}
-.prob-card{background:white;border:1px solid var(--border);border-radius:14px;padding:20px 22px;display:flex;gap:14px;align-items:flex-start;}
-.prob-card .pc-icon{font-size:24px;flex-shrink:0;margin-top:2px;}
-.prob-card h4{font-size:15px;font-weight:500;margin-bottom:4px;}
-.prob-card p{font-size:13px;color:var(--muted);line-height:1.6;}
+.hero-sub{font-size:16px;font-weight:300;color:var(--brown-mid);line-height:1.85;max-width:420px;margin-bottom:48px;opacity:0;animation:fadeUp 0.8s ease 0.5s forwards;}
 
-.how-inner{max-width:1100px;margin:0 auto;}
-.how-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:52px;position:relative;}
-.how-steps::before{content:'';position:absolute;top:28px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--border),var(--border),transparent);}
-.how-step{text-align:center;position:relative;}
-.how-num{width:56px;height:56px;border-radius:50%;background:white;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--terra);position:relative;z-index:1;}
-.how-step h4{font-size:15px;font-weight:500;margin-bottom:6px;}
-.how-step p{font-size:13px;color:var(--muted);line-height:1.6;}
+.hero-actions{display:flex;align-items:center;gap:24px;opacity:0;animation:fadeUp 0.8s ease 0.65s forwards;}
+.btn-primary{display:inline-flex;align-items:center;gap:12px;background:var(--sage-deep);color:var(--white);font-family:'Jost',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;padding:16px 36px;border:none;text-decoration:none;position:relative;overflow:hidden;transition:background 0.4s ease;}
+.btn-primary:hover{background:var(--sage);}
+.btn-primary .arrow{transition:transform 0.3s ease;}
+.btn-primary:hover .arrow{transform:translateX(4px);}
+.btn-ghost{font-size:13px;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color 0.3s;}
+.btn-ghost:hover{color:var(--brown);}
 
-.preview{background:var(--cream2);}
-.preview-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
-.preview-list{display:grid;gap:16px;margin-top:28px;}
-.prev-item{display:flex;gap:14px;align-items:flex-start;}
-.prev-dot{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:15px;margin-top:2px;}
-.prev-dot.g{background:var(--sage-light);}
-.prev-dot.o{background:var(--terra-light);}
-.prev-item h4{font-size:15px;font-weight:500;margin-bottom:3px;}
-.prev-item p{font-size:13px;color:var(--muted);line-height:1.6;}
-.preview-mockup{background:white;border-radius:20px;padding:24px;box-shadow:0 24px 64px rgba(58,43,30,.1);border:1px solid var(--border);}
-.pm-header{background:linear-gradient(135deg,#3D6B44,#5A8F60);border-radius:12px;padding:18px 20px;color:white;margin-bottom:16px;}
-.pm-tag{font-size:11px;opacity:.7;margin-bottom:4px;}
-.pm-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;}
-.pm-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:12px;}
-.pm-kpi{background:rgba(255,255,255,.15);border-radius:7px;padding:8px 10px;}
-.pm-kpi .v{font-size:16px;font-weight:600;}
-.pm-kpi .l{font-size:10px;opacity:.75;margin-top:2px;}
-.pm-section{margin-bottom:14px;}
-.pm-stitle{font-size:12px;font-weight:500;color:var(--brown);margin-bottom:8px;}
-.pm-bars{display:grid;gap:7px;}
-.pm-bar{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--muted);}
-.pm-bar-track{flex:1;height:5px;background:var(--cream2);border-radius:5px;overflow:hidden;}
-.pm-bar-fill{height:100%;border-radius:5px;}
-.pm-blk{background:var(--cream2);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--brown);line-height:1.5;margin-bottom:6px;}
-.pm-blk-badge{display:inline-block;font-size:10px;font-weight:600;padding:1px 7px;border-radius:10px;background:#FDDCD8;color:#C0392B;margin-right:6px;}
-.pm-locked{background:linear-gradient(135deg,#F5EDE7,#EBF4EC);border-radius:8px;padding:12px;text-align:center;margin-top:4px;}
-.pm-lock-text{font-size:11px;color:var(--muted);margin-bottom:8px;}
-.pm-lock-btn{background:var(--terra);color:white;border:none;border-radius:6px;padding:7px 16px;font-size:12px;font-weight:500;cursor:pointer;font-family:'Jost',sans-serif;}
+.hero-proof{display:flex;align-items:center;gap:16px;margin-top:56px;opacity:0;animation:fadeUp 0.8s ease 0.8s forwards;}
+.proof-stars{color:var(--gold);font-size:12px;letter-spacing:2px;}
+.proof-text{font-size:12px;color:var(--muted);font-weight:300;}
+.proof-div{width:1px;height:18px;background:var(--border);}
 
-.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;}
-.testi-card{background:white;border:1px solid var(--border);border-radius:16px;padding:24px;position:relative;}
-.testi-card::before{content:'"';font-family:'Cormorant Garamond',serif;font-size:64px;color:var(--sage-light);position:absolute;top:8px;left:20px;line-height:1;}
-.testi-text{font-size:14px;color:var(--brown);line-height:1.7;margin-top:28px;margin-bottom:16px;}
-.testi-author{display:flex;align-items:center;gap:10px;}
-.testi-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
-.testi-name{font-size:13px;font-weight:500;}
-.testi-detail{font-size:12px;color:var(--muted);}
-.testi-stars{color:#F4B942;font-size:12px;letter-spacing:1px;margin-bottom:4px;}
+/* HERO VISUAL */
+.hero-visual{position:relative;z-index:1;display:flex;justify-content:center;opacity:0;animation:fadeLeft 1s ease 0.4s forwards;}
+@keyframes fadeLeft{from{opacity:0;transform:translateX(28px);}to{opacity:1;transform:translateX(0);}}
 
-.pricing{background:var(--cream2);}
-.pricing-inner{max-width:960px;margin:0 auto;text-align:center;}
-.pricing-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:48px;align-items:start;}
-.price-card{background:white;border:1.5px solid var(--border);border-radius:18px;padding:28px 24px;text-align:left;position:relative;transition:transform .2s;}
+.bilan-card{background:var(--white);border:1px solid var(--border);padding:32px;max-width:400px;width:100%;box-shadow:0 24px 64px rgba(42,31,15,0.1),0 6px 16px rgba(42,31,15,0.05);position:relative;}
+.bilan-card::before{content:'';position:absolute;top:0;left:24px;right:24px;height:2px;background:linear-gradient(90deg,var(--sage-deep),var(--sage-light));}
+.bc-label{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--sage-mid);margin-bottom:6px;}
+.bc-score{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:var(--sage-deep);line-height:1;margin-bottom:4px;}
+.bc-score-sub{font-size:12px;color:var(--muted);margin-bottom:22px;font-weight:300;}
+.bc-bars{display:grid;gap:12px;margin-bottom:22px;}
+.bc-bar-item{display:grid;gap:5px;}
+.bc-bar-top{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);}
+.bc-bar-top span:last-child{font-weight:500;color:var(--brown);}
+.bc-bar-track{height:3px;background:var(--linen);overflow:hidden;}
+.bc-bar-fill{height:100%;transition:width 1.5s cubic-bezier(0.16,1,0.3,1);}
+.fill-warn{background:#C9773A;}.fill-ok{background:var(--sage-mid);}.fill-low{background:#B5855A;}
+.bc-blocker{background:var(--cream-warm);border-left:2px solid #C9773A;padding:12px 14px;margin-bottom:8px;}
+.bc-blocker-tag{font-size:10px;font-weight:600;color:#C9773A;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;}
+.bc-blocker-title{font-size:13px;font-weight:500;color:var(--brown);margin-bottom:2px;}
+.bc-blocker-text{font-size:12px;color:var(--muted);line-height:1.5;}
+.bc-lock{background:var(--linen);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;}
+.bc-lock-text{font-size:12px;color:var(--muted);}
+.bc-lock-badge{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--gold);background:var(--gold-pale);padding:3px 10px;}
+
+.scroll-ind{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp 0.8s ease 1.4s forwards;}
+.scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,var(--sage-mid),transparent);animation:pulse 2s ease infinite;}
+@keyframes pulse{0%,100%{opacity:0.3;}50%{opacity:1;}}
+.scroll-text{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+
+/* STRIP */
+.strip{background:var(--brown-deep);padding:20px 64px;display:flex;align-items:center;justify-content:center;gap:64px;flex-wrap:wrap;}
+.strip-item{display:flex;align-items:center;gap:12px;}
+.strip-num{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:var(--white);}
+.strip-label{font-size:12px;color:rgba(255,255,255,0.4);font-weight:300;}
+.strip-div{width:1px;height:32px;background:rgba(255,255,255,0.1);}
+
+/* SECTIONS */
+section{padding:120px 64px;}
+.section-tag{font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--sage-mid);margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+.section-tag::before{content:'';width:20px;height:1px;background:var(--sage-mid);}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,4vw,60px);font-weight:300;line-height:1.1;letter-spacing:-0.5px;color:var(--brown-deep);margin-bottom:24px;}
+.section-title em{font-style:italic;color:var(--sage);}
+.section-sub{font-size:15px;font-weight:300;color:var(--brown-mid);line-height:1.8;max-width:500px;}
+
+/* PROBLÈME */
+.problem{background:var(--cream-warm);}
+.problem-inner{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.problem-cards{display:grid;gap:2px;}
+.prob-card{background:var(--white);padding:28px 32px;display:flex;gap:20px;transition:transform 0.3s ease,border-left-color 0.3s;border-left:2px solid transparent;}
+.prob-card:hover{transform:translateX(4px);border-left-color:var(--sage-light);}
+.prob-num{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:var(--linen);line-height:1;flex-shrink:0;}
+.prob-content h4{font-size:15px;font-weight:500;margin-bottom:6px;color:var(--brown-deep);}
+.prob-content p{font-size:13px;color:var(--muted);line-height:1.7;font-weight:300;}
+
+/* HOW */
+.how-inner{max-width:1160px;margin:0 auto;}
+.how-steps{display:grid;grid-template-columns:repeat(4,1fr);margin-top:72px;position:relative;}
+.how-steps::before{content:'';position:absolute;top:20px;left:12.5%;right:12.5%;height:1px;background:var(--border);}
+.how-step{padding:0 24px;position:relative;}
+.how-step-num{width:40px;height:40px;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:var(--sage);margin-bottom:24px;position:relative;z-index:1;transition:all 0.4s ease;}
+.how-step:hover .how-step-num{background:var(--sage-deep);color:var(--white);border-color:var(--sage-deep);}
+.how-step h4{font-size:15px;font-weight:500;margin-bottom:8px;color:var(--brown-deep);}
+.how-step p{font-size:13px;color:var(--muted);line-height:1.7;font-weight:300;}
+
+/* TÉMOIGNAGES */
+.testi{background:var(--cream-warm);}
+.testi-inner{max-width:1160px;margin:0 auto;}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:72px;}
+.testi-card{background:var(--white);padding:40px 36px;position:relative;transition:transform 0.4s ease;}
+.testi-card:hover{transform:translateY(-4px);}
+.testi-card::before{content:'"';font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:300;color:var(--sage-pale);position:absolute;top:16px;left:28px;line-height:1;}
+.testi-stars{color:var(--gold);font-size:11px;letter-spacing:2px;margin-bottom:20px;}
+.testi-text{font-size:14px;color:var(--brown);line-height:1.8;margin-bottom:24px;font-weight:300;font-style:italic;}
+.testi-name{font-size:13px;font-weight:500;color:var(--brown-deep);}
+.testi-detail{font-size:12px;color:var(--muted);margin-top:2px;}
+
+/* PRICING */
+.pricing-inner{max-width:880px;margin:0 auto;text-align:center;}
+.pricing-grid{display:grid;grid-template-columns:1fr 1.06fr 1fr;gap:2px;margin-top:72px;align-items:start;}
+.price-card{background:var(--white);padding:40px 30px;position:relative;transition:transform 0.4s ease;text-align:left;}
 .price-card:hover{transform:translateY(-4px);}
-.price-card.featured{border-color:var(--terra);box-shadow:0 16px 48px rgba(196,113,74,.15);}
-.price-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--terra);color:white;font-size:11px;font-weight:600;padding:3px 14px;border-radius:20px;white-space:nowrap;}
-.price-name{font-size:12px;font-weight:500;color:var(--muted);margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase;}
-.price-amount{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:var(--brown);line-height:1;margin-bottom:4px;}
-.price-amount span{font-size:16px;font-family:'Jost',sans-serif;color:var(--muted);}
-.price-desc{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5;}
-.price-feats{list-style:none;display:grid;gap:8px;margin-bottom:24px;}
-.price-feats li{font-size:13px;color:var(--brown);display:flex;gap:8px;align-items:flex-start;}
-.price-feats li::before{content:'✓';color:var(--sage-dark);font-weight:700;flex-shrink:0;margin-top:1px;}
-.price-feats li.locked{color:var(--muted);}
-.price-feats li.locked::before{content:'—';color:var(--border);}
-.price-btn{width:100%;border:none;border-radius:10px;padding:13px;font-family:'Jost',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;text-decoration:none;display:block;text-align:center;}
-.price-btn.primary{background:var(--terra);color:white;}
-.price-btn.primary:hover{background:var(--terra-dark);}
-.price-btn.secondary{background:var(--cream2);color:var(--brown);}
-.price-btn.secondary:hover{background:var(--border);}
-.price-guarantee{font-size:12px;color:var(--muted);text-align:center;margin-top:28px;display:flex;align-items:center;justify-content:center;gap:6px;}
+.price-card.featured{background:var(--sage-deep);color:var(--white);padding:52px 30px;z-index:1;}
+.price-card.featured .price-name{color:var(--sage-pale);}
+.price-card.featured .price-period,.price-card.featured .price-desc{color:rgba(255,255,255,0.5);}
+.price-card.featured .price-feats li{color:rgba(255,255,255,0.85);}
+.price-card.featured .price-feats li::before{color:var(--sage-light);}
+.price-card.featured .price-feats li.dim{color:rgba(255,255,255,0.3);}
+.price-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--brown-deep);font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:4px 14px;white-space:nowrap;}
+.price-name{font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+.price-amount{font-family:'Cormorant Garamond',serif;font-size:50px;font-weight:300;line-height:1;margin-bottom:4px;}
+.price-amount .cur{font-size:18px;vertical-align:super;}
+.price-period{font-size:12px;color:var(--muted);margin-bottom:18px;font-weight:300;}
+.price-desc{font-size:13px;color:var(--muted);margin-bottom:26px;line-height:1.6;font-weight:300;}
+.price-feats{list-style:none;display:grid;gap:9px;margin-bottom:28px;}
+.price-feats li{font-size:13px;color:var(--brown);display:flex;gap:10px;font-weight:300;align-items:flex-start;}
+.price-feats li::before{content:'—';color:var(--sage-mid);flex-shrink:0;}
+.price-feats li.dim{color:var(--muted);}
+.price-feats li.dim::before{color:var(--border);}
+.price-btn{display:block;width:100%;padding:14px;text-align:center;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;letter-spacing:0.5px;text-decoration:none;border:none;transition:all 0.3s ease;}
+.price-btn.outline{border:1px solid var(--border);color:var(--brown);background:transparent;}
+.price-btn.outline:hover{border-color:var(--sage);color:var(--sage-deep);}
+.price-btn.solid{background:var(--white);color:var(--sage-deep);}
+.price-btn.solid:hover{background:var(--sage-pale);}
+.price-guarantee{font-size:12px;color:var(--muted);margin-top:32px;display:flex;align-items:center;justify-content:center;gap:12px;font-weight:300;}
+.price-guarantee::before,.price-guarantee::after{content:'';width:20px;height:1px;background:var(--border);}
 
-/* URGENCY BANNER */
-.urgency{background:linear-gradient(135deg,var(--terra),#E8956C);padding:14px 48px;text-align:center;color:white;font-size:14px;font-weight:500;position:sticky;top:64px;z-index:99;}
-.urgency em{font-style:normal;font-weight:700;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:6px;margin:0 4px;}
-.urgency a{color:white;text-decoration:underline;cursor:pointer;margin-left:8px;}
+/* FAQ */
+.faq-inner{max-width:700px;margin:0 auto;}
+.faq-list{margin-top:72px;}
+.faq-item{border-bottom:1px solid var(--border);}
+.faq-item:first-child{border-top:1px solid var(--border);}
+.faq-q{padding:22px 0;font-size:15px;font-weight:400;cursor:none;display:flex;justify-content:space-between;align-items:center;transition:color 0.3s;color:var(--brown-deep);gap:20px;}
+.faq-q:hover{color:var(--sage-deep);}
+.faq-icon{width:22px;height:22px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--muted);flex-shrink:0;transition:all 0.3s ease;font-weight:300;}
+.faq-item.open .faq-icon{background:var(--sage-deep);border-color:var(--sage-deep);color:var(--white);transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s cubic-bezier(0.16,1,0.3,1);font-size:14px;color:var(--brown-mid);line-height:1.8;font-weight:300;}
+.faq-a-inner{padding:0 0 22px;}
+.faq-item.open .faq-a{max-height:240px;}
 
-.faq-inner{max-width:720px;margin:0 auto;}
-.faq-list{margin-top:48px;display:grid;gap:12px;}
-.faq-item{background:white;border:1px solid var(--border);border-radius:12px;overflow:hidden;}
-.faq-q{padding:18px 22px;font-size:15px;font-weight:500;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .2s;}
-.faq-q:hover{background:var(--cream2);}
-.faq-q::after{content:'+';font-size:20px;color:var(--terra);font-weight:300;transition:transform .3s;}
-.faq-item.open .faq-q::after{transform:rotate(45deg);}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;font-size:14px;color:var(--muted);line-height:1.7;}
-.faq-a-inner{padding:0 22px 18px;}
-.faq-item.open .faq-a{max-height:200px;}
+/* CTA */
+.cta-final{background:var(--brown-deep);padding:140px 64px;text-align:center;position:relative;overflow:hidden;}
+.cta-final::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(74,124,63,0.14) 0%,transparent 70%);}
+.cta-inner{position:relative;z-index:1;}
+.cta-final h2{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,5vw,70px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:20px;letter-spacing:-1px;}
+.cta-final h2 em{font-style:italic;color:var(--gold-light);}
+.cta-final p{font-size:15px;color:rgba(255,255,255,0.4);margin-bottom:48px;font-weight:300;line-height:1.7;}
+.cta-note{font-size:12px;color:rgba(255,255,255,0.22);margin-top:20px;letter-spacing:0.5px;}
 
-.cta-final{background:var(--brown);padding:100px 48px;text-align:center;position:relative;overflow:hidden;}
-.cta-final::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(107,158,111,.15) 0%,transparent 70%);}
-.cta-final h2{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4.5vw,58px);font-weight:300;color:white;margin-bottom:16px;position:relative;}
-.cta-final h2 em{color:var(--terra-light);font-style:italic;}
-.cta-final p{font-size:16px;color:rgba(255,255,255,.6);margin-bottom:36px;max-width:440px;margin-left:auto;margin-right:auto;line-height:1.7;font-weight:300;}
-.cta-final .btn-hero{font-size:17px;padding:18px 40px;}
-.cta-final-note{font-size:13px;color:rgba(255,255,255,.4);margin-top:16px;}
+footer{background:var(--brown-deep);border-top:1px solid rgba(255,255,255,0.06);padding:32px 64px;display:flex;align-items:center;justify-content:space-between;}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:rgba(255,255,255,0.35);}
+.footer-logo em{color:var(--gold);font-style:italic;}
+.footer-links{display:flex;gap:28px;}
+.footer-links a{font-size:12px;color:rgba(255,255,255,0.22);text-decoration:none;transition:color 0.3s;}
+.footer-links a:hover{color:rgba(255,255,255,0.5);}
+.footer-copy{font-size:12px;color:rgba(255,255,255,0.18);}
 
-footer{background:var(--brown);border-top:1px solid rgba(255,255,255,.08);padding:32px 48px;display:flex;align-items:center;justify-content:space-between;}
-.footer-logo{font-family:'Cormorant Garamond',serif;font-size:22px;color:rgba(255,255,255,.6);}
-.footer-logo em{color:var(--terra-light);font-style:italic;}
-.footer-links{display:flex;gap:24px;}
-.footer-links a{font-size:13px;color:rgba(255,255,255,.4);text-decoration:none;}
-.footer-links a:hover{color:rgba(255,255,255,.7);}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1);}
 .reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:0.1s;}.reveal-delay-2{transition-delay:0.2s;}.reveal-delay-3{transition-delay:0.3s;}.reveal-delay-4{transition-delay:0.4s;}
 
-@media(max-width:768px){
-  nav{padding:16px 20px;}
-  .nav-links{display:none;}
-  .hero{padding:100px 20px 60px;flex-direction:column;}
-  .hero-visual{position:relative;width:100%;right:auto;top:auto;transform:none;margin-top:40px;}
-  section{padding:64px 20px;}
-  .problem-grid,.preview-inner,.pricing-grid,.testi-grid{grid-template-columns:1fr;}
+@media(max-width:1024px){
+  nav{padding:18px 28px;}nav.scrolled{padding:14px 28px;}
+  .hero{grid-template-columns:1fr;padding:120px 28px 80px;}
+  .hero-visual,.hero-vline{display:none;}
+  section{padding:80px 28px;}
+  .strip{gap:28px;padding:18px 28px;}
+  .problem-inner,.testi-grid,.pricing-grid{grid-template-columns:1fr;}
   .how-steps{grid-template-columns:1fr 1fr;}
-  .social-strip{gap:24px;padding:20px;}
-  .cta-final{padding:64px 20px;}
-  footer{flex-direction:column;gap:16px;text-align:center;padding:24px 20px;}
-  .urgency{padding:12px 20px;font-size:13px;top:58px;}
+  .how-steps::before{display:none;}
+  footer{flex-direction:column;gap:16px;text-align:center;padding:24px 28px;}
+  .cta-final{padding:100px 28px;}
+  .price-card.featured{padding:40px 30px;}
+  .nav-links{display:none;}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
 <nav id="navbar">
-  <div class="nav-logo">Equi<em>lib</em></div>
+  <a href="#" class="nav-logo">Equi<em>lib</em></a>
   <div class="nav-links">
-    <a href="#comment">Comment ça marche</a>
-    <a href="#temoignages">Témoignages</a>
+    <a href="#comment">Méthode</a>
+    <a href="#temoignages">Résultats</a>
     <a href="#prix">Tarifs</a>
     <a href="#faq">FAQ</a>
   </div>
-  <a href="equilib-questionnaire.html" class="nav-cta" onclick="trackEvent('cta_nav_click')">Faire mon bilan gratuit →</a>
+  <a href="equilib-questionnaire.html" class="nav-cta">Commencer gratuitement</a>
 </nav>
 
-<!-- URGENCY BANNER -->
-<div class="urgency" id="urgency-banner">
-  🎉 Offre bêta — <em>-50%</em> sur le plan complet · Plus que <span id="countdown">23:47</span>
-  <a onclick="goToStripe(); trackEvent('urgency_banner_click')">En profiter →</a>
-</div>
-
-<!-- HERO -->
 <section class="hero" id="hero">
   <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-vline"></div>
+
   <div class="hero-content">
-    <div class="hero-tag">Diagnostic gratuit · Basé sur la science</div>
-    <h1>Tu n'as pas<br><em>besoin d'un régime.</em><br>Tu as besoin de<br><strong>comprendre ce qui bloque.</strong></h1>
-    <p class="hero-sub">En 5 minutes, Equilib analyse tes habitudes, ton mode de vie et ton métabolisme pour identifier ce qui t'empêche vraiment de perdre du poids — et te proposer un chemin sans frustration.</p>
+    <div class="hero-tag">Diagnostic personnalisé par intelligence artificielle</div>
+    <h1>Tu n'as pas besoin<br>d'un <em>régime</em>.<br>Tu as besoin de<br><strong>comprendre ce qui bloque.</strong></h1>
+    <p class="hero-sub">En cinq minutes, Equilib analyse tes habitudes, ton métabolisme et ton mode de vie pour identifier précisément ce qui freine ta progression — et te proposer un chemin qui te ressemble.</p>
     <div class="hero-actions">
-      <a href="equilib-questionnaire.html" class="btn-hero" onclick="trackEvent('cta_hero_click')">Commencer mon bilan gratuit →</a>
-      <span class="hero-note">Aucune inscription · 100% confidentiel</span>
+      <a href="equilib-questionnaire.html" class="btn-primary" onclick="trackEvent('cta_hero_click')">
+        <span>Faire mon bilan gratuit</span>
+        <span class="arrow">→</span>
+      </a>
+      <a href="#comment" class="btn-ghost">Voir la méthode</a>
+    </div>
+    <div class="hero-proof">
+      <span class="proof-stars">★★★★★</span>
+      <span class="proof-text">4,8 sur 5</span>
+      <span class="proof-div"></span>
+      <span class="proof-text">2 400 bilans réalisés</span>
+      <span class="proof-div"></span>
+      <span class="proof-text">Sans inscription</span>
     </div>
   </div>
+
   <div class="hero-visual">
-    <div class="hero-card-float">
-      <div class="hcf-tag">Bilan personnalisé · Score global</div>
-      <div class="hcf-score">7,2<span style="font-size:22px;color:var(--muted)">/10</span></div>
-      <div class="hcf-label">Bon point de départ — 2 ajustements clés identifiés</div>
-      <div class="hcf-bars">
-        <div class="hcf-bar"><div class="hcf-bar-top"><span>Alimentation</span><span style="color:var(--terra);font-weight:600">5/10</span></div><div class="hcf-bar-track"><div class="hcf-bar-fill" style="width:50%;background:#E67E22"></div></div></div>
-        <div class="hcf-bar"><div class="hcf-bar-top"><span>Mode de vie</span><span style="color:#E74C3C;font-weight:600">3/10</span></div><div class="hcf-bar-track"><div class="hcf-bar-fill" style="width:30%;background:#E74C3C"></div></div></div>
-        <div class="hcf-bar"><div class="hcf-bar-top"><span>Obstacles</span><span style="color:var(--sage);font-weight:600">8/10</span></div><div class="hcf-bar-track"><div class="hcf-bar-fill" style="width:80%;background:var(--sage)"></div></div></div>
+    <div class="bilan-card">
+      <div class="bc-label">Bilan personnalisé · Score global</div>
+      <div class="bc-score">7,2<span style="font-size:22px;color:var(--muted)">/10</span></div>
+      <div class="bc-score-sub">Bon point de départ — deux ajustements clés identifiés</div>
+      <div class="bc-bars">
+        <div class="bc-bar-item">
+          <div class="bc-bar-top"><span>Alimentation</span><span>5/10</span></div>
+          <div class="bc-bar-track"><div class="bc-bar-fill fill-warn" style="width:50%"></div></div>
+        </div>
+        <div class="bc-bar-item">
+          <div class="bc-bar-top"><span>Mode de vie</span><span>3/10</span></div>
+          <div class="bc-bar-track"><div class="bc-bar-fill fill-low" style="width:30%"></div></div>
+        </div>
+        <div class="bc-bar-item">
+          <div class="bc-bar-top"><span>Motivation</span><span>8/10</span></div>
+          <div class="bc-bar-track"><div class="bc-bar-fill fill-ok" style="width:80%"></div></div>
+        </div>
       </div>
-      <div class="hcf-blk">
-        <span class="hcf-blk-badge">critique</span>
-        <div class="hcf-blk-text"><strong>Stress chronique & cortisol</strong>Le cortisol élevé favorise le stockage des graisses abdominales et déclenche des fringales nocturnes.</div>
+      <div class="bc-blocker">
+        <div class="bc-blocker-tag">Critique</div>
+        <div class="bc-blocker-title">Stress chronique et cortisol</div>
+        <div class="bc-blocker-text">Favorise le stockage abdominal et déclenche des fringales nocturnes, même avec un déficit calorique.</div>
       </div>
-      <div class="hcf-lock">
-        <div class="hcf-lock-title">🔒 Plan d'action + Menus + Coach IA</div>
-        <div class="hcf-lock-sub">Les solutions sont dans ton plan complet</div>
+      <div class="bc-lock">
+        <div class="bc-lock-text">Plan d'action · Menus · Coach</div>
+        <div class="bc-lock-badge">Premium</div>
       </div>
     </div>
+  </div>
+
+  <div class="scroll-ind">
+    <span class="scroll-text">Découvrir</span>
+    <div class="scroll-line"></div>
   </div>
 </section>
 
-<!-- SOCIAL PROOF -->
-<div class="social-strip">
-  <div class="sp-item"><span class="sp-num">2 400+</span><span class="sp-label">bilans réalisés</span></div>
-  <div class="sp-div"></div>
-  <div class="sp-item"><span class="sp-num">4,8/5</span><span class="sp-label">note moyenne</span></div>
-  <div class="sp-div"></div>
-  <div class="sp-item"><span class="sp-num">78%</span><span class="sp-label">se reconnaissent dans leur diagnostic</span></div>
-  <div class="sp-div"></div>
-  <div class="sp-item"><span class="sp-num">5 min</span><span class="sp-label">pour ton bilan complet</span></div>
+<div class="strip reveal">
+  <div class="strip-item"><span class="strip-num">2 400</span><span class="strip-label">bilans réalisés</span></div>
+  <div class="strip-div"></div>
+  <div class="strip-item"><span class="strip-num">4,8</span><span class="strip-label">note moyenne sur 5</span></div>
+  <div class="strip-div"></div>
+  <div class="strip-item"><span class="strip-num">78%</span><span class="strip-label">se reconnaissent dans leur diagnostic</span></div>
+  <div class="strip-div"></div>
+  <div class="strip-item"><span class="strip-num">5 min</span><span class="strip-label">pour un bilan complet</span></div>
 </div>
 
-<!-- PROBLÈME -->
 <section class="problem" id="probleme">
-  <div class="problem-grid">
+  <div class="problem-inner">
     <div class="reveal">
       <div class="section-tag">Le vrai problème</div>
       <h2 class="section-title">Tu n'as pas échoué.<br>La méthode ne te<br><em>correspondait pas.</em></h2>
-      <p class="section-sub">Les régimes universels ignorent ce qui te rend unique — ton métabolisme, ton stress, ton sommeil, tes habitudes. Equilib analyse tout ça pour trouver où ça coince vraiment.</p>
+      <p class="section-sub">Les approches universelles ignorent ce qui te rend unique — ton métabolisme, ton stress, ton sommeil, tes habitudes. Equilib analyse tout ça pour trouver précisément où ça coince.</p>
     </div>
-    <div class="problem-cards reveal">
-      <div class="prob-card"><div class="pc-icon">😤</div><div><h4>Tu tiens quelques jours, puis tu craques</h4><p>La frustration n'est pas un manque de volonté — c'est le signe que la méthode crée trop de restrictions pour ton profil.</p></div></div>
-      <div class="prob-card"><div class="pc-icon">🎯</div><div><h4>Tu fais des efforts mais le poids ne bouge pas</h4><p>Si tu manges "bien" mais stagne, c'est souvent le stress, le sommeil ou un déficit mal calibré — pas ce que tu mets dans ton assiette.</p></div></div>
-      <div class="prob-card"><div class="pc-icon">🤯</div><div><h4>Tu ne sais plus quoi croire</h4><p>Jeûne intermittent ? Keto ? Low carb ? Ce qui marche dépend de toi, pas des tendances.</p></div></div>
+    <div class="problem-cards reveal reveal-delay-2">
+      <div class="prob-card">
+        <div class="prob-num">01</div>
+        <div class="prob-content"><h4>Tu tiens quelques jours, puis tu craques</h4><p>La frustration n'est pas un manque de volonté. C'est le signal que la méthode impose des restrictions inadaptées à ton profil.</p></div>
+      </div>
+      <div class="prob-card">
+        <div class="prob-num">02</div>
+        <div class="prob-content"><h4>Tu fais des efforts mais rien ne bouge</h4><p>Quand on mange bien et qu'on stagne, c'est souvent le stress, le sommeil ou un déficit mal calibré — pas ce qu'il y a dans l'assiette.</p></div>
+      </div>
+      <div class="prob-card">
+        <div class="prob-num">03</div>
+        <div class="prob-content"><h4>Tu ne sais plus quoi croire</h4><p>Jeûne, keto, low carb — les conseils contradictoires paralysent. Ce qui fonctionne dépend de toi, pas des tendances.</p></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- COMMENT ÇA MARCHE -->
 <section id="comment">
   <div class="how-inner">
     <div style="text-align:center" class="reveal">
-      <div class="section-tag">Comment ça marche</div>
-      <h2 class="section-title">Simple, rapide, <em>précis.</em></h2>
+      <div class="section-tag" style="justify-content:center">La méthode</div>
+      <h2 class="section-title" style="text-align:center">Simple, rapide,<br><em>précis.</em></h2>
     </div>
-    <div class="how-steps reveal">
-      <div class="how-step"><div class="how-num">1</div><h4>Tu réponds au questionnaire</h4><p>5 minutes. Profil, habitudes, mode de vie, obstacles — tout ce qui influence vraiment ton poids.</p></div>
-      <div class="how-step"><div class="how-num">2</div><h4>L'IA analyse ton profil</h4><p>Calcul du TMB, TDEE, détection des bloqueurs selon les dernières recherches scientifiques.</p></div>
-      <div class="how-step"><div class="how-num">3</div><h4>Tu reçois ton diagnostic</h4><p>Score détaillé, chiffres expliqués en langage humain, bloqueurs identifiés — gratuitement.</p></div>
-      <div class="how-step"><div class="how-num">4</div><h4>Tu passes à l'action</h4><p>Plan d'action, menus sur 4 semaines, conseils anti-frustration et coach IA en version complète.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- PREVIEW BILAN -->
-<section class="preview" id="preview">
-  <div class="preview-inner">
-    <div class="reveal">
-      <div class="section-tag">Ce que tu reçois</div>
-      <h2 class="section-title">Un bilan qui te parle <em>vraiment.</em></h2>
-      <p class="section-sub">Pas juste des chiffres. Chaque donnée est expliquée dans ton contexte.</p>
-      <div class="preview-list">
-        <div class="prev-item"><div class="prev-dot g">📊</div><div><h4>Tes vrais chiffres expliqués</h4><p>TMB, TDEE, déficit optimal — avec ce que ça signifie pour ton profil spécifique.</p></div></div>
-        <div class="prev-item"><div class="prev-dot o">⚠️</div><div><h4>Les bloqueurs identifiés</h4><p>Stress, sommeil, habitudes — on te dit précisément ce qui freine ta progression et pourquoi.</p></div></div>
-        <div class="prev-item"><div class="prev-dot g">🎯</div><div><h4>Plan d'action + menus <span style="font-size:11px;background:var(--terra-light);color:var(--terra-dark);padding:2px 7px;border-radius:10px;font-weight:500">Premium</span></h4><p>Approche recommandée, plan semaine par semaine, recettes et coach IA 24h/24.</p></div></div>
+    <div class="how-steps">
+      <div class="how-step reveal reveal-delay-1">
+        <div class="how-step-num">1</div>
+        <h4>Le questionnaire</h4>
+        <p>Cinq minutes. Profil, habitudes alimentaires, mode de vie, obstacles — tout ce qui influence vraiment ton poids.</p>
       </div>
-    </div>
-    <div class="preview-mockup reveal">
-      <div class="pm-header">
-        <div class="pm-tag">Ton bilan Equilib</div>
-        <div class="pm-title">Score global : 6,5/10</div>
-        <div class="pm-kpis">
-          <div class="pm-kpi"><div class="v">1 420</div><div class="l">kcal TMB/jour</div></div>
-          <div class="pm-kpi"><div class="v">1 920</div><div class="l">kcal TDEE</div></div>
-          <div class="pm-kpi"><div class="v">26,4</div><div class="l">IMC · Surpoids</div></div>
-          <div class="pm-kpi"><div class="v">4-5 mois</div><div class="l">Durée estimée</div></div>
-        </div>
+      <div class="how-step reveal reveal-delay-2">
+        <div class="how-step-num">2</div>
+        <h4>L'analyse</h4>
+        <p>Calcul du métabolisme de base, dépense totale, détection des bloqueurs selon les dernières recherches scientifiques.</p>
       </div>
-      <div class="pm-section">
-        <div class="pm-stitle">📊 Tes indicateurs</div>
-        <div class="pm-bars">
-          <div class="pm-bar"><span style="width:80px">Alimentation</span><div class="pm-bar-track"><div class="pm-bar-fill" style="width:40%;background:#E67E22"></div></div><span>4/10</span></div>
-          <div class="pm-bar"><span style="width:80px">Mode de vie</span><div class="pm-bar-track"><div class="pm-bar-fill" style="width:30%;background:#E74C3C"></div></div><span>3/10</span></div>
-          <div class="pm-bar"><span style="width:80px">Motivation</span><div class="pm-bar-track"><div class="pm-bar-fill" style="width:70%;background:var(--sage)"></div></div><span>7/10</span></div>
-        </div>
+      <div class="how-step reveal reveal-delay-3">
+        <div class="how-step-num">3</div>
+        <h4>Le diagnostic</h4>
+        <p>Score détaillé, chiffres expliqués en langage clair, bloqueurs identifiés dans ton profil. Gratuit, sans inscription.</p>
       </div>
-      <div class="pm-section">
-        <div class="pm-stitle">⚠️ Bloqueurs identifiés</div>
-        <div class="pm-blk"><span class="pm-blk-badge">critique</span><strong>Stress chronique</strong> — Le cortisol élevé favorise le stockage abdominal et bloque la lipolyse même avec un déficit calorique.</div>
-        <div class="pm-blk"><span class="pm-blk-badge" style="background:var(--terra-light);color:var(--terra-dark)">modéré</span><strong>Sommeil insuffisant</strong> — Moins de 6h augmente la ghréline de 28%.</div>
-      </div>
-      <div class="pm-locked">
-        <div class="pm-lock-text">🔒 Plan d'action · Menus · Coach IA · Suivi hebdo</div>
-        <button class="pm-lock-btn" onclick="goToStripe(); trackEvent('mockup_cta_click')">Débloquer mon plan complet</button>
+      <div class="how-step reveal reveal-delay-4">
+        <div class="how-step-num">4</div>
+        <h4>Le plan</h4>
+        <p>Approche recommandée, menus sur quatre semaines, conseils anti-frustration et coach disponibles en version complète.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TÉMOIGNAGES -->
-<section id="temoignages">
-  <div style="max-width:1100px;margin:0 auto;">
+<section class="testi" id="temoignages">
+  <div class="testi-inner">
     <div style="text-align:center" class="reveal">
-      <div class="section-tag">Témoignages</div>
-      <h2 class="section-title">Elles se sont <em>reconnues.</em></h2>
+      <div class="section-tag" style="justify-content:center">Résultats</div>
+      <h2 class="section-title" style="text-align:center">Elles se sont<br><em>reconnues.</em></h2>
     </div>
-    <div class="testi-grid reveal">
-      <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">Le diagnostic m'a montré que mon problème c'était le stress, pas ce que je mangeais. J'avais jamais fait le lien. Ça a tout changé dans ma façon d'aborder la chose.</p><div class="testi-author"><div class="testi-avatar" style="background:var(--sage-light)">🌿</div><div><div class="testi-name">Sophie M.</div><div class="testi-detail">38 ans · A perdu 6 kg en 3 mois</div></div></div></div>
-      <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">J'avais essayé plein de régimes. Equilib m'a expliqué pourquoi je stagnais à chaque fois — mon TDEE était beaucoup plus bas que je pensais. Le bilan gratuit valait déjà le détour.</p><div class="testi-author"><div class="testi-avatar" style="background:var(--terra-light)">🌸</div><div><div class="testi-name">Camille R.</div><div class="testi-detail">44 ans · Cliente Equilib</div></div></div></div>
-      <div class="testi-card"><div class="testi-stars">★★★★☆</div><p class="testi-text">Ce que j'aime c'est que ça ne me dit pas de manger des carottes vapeur. Le plan est adapté à ma vraie vie — je mange au restaurant souvent et ça en tient compte.</p><div class="testi-author"><div class="testi-avatar" style="background:#D6E8F5">💙</div><div><div class="testi-name">Laura T.</div><div class="testi-detail">31 ans · Plan 3 mois</div></div></div></div>
+    <div class="testi-grid">
+      <div class="testi-card reveal reveal-delay-1">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">Le diagnostic m'a montré que mon problème venait du stress, pas de ce que je mangeais. Je n'avais jamais fait ce lien. Ça a tout changé dans ma façon d'aborder les choses.</p>
+        <div class="testi-name">Sophie M.</div>
+        <div class="testi-detail">38 ans — a perdu 6 kg en trois mois</div>
+      </div>
+      <div class="testi-card reveal reveal-delay-2">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">J'avais essayé plusieurs régimes. Equilib m'a expliqué pourquoi je stagnais à chaque fois — mon métabolisme était plus lent que je ne le pensais. Le bilan gratuit valait déjà le détour.</p>
+        <div class="testi-name">Camille R.</div>
+        <div class="testi-detail">44 ans — abonnée depuis deux mois</div>
+      </div>
+      <div class="testi-card reveal reveal-delay-3">
+        <div class="testi-stars">★★★★☆</div>
+        <p class="testi-text">Ce que j'apprécie, c'est que ça ne me demande pas de manger des carottes vapeur. Le plan est adapté à ma vraie vie — je mange souvent au restaurant et ça en tient compte.</p>
+        <div class="testi-name">Laura T.</div>
+        <div class="testi-detail">31 ans — plan trimestriel</div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- PRIX -->
-<section class="pricing" id="prix">
+<section id="prix">
   <div class="pricing-inner">
     <div class="reveal">
-      <div class="section-tag">Tarifs</div>
-      <h2 class="section-title">Commence <em>gratuitement.</em></h2>
-      <p class="section-sub">Le diagnostic est gratuit et sans engagement. Passe au plan complet quand tu es prêt·e.</p>
+      <div class="section-tag" style="justify-content:center">Tarifs</div>
+      <h2 class="section-title" style="text-align:center">Commence<br><em>gratuitement.</em></h2>
+      <p class="section-sub" style="margin:0 auto;text-align:center">Le diagnostic est gratuit, sans engagement. Passe au plan complet quand tu es prête.</p>
     </div>
-    <div class="pricing-grid reveal">
+    <div class="pricing-grid reveal reveal-delay-1">
       <div class="price-card">
         <div class="price-name">Gratuit</div>
-        <div class="price-amount">0€</div>
-        <div class="price-desc">Pour découvrir ce qui bloque vraiment.</div>
+        <div class="price-amount">0</div>
+        <div class="price-period">pour toujours</div>
+        <div class="price-desc">Pour comprendre ce qui bloque vraiment.</div>
         <ul class="price-feats">
           <li>Diagnostic complet personnalisé</li>
-          <li>Tes 4 scores détaillés</li>
-          <li>TMB, TDEE, IMC expliqués</li>
-          <li>3 bloqueurs identifiés</li>
-          <li class="locked">Plan d'action</li>
-          <li class="locked">Menus & recettes</li>
-          <li class="locked">Coach IA</li>
+          <li>Quatre scores détaillés et interprétés</li>
+          <li>Métabolisme et calories expliqués</li>
+          <li>Trois bloqueurs identifiés</li>
+          <li class="dim">Plan d'action semaine par semaine</li>
+          <li class="dim">Menus et recettes</li>
+          <li class="dim">Coach illimité</li>
         </ul>
-        <a href="equilib-questionnaire.html" class="price-btn secondary" onclick="trackEvent('pricing_free_click')">Faire mon bilan →</a>
+        <a href="equilib-questionnaire.html" class="price-btn outline" onclick="trackEvent('pricing_free_click')">Faire mon bilan</a>
       </div>
+
       <div class="price-card featured">
-        <div class="price-badge">⭐ Le plus populaire — économise 33%</div>
+        <div class="price-badge">Le plus choisi</div>
         <div class="price-name">Trimestriel</div>
-        <div class="price-amount">19,99€ <span>/ 3 mois</span></div>
-        <div class="price-desc">Le plan complet pour vraiment avancer.</div>
+        <div class="price-amount"><span class="cur">€</span>19,99</div>
+        <div class="price-period">tous les trois mois</div>
+        <div class="price-desc">Le plan complet — économise 33% par rapport au mensuel.</div>
         <ul class="price-feats">
-          <li>Tout le plan gratuit</li>
+          <li>Tout le diagnostic gratuit</li>
           <li>Plan d'action semaine par semaine</li>
-          <li>Menus adaptés à tes goûts</li>
+          <li>Menus adaptés à tes préférences</li>
           <li>Recettes sans frustration</li>
-          <li>Coach IA illimité 24h/24</li>
-          <li>Nouveau bilan à 4 semaines</li>
+          <li>Coach illimité vingt-quatre heures sur vingt-quatre</li>
+          <li>Nouveau bilan à quatre semaines</li>
           <li>Suivi hebdomadaire par email</li>
-          <li>Économise 33% vs mensuel</li>
         </ul>
-        <a href="https://buy.stripe.com/test_eVq14pbnd0J70nq3O1g3600" class="price-btn primary" onclick="trackEvent('pricing_trimestriel_click')" target="_blank">Commencer maintenant →</a>
+        <a href="https://buy.stripe.com/cNifZjbnd3Vjb24fwJg3601" class="price-btn solid" target="_blank" onclick="trackEvent('pricing_trimestriel_click')">Commencer maintenant</a>
       </div>
+
       <div class="price-card">
         <div class="price-name">Mensuel</div>
-        <div class="price-amount">9,99€ <span>/ mois</span></div>
-        <div class="price-desc">Pour commencer sans engagement long.</div>
+        <div class="price-amount"><span class="cur">€</span>9,99</div>
+        <div class="price-period">par mois</div>
+        <div class="price-desc">Pour démarrer sans engagement long terme.</div>
         <ul class="price-feats">
-          <li>Tout le plan gratuit</li>
-          <li>Plan d'action complet</li>
-          <li>Menus adaptés à tes goûts</li>
-          <li>Conseils anti-frustration</li>
+          <li>Tout le diagnostic gratuit</li>
+          <li>Plan d'action semaine par semaine</li>
+          <li>Menus adaptés à tes préférences</li>
+          <li>Recettes sans frustration</li>
+          <li>Coach illimité vingt-quatre heures sur vingt-quatre</li>
+          <li>Nouveau bilan à quatre semaines</li>
           <li>Suivi hebdomadaire par email</li>
-          <li class="locked">Coach IA illimité</li>
-          <li class="locked">Bilan de suivi à 4 semaines</li>
         </ul>
-        <a href="https://buy.stripe.com/test_cNifZjbnd3Vjb24fwJg3601" class="price-btn secondary" onclick="trackEvent('pricing_mensuel_click')" target="_blank">Choisir ce plan →</a>
+        <a href="https://buy.stripe.com/eVq14pbnd0J70nq3O1g3600" class="price-btn outline" target="_blank" onclick="trackEvent('pricing_mensuel_click')">Choisir ce plan</a>
       </div>
     </div>
-    <div class="price-guarantee reveal">🛡️ Satisfait·e ou remboursé·e — 14 jours, sans question</div>
+    <div class="price-guarantee reveal">Satisfaite ou remboursée — quatorze jours, sans question</div>
   </div>
 </section>
 
-<!-- FAQ -->
-<section id="faq">
+<section style="background:var(--cream-warm);" id="faq">
   <div class="faq-inner">
     <div style="text-align:center" class="reveal">
-      <div class="section-tag">Questions fréquentes</div>
-      <h2 class="section-title">On répond <em>franchement.</em></h2>
+      <div class="section-tag" style="justify-content:center">Questions fréquentes</div>
+      <h2 class="section-title" style="text-align:center">On répond<br><em>franchement.</em></h2>
     </div>
     <div class="faq-list reveal">
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Le bilan est vraiment gratuit ? Sans carte bancaire ?</div><div class="faq-a"><div class="faq-a-inner">Oui, totalement gratuit et sans carte bancaire. Tu remplis le questionnaire, tu reçois ton diagnostic complet avec tes scores, tes chiffres expliqués et tes bloqueurs identifiés.</div></div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Le bilan remplace-t-il un médecin ou un diététicien ?</div><div class="faq-a"><div class="faq-a-inner">Non, et on ne le prétend pas. Equilib est un outil d'aide à la compréhension de tes habitudes, basé sur des données scientifiques publiques. Pour tout problème médical, consulte un professionnel de santé.</div></div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Comment mes données sont-elles utilisées ?</div><div class="faq-a"><div class="faq-a-inner">Tes données servent uniquement à générer ton bilan. On ne les revend pas, on ne les partage pas avec des tiers. Si tu donnes ton email, on l'utilise uniquement pour t'envoyer ton bilan et, avec ton accord, des conseils hebdomadaires.</div></div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Le jeûne intermittent est-il adapté à tout le monde ?</div><div class="faq-a"><div class="faq-a-inner">Non — c'est justement pour ça qu'on analyse ton profil avant de recommander une approche. Le jeûne intermittent peut être contre-productif en cas de stress élevé ou de troubles du sommeil.</div></div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Est-ce que je garde accès au plan indéfiniment ?</div><div class="faq-a"><div class="faq-a-inner">Oui — c'est un paiement unique, tu gardes accès à vie à ton plan. Si tu n'es pas satisfait·e dans les 14 premiers jours, on te rembourse intégralement.</div></div></div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Le bilan est vraiment gratuit ? Sans carte bancaire ?<div class="faq-icon">+</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Oui, totalement gratuit et sans carte bancaire. Tu remplis le questionnaire et tu reçois ton diagnostic complet avec tes scores, tes chiffres expliqués et tes bloqueurs identifiés.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Quelle différence entre le plan mensuel et trimestriel ?<div class="faq-icon">+</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Les deux plans incluent exactement les mêmes fonctionnalités — plan d'action complet, menus, coach, suivi. La seule différence est la durée et le prix : le trimestriel revient à 6,66 euros par mois au lieu de 9,99 euros, soit une économie de 33%.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Le bilan remplace-t-il un médecin ou un diététicien ?<div class="faq-icon">+</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Non. Equilib est un outil d'aide à la compréhension de tes habitudes, basé sur des données scientifiques publiques. Pour tout problème médical, consulte un professionnel de santé.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Comment mes données sont-elles protégées ?<div class="faq-icon">+</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Tes données sont utilisées uniquement pour générer ton bilan. Elles ne sont ni revendues, ni partagées avec des tiers à des fins publicitaires. Tu peux demander leur suppression à tout moment en nous écrivant.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Puis-je résilier à tout moment ?<div class="faq-icon">+</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Oui, sans frais ni question. Tu peux résilier directement depuis ton espace Stripe ou en nous écrivant à jieasymn@gmail.com. Et si tu n'es pas satisfaite dans les quatorze premiers jours, nous te remboursons intégralement.</div></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- CTA FINAL -->
-<section class="cta-final" id="bilan">
-  <h2>Ton bilan t'attend.<br><em>5 minutes.</em> Gratuit.</h2>
-  <p>Arrête de chercher le bon régime. Trouve d'abord ce qui bloque. Le reste suit naturellement.</p>
-  <a href="equilib-questionnaire.html" class="btn-hero" onclick="trackEvent('cta_final_click')">Commencer mon bilan gratuit →</a>
-  <div class="cta-final-note">Aucune inscription · Sans carte bancaire · 100% confidentiel</div>
+<section class="cta-final">
+  <div class="cta-inner">
+    <div class="reveal">
+      <h2>Ton bilan t'attend.<br><em>Cinq minutes.</em> Gratuit.</h2>
+      <p>Arrête de chercher la bonne méthode.<br>Trouve d'abord ce qui bloque. Le reste suit naturellement.</p>
+      <a href="equilib-questionnaire.html" class="btn-primary" style="display:inline-flex;margin:0 auto" onclick="trackEvent('cta_final_click')">
+        <span>Commencer mon bilan gratuit</span>
+        <span class="arrow">→</span>
+      </a>
+      <div class="cta-note">Sans inscription · Sans carte bancaire · 100% confidentiel</div>
+    </div>
+  </div>
 </section>
 
 <footer>
   <div class="footer-logo">Equi<em>lib</em></div>
   <div class="footer-links">
-    <a href="#">Mentions légales</a>
-    <a href="#">Confidentialité</a>
-    <a href="#">Contact</a>
+    <a href="equilib-mentions-legales.html">Mentions légales</a>
+    <a href="equilib-confidentialite.html">Confidentialité</a>
+    <a href="mailto:jieasymn@gmail.com">Contact</a>
   </div>
+  <div class="footer-copy">© 2026 Equilib</div>
 </footer>
 
 <script>
-// =============================================
-// STRIPE
-// =============================================
-const STRIPE_MENSUEL = 'https://buy.stripe.com/test_cNifZjbnd3Vjb24fwJg3601';
-const STRIPE_TRIMESTRIEL = 'https://buy.stripe.com/test_eVq14pbnd0J70nq3O1g3600';
-
-function goToStripe(plan='trimestriel') {
-  const url = plan === 'mensuel' ? STRIPE_MENSUEL : STRIPE_TRIMESTRIEL;
-  trackEvent('stripe_redirect', { plan });
-  window.open(url, '_blank');
-}
-
-// =============================================
-// GOOGLE ANALYTICS - Événements custom
-// =============================================
-function trackEvent(eventName, params={}) {
-  if(typeof gtag !== 'undefined') {
-    gtag('event', eventName, params);
-  }
-  // Log en console pour debug
-  console.log('[Equilib Track]', eventName, params);
-}
-
-// Track scroll profondeur
-let scrollTracked = {};
-window.addEventListener('scroll', () => {
-  const pct = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-  [25,50,75,90].forEach(p => {
-    if(pct >= p && !scrollTracked[p]) {
-      scrollTracked[p] = true;
-      trackEvent('scroll_depth', { percent: p });
-    }
-  });
+// CURSOR PERSONNALISÉ
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0;
+document.addEventListener('mousemove', e => {
+  mx=e.clientX; my=e.clientY;
+  cursor.style.left=(mx-4)+'px';
+  cursor.style.top=(my-4)+'px';
+  ring.style.left=(mx-18)+'px';
+  ring.style.top=(my-18)+'px';
+});
+document.querySelectorAll('a,button,.prob-card,.faq-q,.price-card').forEach(el => {
+  el.addEventListener('mouseenter',()=>{ cursor.style.transform='scale(2.5)'; ring.style.transform='scale(1.6)'; ring.style.opacity='0.3'; });
+  el.addEventListener('mouseleave',()=>{ cursor.style.transform='scale(1)'; ring.style.transform='scale(1)'; ring.style.opacity='0.6'; });
 });
 
-// Track temps passé sur page
-let timeStart = Date.now();
-window.addEventListener('beforeunload', () => {
-  const seconds = Math.round((Date.now() - timeStart) / 1000);
-  trackEvent('time_on_page', { seconds });
+// NAV SCROLL
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
 });
 
-// =============================================
-// COUNTDOWN URGENCY
-// =============================================
-function initCountdown() {
-  // Stocke l'heure de fin dans sessionStorage pour cohérence
-  let endTime = sessionStorage.getItem('equilib_countdown');
-  if(!endTime) {
-    endTime = Date.now() + (24 * 60 * 60 * 1000); // 24h
-    sessionStorage.setItem('equilib_countdown', endTime);
-  }
-  function update() {
-    const remaining = endTime - Date.now();
-    if(remaining <= 0) {
-      document.getElementById('countdown').textContent = 'Expirée';
-      return;
-    }
-    const h = Math.floor(remaining / 3600000);
-    const m = Math.floor((remaining % 3600000) / 60000);
-    const s = Math.floor((remaining % 60000) / 1000);
-    document.getElementById('countdown').textContent =
-      String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-    setTimeout(update, 1000);
-  }
-  update();
-}
-initCountdown();
-
-// =============================================
 // SCROLL REVEAL
-// =============================================
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: .12 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
 // FAQ
 function toggleFaq(el) {
   const item = el.parentElement;
   const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
   if(!isOpen) item.classList.add('open');
-  trackEvent('faq_open', { question: el.textContent.trim().substring(0,50) });
 }
 
-// NAV shadow on scroll
-window.addEventListener('scroll', () => {
-  document.querySelector('nav').style.boxShadow = window.scrollY > 50 ? '0 2px 20px rgba(58,43,30,.08)' : 'none';
+// ANALYTICS
+function trackEvent(name, params={}) {
+  if(typeof gtag !== 'undefined') gtag('event', name, params);
+}
+let scrollTracked={};
+window.addEventListener('scroll',()=>{
+  const pct=Math.round((window.scrollY/(document.body.scrollHeight-window.innerHeight))*100);
+  [25,50,75,90].forEach(p=>{
+    if(pct>=p&&!scrollTracked[p]){scrollTracked[p]=true;trackEvent('scroll_depth',{percent:p});}
+  });
 });
-
-// Track page view
-trackEvent('page_view', { page: 'landing' });
+trackEvent('page_view',{page:'landing'});
 </script>
 </body>
 </html>
