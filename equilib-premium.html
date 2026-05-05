@@ -12,9 +12,9 @@
 <style>
 :root{--sage-deep:#2D5016;--sage:#4A7C3F;--sage-mid:#6B9E5E;--sage-light:#A8C99E;--sage-pale:#D4E8CE;--sage-mist:#EEF5EB;--cream:#FAF8F3;--cream-warm:#F5F0E8;--linen:#EDE8DC;--gold:#C9A84C;--gold-light:#E8D5A0;--gold-pale:#F7F0DC;--brown-deep:#2A1F0F;--brown:#4A3520;--brown-mid:#7A6248;--muted:#9E8E7A;--border:#DDD5C5;--white:#FDFCFA;--warn:#C9773A;--warn-pale:#F9EDE3;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--brown);min-height:100vh;cursor:none;}
-.cursor{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;mix-blend-mode:multiply;top:-20px;left:-20px;transition:transform 0.15s ease;}
-.cursor-ring{width:36px;height:36px;border:1px solid var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;opacity:0.5;top:-20px;left:-20px;transition:left 0.06s ease,top 0.06s ease,transform 0.3s ease;}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--brown);min-height:100vh;}
+
+
 .header{background:var(--white);border-bottom:1px solid var(--border);padding:18px 48px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
 .logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500;color:var(--sage-deep);text-decoration:none;}
 .logo em{color:var(--gold);font-style:italic;}
@@ -41,7 +41,7 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--brown);mi
 .field label{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px;}
 .field input,.field select{width:100%;padding:14px 16px;border:1px solid var(--border);background:var(--white);font-family:'Jost',sans-serif;font-size:15px;color:var(--brown);outline:none;transition:border-color 0.3s;-webkit-appearance:none;}
 .field input:focus,.field select:focus{border-color:var(--sage);}
-.btn-main{display:flex;align-items:center;justify-content:center;gap:12px;background:var(--sage-deep);color:var(--white);font-family:'Jost',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;padding:16px 36px;border:none;width:100%;cursor:none;transition:background 0.3s;margin-top:8px;}
+.btn-main{display:flex;align-items:center;justify-content:center;gap:12px;background:var(--sage-deep);color:var(--white);font-family:'Jost',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;padding:16px 36px;border:none;width:100%;transition:background 0.3s;margin-top:8px;}
 .btn-main:hover{background:var(--sage);}
 .arr{transition:transform 0.3s;}.btn-main:hover .arr{transform:translateX(4px);}
 .pw{max-width:720px;margin:0 auto;padding:48px;}
@@ -108,7 +108,7 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--brown);mi
 .chat-input-wrap{border-top:1px solid var(--border);padding:16px 24px;display:flex;gap:0;}
 .chat-input-wrap input{flex:1;padding:13px 16px;border:1px solid var(--border);border-right:none;font-family:'Jost',sans-serif;font-size:14px;color:var(--brown);background:var(--white);outline:none;transition:border-color 0.3s;}
 .chat-input-wrap input:focus{border-color:var(--sage);}
-.chat-send{background:var(--sage-deep);color:var(--white);border:none;padding:13px 22px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;cursor:none;letter-spacing:0.5px;transition:background 0.3s;white-space:nowrap;}
+.chat-send{background:var(--sage-deep);color:var(--white);border:none;padding:13px 22px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;letter-spacing:0.5px;transition:background 0.3s;white-space:nowrap;}
 .chat-send:hover{background:var(--sage);}
 .chat-send:disabled{background:var(--linen);color:var(--muted);}
 .typing{display:flex;gap:4px;padding:2px 0;}
@@ -121,8 +121,8 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--brown);mi
 </style>
 </head>
 <body>
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
+
+
 <div class="header">
   <a href="equilib-landing.html" class="logo">Equi<em>lib</em></a>
   <div class="premium-pill">Plan complet</div>
@@ -156,9 +156,7 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--brown);mi
   <div class="pw" id="premium-content"></div>
 </div>
 <script>
-const cursor=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
-document.addEventListener('mousemove',e=>{cursor.style.left=(e.clientX-4)+'px';cursor.style.top=(e.clientY-4)+'px';ring.style.left=(e.clientX-18)+'px';ring.style.top=(e.clientY-18)+'px';});
-document.querySelectorAll('a,button,input,select').forEach(el=>{el.addEventListener('mouseenter',()=>{cursor.style.transform='scale(2.5)';ring.style.transform='scale(1.5)';ring.style.opacity='0.3';});el.addEventListener('mouseleave',()=>{cursor.style.transform='scale(1)';ring.style.transform='scale(1)';ring.style.opacity='0.5';});});
+});
 let PROFIL={},chatHistory=[];
 window.addEventListener('DOMContentLoaded',()=>{
   const saved=localStorage.getItem('equilib_profil');
