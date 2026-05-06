@@ -133,7 +133,7 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--brown);mi
   <p>Notre analyse prépare un programme personnalisé basé sur ton profil et les dernières recherches scientifiques.</p>
   <div class="loading-steps" id="lsteps"></div>
 </div>
-<div id="screen-form" class="form-wrap" style="display:none">
+<div id="screen-form" class="form-wrap" style="display:block">
   <div class="form-eyebrow">Plan complet</div>
   <h2>Bienvenue dans<br>ton espace <em>premium</em></h2>
   <p>Pour générer ton plan personnalisé, nous avons besoin de quelques informations. Si tu as fait le bilan gratuit sur cet appareil, elles sont déjà sauvegardées.</p>
@@ -160,8 +160,16 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--brown);mi
 let PROFIL={},chatHistory=[];
 window.addEventListener('DOMContentLoaded',()=>{
   const saved=localStorage.getItem('equilib_profil');
-  if(saved){try{PROFIL=JSON.parse(saved);if(PROFIL.age&&PROFIL.weight&&PROFIL.goal){startGeneration();return;}}catch(e){}}
-  document.getElementById('screen-form').style.display='block';
+  if(saved){
+    try{
+      PROFIL=JSON.parse(saved);
+      if(PROFIL.age&&PROFIL.weight&&PROFIL.goal){
+        document.getElementById('screen-form').style.display='none';
+        startGeneration();
+        return;
+      }
+    }catch(e){}
+  }
 });
 function submitForm(){
   const age=+document.getElementById('f-age').value,sex=document.getElementById('f-sex').value,height=+document.getElementById('f-height').value,weight=+document.getElementById('f-weight').value,goal=+document.getElementById('f-goal').value;
