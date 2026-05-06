@@ -311,10 +311,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
       <div class="pillar"><div class="pillar-num">03</div><div class="pillar-title">Plan sur mesure</div><div class="pillar-sub">Adapté à ta vie</div></div>
     </div>
     <div class="consent-wrap">
-      <div class="consent-row" onclick="toggleConsent()">
-        <div class="consent-box-check" id="consent-cb"></div>
+      <label class="consent-row" for="consent-input" style="cursor:pointer">
+        <input type="checkbox" id="consent-input" onchange="consentGiven=this.checked;document.getElementById('consent-err').classList.remove('show')" style="width:20px;height:20px;cursor:pointer;accent-color:#2D5016;flex-shrink:0;margin-top:2px">
         <div class="consent-text-label">J'accepte que mes données de santé (poids, habitudes, stress, sommeil) soient analysées par Equilib pour générer mon bilan personnalisé. <a href="equilib-confidentialite.html" target="_blank" onclick="event.stopPropagation()">Politique de confidentialité</a></div>
-      </div>
+      </label>
       <div class="consent-note">Tes données ne sont jamais revendues ni utilisées à des fins publicitaires. Retrait possible à tout moment via jieasymn@gmail.com — Art. 9 RGPD.</div>
       <div class="consent-err" id="consent-err">Merci de cocher cette case pour continuer.</div>
     </div>
@@ -550,9 +550,10 @@ function toggleConsent(){
 }
 
 function startWithConsent(){
+  consentGiven = document.getElementById('consent-input').checked;
   if(!consentGiven){
-    document.getElementById('consent-cb').classList.add('error');
     document.getElementById('consent-err').classList.add('show');
+    document.getElementById('consent-input').style.outline='2px solid #C9773A';
     return;
   }
   trackEvent('consent_given');trackEvent('questionnaire_start');goTo(1);
