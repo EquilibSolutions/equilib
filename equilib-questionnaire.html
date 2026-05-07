@@ -20,7 +20,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--brown);min-height:100vh;}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--brown);min-height:100vh;}button,a,label,[onclick]{cursor:pointer !important;}
 
 
 
@@ -71,7 +71,7 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--brown);mi
 .consent-err.show{display:block;}
 
 /* BUTTONS */
-.btn-main{display:inline-flex;align-items:center;gap:12px;background:var(--sage-deep);color:var(--white);font-family:'Jost',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;padding:16px 36px;border:none;width:100%;justify-content:center;transition:background 0.3s;}
+.btn-main{display:inline-flex;align-items:center;gap:12px;background:var(--sage-deep);color:var(--white);font-family:'Jost',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;padding:16px 36px;border:none;width:100%;justify-content:center;transition:background 0.3s;cursor:pointer;}
 .btn-main:hover{background:var(--sage);}
 .btn-main:disabled{background:var(--linen);color:var(--muted);cursor:not-allowed;}
 .btn-main .arr{transition:transform 0.3s;}
@@ -351,10 +351,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
     <h2 class="form-title">Quelle méthode<br>te <em>correspond</em> ?</h2>
     <p class="form-sub">Il n'y a pas de bonne ou mauvaise réponse. On part de ce qui te parle.</p>
     <div class="choices" id="approche">
-      <div class="choice" onclick="pick('approche','if',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Jeûne intermittent</div><div class="choice-sub">Manger sur une fenêtre de 8h, sans compter les calories au quotidien</div></div></div>
-      <div class="choice" onclick="pick('approche','rqlib',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Rééquilibrage alimentaire</div><div class="choice-sub">Manger mieux progressivement, sans interdits ni frustration</div></div></div>
-      <div class="choice" onclick="pick('approche','classique',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Déficit calorique progressif</div><div class="choice-sub">Réduire les apports de façon mesurée et sustainable</div></div></div>
-      <div class="choice" onclick="pick('approche','sais-pas',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Je ne sais pas encore</div><div class="choice-sub">Laisser Equilib recommander la meilleure approche pour mon profil</div></div></div>
+      <div class="choice" style="cursor:pointer" onclick="pick('approche','if',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Jeûne intermittent</div><div class="choice-sub">Manger sur une fenêtre de 8h, sans compter les calories au quotidien</div></div></div>
+      <div class="choice" style="cursor:pointer" onclick="pick('approche','rqlib',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Rééquilibrage alimentaire</div><div class="choice-sub">Manger mieux progressivement, sans interdits ni frustration</div></div></div>
+      <div class="choice" style="cursor:pointer" onclick="pick('approche','classique',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Déficit calorique progressif</div><div class="choice-sub">Réduire les apports de façon mesurée et sustainable</div></div></div>
+      <div class="choice" style="cursor:pointer" onclick="pick('approche','sais-pas',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Je ne sais pas encore</div><div class="choice-sub">Laisser Equilib recommander la meilleure approche pour mon profil</div></div></div>
     </div>
     <button class="btn-main" id="btn2" onclick="goTo(3)" disabled><span>Continuer</span><span class="arr">→</span></button>
   </div>
