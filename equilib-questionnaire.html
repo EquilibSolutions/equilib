@@ -10,326 +10,293 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --sage-deep:#2D5016;--sage:#4A7C3F;--sage-mid:#6B9E5E;--sage-light:#A8C99E;--sage-pale:#D4E8CE;--sage-mist:#EEF5EB;
-  --cream:#FAF8F3;--cream-warm:#F5F0E8;--linen:#EDE8DC;
-  --gold:#C9A84C;--gold-pale:#F7F0DC;
-  --brown-deep:#2A1F0F;--brown:#4A3520;--brown-mid:#7A6248;--muted:#9E8E7A;
-  --border:#DDD5C5;--white:#FDFCFA;
-  --warn:#C9773A;--warn-pale:#F9EDE3;
+:root {
+  --sage-deep: #2D5016;
+  --sage: #4A7C3F;
+  --sage-mid: #6B9E5E;
+  --sage-light: #A8C99E;
+  --sage-pale: #D4E8CE;
+  --sage-mist: #EEF5EB;
+  --cream: #FAF8F3;
+  --cream-warm: #F5F0E8;
+  --linen: #EDE8DC;
+  --gold: #C9A84C;
+  --gold-pale: #F7F0DC;
+  --brown-deep: #2A1F0F;
+  --brown: #4A3520;
+  --brown-mid: #7A6248;
+  --muted: #9E8E7A;
+  --border: #DDD5C5;
+  --white: #FDFCFA;
+  --warn: #C9773A;
+  --warn-pale: #F9EDE3;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--brown);min-height:100vh;}button,a,label,[onclick]{cursor:pointer !important;}
 
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--brown); min-height: 100vh; }
+button, a, label, input, select { cursor: pointer; }
 
+.header { background: var(--white); border-bottom: 1px solid var(--border); padding: 18px 48px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+.logo { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 500; color: var(--sage-deep); text-decoration: none; }
+.logo em { color: var(--gold); font-style: italic; }
+.step-indicator { font-size: 12px; color: var(--muted); letter-spacing: 0.5px; }
 
-
-/* HEADER */
-.header{background:var(--white);border-bottom:1px solid var(--border);padding:18px 48px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
-.logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500;color:var(--sage-deep);text-decoration:none;}
-.logo em{color:var(--gold);font-style:italic;}
-.header-right{display:flex;align-items:center;gap:16px;}
-.step-indicator{font-size:12px;color:var(--muted);letter-spacing:0.5px;}
-
-/* PROGRESS */
-.progress-wrap{background:var(--white);border-bottom:1px solid var(--border);padding:0 48px;display:none;}
-.progress-track{height:2px;background:var(--linen);position:relative;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--sage-deep),var(--sage-mid));transition:width 0.6s cubic-bezier(0.16,1,0.3,1);width:0%;}
+.progress-wrap { background: var(--white); border-bottom: 1px solid var(--border); }
+.progress-track { height: 2px; background: var(--linen); }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--sage-deep), var(--sage-mid)); transition: width 0.6s ease; width: 0%; }
 
 /* SCREENS */
-.screen{display:none;animation:fadeUp 0.5s ease;}
-.screen.active{display:block;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.screen { display: none; }
+.screen.active { display: block; }
 
 /* WELCOME */
-.welcome{max-width:680px;margin:0 auto;padding:80px 48px 60px;text-align:center;}
-.welcome-eyebrow{font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--sage-mid);margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:12px;}
-.welcome-eyebrow::before,.welcome-eyebrow::after{content:'';width:20px;height:1px;background:var(--sage-mid);}
-.welcome h1{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,5vw,62px);font-weight:300;line-height:1.1;letter-spacing:-0.5px;color:var(--brown-deep);margin-bottom:20px;}
-.welcome h1 em{font-style:italic;color:var(--sage);}
-.welcome p{font-size:15px;font-weight:300;color:var(--brown-mid);line-height:1.8;max-width:460px;margin:0 auto 48px;}
+.welcome { max-width: 680px; margin: 0 auto; padding: 80px 48px 60px; text-align: center; }
+.welcome-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--sage-mid); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 12px; }
+.welcome-eyebrow::before, .welcome-eyebrow::after { content: ''; width: 20px; height: 1px; background: var(--sage-mid); }
+.welcome h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 62px); font-weight: 300; line-height: 1.1; letter-spacing: -0.5px; color: var(--brown-deep); margin-bottom: 20px; }
+.welcome h1 em { font-style: italic; color: var(--sage); }
+.welcome p { font-size: 15px; font-weight: 300; color: var(--brown-mid); line-height: 1.8; max-width: 460px; margin: 0 auto 48px; }
 
-.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:48px;}
-.pillar{background:var(--white);border:1px solid var(--border);padding:24px 20px;text-align:center;transition:border-color 0.3s;}
-.pillar:hover{border-color:var(--sage-light);}
-.pillar-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--sage-light);margin-bottom:8px;}
-.pillar-title{font-size:13px;font-weight:500;color:var(--brown-deep);margin-bottom:4px;}
-.pillar-sub{font-size:12px;color:var(--muted);font-weight:300;}
+.pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 48px; }
+.pillar { background: var(--white); border: 1px solid var(--border); padding: 24px 20px; text-align: center; }
+.pillar-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--sage-light); margin-bottom: 8px; }
+.pillar-title { font-size: 13px; font-weight: 500; color: var(--brown-deep); margin-bottom: 4px; }
+.pillar-sub { font-size: 12px; color: var(--muted); font-weight: 300; }
 
-/* CONSENT */
-.consent-wrap{background:var(--white);border:1px solid var(--border);padding:20px 24px;margin-bottom:32px;text-align:left;}
-.consent-row{display:flex;align-items:flex-start;gap:14px;cursor:pointer;}
-.consent-box-check{width:20px;height:20px;border:1px solid var(--border);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;background:var(--white);}
-.consent-box-check.checked{background:var(--sage-deep);border-color:var(--sage-deep);}
-.consent-box-check.checked::after{content:'';width:10px;height:6px;border-left:2px solid white;border-bottom:2px solid white;transform:rotate(-45deg) translateY(-1px);display:block;}
-.consent-box-check.error{border-color:var(--warn);background:var(--warn-pale);}
-.consent-text-label{font-size:13px;color:var(--brown);line-height:1.7;font-weight:300;}
-.consent-text-label a{color:var(--sage);text-decoration:underline;text-underline-offset:2px;}
-.consent-note{font-size:11px;color:var(--muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);line-height:1.5;font-weight:300;}
-.consent-err{font-size:12px;color:var(--warn);margin-top:8px;display:none;}
-.consent-err.show{display:block;}
+.consent-box { background: var(--white); border: 1px solid var(--border); padding: 20px 24px; margin-bottom: 24px; text-align: left; }
+.consent-label { display: flex; align-items: flex-start; gap: 14px; cursor: pointer; }
+.consent-label input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; accent-color: var(--sage-deep); flex-shrink: 0; margin-top: 2px; }
+.consent-text { font-size: 13px; color: var(--brown); line-height: 1.7; font-weight: 300; }
+.consent-text a { color: var(--sage); }
+.consent-note { font-size: 11px; color: var(--muted); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); line-height: 1.5; font-weight: 300; }
+.consent-err { font-size: 12px; color: var(--warn); margin-top: 8px; display: none; }
+.consent-err.show { display: block; }
 
-/* BUTTONS */
-.btn-main{display:inline-flex;align-items:center;gap:12px;background:var(--sage-deep);color:var(--white);font-family:'Jost',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;padding:16px 36px;border:none;width:100%;justify-content:center;transition:background 0.3s;cursor:pointer;}
-.btn-main:hover{background:var(--sage);}
-.btn-main:disabled{background:var(--linen);color:var(--muted);cursor:not-allowed;}
-.btn-main .arr{transition:transform 0.3s;}
-.btn-main:hover:not(:disabled) .arr{transform:translateX(4px);}
-.btn-back{background:none;border:none;color:var(--muted);font-size:13px;padding:0;display:flex;align-items:center;gap:8px;font-family:'Jost',sans-serif;margin-bottom:32px;transition:color 0.3s;}
-.btn-back:hover{color:var(--brown);}
+.btn-main { display: flex; align-items: center; justify-content: center; gap: 12px; background: var(--sage-deep); color: var(--white); font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.5px; padding: 16px 36px; border: none; width: 100%; cursor: pointer; transition: background 0.3s; }
+.btn-main:hover { background: var(--sage); }
+.btn-main:disabled { background: var(--linen); color: var(--muted); cursor: not-allowed; }
+.arr { transition: transform 0.3s; }
+.btn-main:hover:not(:disabled) .arr { transform: translateX(4px); }
 
 /* FORM */
-.form-wrap{max-width:560px;margin:0 auto;padding:48px;}
-.form-step-tag{font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--sage-mid);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
-.form-step-tag::before{content:'';width:16px;height:1px;background:var(--sage-mid);}
-.form-title{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;line-height:1.2;color:var(--brown-deep);margin-bottom:8px;}
-.form-title em{font-style:italic;color:var(--sage);}
-.form-sub{font-size:14px;font-weight:300;color:var(--muted);margin-bottom:36px;line-height:1.7;}
+.form-wrap { max-width: 560px; margin: 0 auto; padding: 48px; }
+.step-tag { font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--sage-mid); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+.step-tag::before { content: ''; width: 16px; height: 1px; background: var(--sage-mid); }
+.form-title { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 300; line-height: 1.2; color: var(--brown-deep); margin-bottom: 8px; }
+.form-title em { font-style: italic; color: var(--sage); }
+.form-sub { font-size: 14px; font-weight: 300; color: var(--muted); margin-bottom: 36px; line-height: 1.7; }
 
-/* INPUTS */
-.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
-.field{margin-bottom:20px;}
-.field label{font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px;}
-.field input,.field select{width:100%;padding:14px 16px;border:1px solid var(--border);background:var(--white);font-family:'Jost',sans-serif;font-size:15px;color:var(--brown);outline:none;transition:border-color 0.3s;-webkit-appearance:none;}
-.field input:focus,.field select:focus{border-color:var(--sage);}
+.btn-back { background: none; border: none; color: var(--muted); font-size: 13px; cursor: pointer; padding: 0; display: flex; align-items: center; gap: 8px; font-family: 'Jost', sans-serif; margin-bottom: 32px; transition: color 0.3s; }
+.btn-back:hover { color: var(--brown); }
+
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.field { margin-bottom: 20px; }
+.field label { font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 8px; }
+.field input, .field select { width: 100%; padding: 14px 16px; border: 1px solid var(--border); background: var(--white); font-family: 'Jost', sans-serif; font-size: 15px; color: var(--brown); outline: none; transition: border-color 0.3s; -webkit-appearance: none; cursor: pointer; }
+.field input:focus, .field select:focus { border-color: var(--sage); }
 
 /* CHOICES */
-.choices{display:grid;gap:2px;margin-bottom:32px;}
-.choices.two{grid-template-columns:1fr 1fr;}
-.choice{background:var(--white);border:1px solid var(--border);padding:16px 20px;display:flex;align-items:flex-start;gap:14px;transition:all 0.25s;position:relative;}
-.choice:hover{border-color:var(--sage-light);background:var(--sage-mist);}
-.choice.selected{border-color:var(--sage-deep);background:var(--sage-mist);}
-.choice.selected::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--sage-deep);}
-.choice-content{flex:1;}
-.choice-title{font-size:14px;font-weight:500;color:var(--brown-deep);margin-bottom:3px;}
-.choice.selected .choice-title{color:var(--sage-deep);}
-.choice-sub{font-size:12px;color:var(--muted);font-weight:300;line-height:1.5;}
-.choice-check{width:18px;height:18px;border:1px solid var(--border);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
-.choice.selected .choice-check{background:var(--sage-deep);border-color:var(--sage-deep);}
-.choice.selected .choice-check::after{content:'';width:8px;height:5px;border-left:2px solid white;border-bottom:2px solid white;transform:rotate(-45deg) translateY(-1px);display:block;}
+.choices { display: grid; gap: 2px; margin-bottom: 32px; }
+.choices.two { grid-template-columns: 1fr 1fr; }
+.choice { background: var(--white); border: 1px solid var(--border); padding: 16px 20px; cursor: pointer; display: flex; align-items: flex-start; gap: 14px; transition: all 0.2s; position: relative; user-select: none; }
+.choice:hover { border-color: var(--sage-light); background: var(--sage-mist); }
+.choice.selected { border-color: var(--sage-deep); background: var(--sage-mist); }
+.choice.selected::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--sage-deep); }
+.choice-title { font-size: 14px; font-weight: 500; color: var(--brown-deep); margin-bottom: 3px; }
+.choice.selected .choice-title { color: var(--sage-deep); }
+.choice-sub { font-size: 12px; color: var(--muted); font-weight: 300; line-height: 1.5; }
+.choice-check { width: 18px; height: 18px; border: 1px solid var(--border); flex-shrink: 0; margin-top: 2px; transition: all 0.2s; }
+.choice.selected .choice-check { background: var(--sage-deep); border-color: var(--sage-deep); }
 
 /* CHECKS */
-.checks{display:grid;gap:2px;margin-bottom:32px;}
-.check-item{background:var(--white);border:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;gap:14px;transition:all 0.25s;font-size:14px;font-weight:300;color:var(--brown);}
-.check-item:hover{border-color:var(--sage-light);background:var(--sage-mist);}
-.check-item.checked{border-color:var(--sage-light);background:var(--sage-mist);}
-.check-box{width:18px;height:18px;border:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
-.check-item.checked .check-box{background:var(--sage-deep);border-color:var(--sage-deep);}
-.check-item.checked .check-box::after{content:'';width:8px;height:5px;border-left:2px solid white;border-bottom:2px solid white;transform:rotate(-45deg) translateY(-1px);display:block;}
+.checks { display: grid; gap: 2px; margin-bottom: 32px; }
+.check-item { background: var(--white); border: 1px solid var(--border); padding: 14px 18px; cursor: pointer; display: flex; align-items: center; gap: 14px; transition: all 0.2s; font-size: 14px; font-weight: 300; color: var(--brown); user-select: none; }
+.check-item:hover { border-color: var(--sage-light); background: var(--sage-mist); }
+.check-item.checked { border-color: var(--sage-light); background: var(--sage-mist); }
+.check-box { width: 18px; height: 18px; border: 1px solid var(--border); flex-shrink: 0; transition: all 0.2s; }
+.check-item.checked .check-box { background: var(--sage-deep); border-color: var(--sage-deep); }
 
 /* SLIDER */
-.slider-wrap{margin-bottom:32px;}
-.slider-display{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
-.slider-val{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--sage-deep);line-height:1;}
-.slider-unit{font-size:14px;color:var(--muted);}
-input[type=range]{width:100%;-webkit-appearance:none;height:2px;background:var(--linen);outline:none;border-radius:1px;}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:var(--sage-deep);border-radius:50%;border:3px solid var(--white);box-shadow:0 2px 8px rgba(45,80,22,0.3);}
-.slider-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:8px;}
+.slider-wrap { margin-bottom: 32px; }
+.slider-val-display { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
+.slider-val { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: var(--sage-deep); line-height: 1; }
+.slider-unit { font-size: 14px; color: var(--muted); }
+input[type=range] { width: 100%; -webkit-appearance: none; height: 2px; background: var(--linen); outline: none; cursor: pointer; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; background: var(--sage-deep); border-radius: 50%; cursor: pointer; border: 3px solid var(--white); box-shadow: 0 2px 8px rgba(45,80,22,0.3); }
+.slider-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 8px; }
 
 /* LOADING */
-.loading-wrap{max-width:480px;margin:0 auto;padding:80px 48px;text-align:center;}
-.spinner{width:48px;height:48px;border:2px solid var(--border);border-top-color:var(--sage);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 32px;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.loading-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--brown-deep);margin-bottom:8px;}
-.loading-sub{font-size:14px;font-weight:300;color:var(--muted);line-height:1.6;margin-bottom:32px;}
-.loading-steps{text-align:left;display:grid;gap:0;}
-.lstep{display:flex;align-items:center;gap:12px;padding:10px 0;font-size:13px;color:var(--muted);border-bottom:1px solid var(--border);font-weight:300;}
-.lstep:last-child{border-bottom:none;}
-.lstep-icon{width:20px;height:20px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;transition:all 0.3s;}
-.lstep.done .lstep-icon{background:var(--sage-deep);border-color:var(--sage-deep);color:var(--white);}
-.lstep.done{color:var(--brown);}
+.loading-wrap { max-width: 480px; margin: 0 auto; padding: 80px 48px; text-align: center; }
+.spinner { width: 48px; height: 48px; border: 2px solid var(--border); border-top-color: var(--sage); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 32px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--brown-deep); margin-bottom: 8px; }
+.loading-sub { font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.6; margin-bottom: 32px; }
+.lstep { display: flex; align-items: center; gap: 12px; padding: 10px 0; font-size: 13px; color: var(--muted); border-bottom: 1px solid var(--border); font-weight: 300; }
+.lstep:last-child { border-bottom: none; }
+.lstep-icon { width: 20px; height: 20px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 10px; transition: all 0.3s; }
+.lstep.done .lstep-icon { background: var(--sage-deep); border-color: var(--sage-deep); color: var(--white); }
+.lstep.done { color: var(--brown); }
 
 /* EMAIL GATE */
-.email-gate{max-width:520px;margin:0 auto;padding:80px 48px;}
-.gate-eyebrow{font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--sage-mid);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
-.gate-eyebrow::before{content:'';width:16px;height:1px;background:var(--sage-mid);}
-.gate-title{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;line-height:1.15;color:var(--brown-deep);margin-bottom:12px;}
-.gate-title em{font-style:italic;color:var(--sage);}
-.gate-sub{font-size:14px;font-weight:300;color:var(--muted);line-height:1.7;margin-bottom:36px;}
-
-.gate-preview{background:var(--white);border:1px solid var(--border);padding:24px;margin-bottom:32px;}
-.gate-preview-title{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
-.gate-items{display:grid;gap:10px;}
-.gate-item{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--brown);font-weight:300;}
-.gate-item::before{content:'';width:4px;height:4px;background:var(--sage-mid);border-radius:50%;flex-shrink:0;}
-.gate-item.locked{color:var(--muted);}
-.gate-item.locked::before{background:var(--border);}
-
-.email-input-row{display:flex;gap:0;margin-bottom:12px;}
-.email-input-row input{flex:1;padding:14px 18px;border:1px solid var(--border);border-right:none;font-family:'Jost',sans-serif;font-size:14px;color:var(--brown);background:var(--white);outline:none;transition:border-color 0.3s;}
-.email-input-row input:focus{border-color:var(--sage);}
-.email-submit{background:var(--sage-deep);color:var(--white);border:none;padding:14px 24px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;white-space:nowrap;letter-spacing:0.5px;transition:background 0.3s;}
-.email-submit:hover{background:var(--sage);}
-.gate-trust{font-size:11px;color:var(--muted);font-weight:300;margin-bottom:20px;}
-.gate-skip{font-size:12px;color:var(--muted);text-decoration:underline;text-underline-offset:2px;background:none;border:none;font-family:'Jost',sans-serif;padding:0;transition:color 0.3s;}
-.gate-skip:hover{color:var(--brown);}
+.gate-wrap { max-width: 520px; margin: 0 auto; padding: 80px 48px; }
+.gate-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--sage-mid); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+.gate-eyebrow::before { content: ''; width: 16px; height: 1px; background: var(--sage-mid); }
+.gate-title { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; line-height: 1.15; color: var(--brown-deep); margin-bottom: 12px; }
+.gate-title em { font-style: italic; color: var(--sage); }
+.gate-sub { font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.7; margin-bottom: 36px; }
+.gate-preview { background: var(--white); border: 1px solid var(--border); padding: 24px; margin-bottom: 32px; }
+.gate-preview-title { font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+.gate-item { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--brown); font-weight: 300; margin-bottom: 10px; }
+.gate-item::before { content: ''; width: 4px; height: 4px; background: var(--sage-mid); border-radius: 50%; flex-shrink: 0; }
+.gate-item.locked { color: var(--muted); }
+.gate-item.locked::before { background: var(--border); }
+.email-row { display: flex; margin-bottom: 12px; }
+.email-row input { flex: 1; padding: 14px 18px; border: 1px solid var(--border); border-right: none; font-family: 'Jost', sans-serif; font-size: 14px; color: var(--brown); background: var(--white); outline: none; transition: border-color 0.3s; }
+.email-row input:focus { border-color: var(--sage); }
+.email-btn { background: var(--sage-deep); color: var(--white); border: none; padding: 14px 24px; font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; letter-spacing: 0.5px; transition: background 0.3s; }
+.email-btn:hover { background: var(--sage); }
+.gate-trust { font-size: 11px; color: var(--muted); font-weight: 300; margin-bottom: 20px; }
+.gate-skip { font-size: 12px; color: var(--muted); cursor: pointer; text-decoration: underline; background: none; border: none; font-family: 'Jost', sans-serif; padding: 0; transition: color 0.3s; }
+.gate-skip:hover { color: var(--brown); }
 
 /* BILAN */
-.bilan-wrap{max-width:680px;margin:0 auto;padding:48px;}
+.bilan-wrap { max-width: 680px; margin: 0 auto; padding: 48px; }
+.bilan-hero { background: var(--sage-deep); padding: 36px 40px; color: var(--white); margin-bottom: 2px; }
+.bilan-hero-eyebrow { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.6; margin-bottom: 6px; }
+.bilan-hero-title { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; margin-bottom: 6px; line-height: 1.2; }
+.bilan-hero-sub { font-size: 13px; opacity: 0.75; margin-bottom: 24px; font-weight: 300; line-height: 1.6; }
+.bilan-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.bilan-kpi { background: rgba(255,255,255,0.1); padding: 12px 14px; }
+.bilan-kpi-val { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; line-height: 1; }
+.bilan-kpi-label { font-size: 10px; opacity: 0.65; margin-top: 3px; letter-spacing: 0.5px; }
 
-.bilan-hero{background:var(--sage-deep);padding:36px 40px;color:var(--white);margin-bottom:2px;position:relative;overflow:hidden;}
-.bilan-hero::after{content:'';position:absolute;bottom:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.05);}
-.bilan-hero-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:0.6;margin-bottom:6px;}
-.bilan-hero-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;margin-bottom:6px;line-height:1.2;}
-.bilan-hero-sub{font-size:13px;opacity:0.75;margin-bottom:24px;font-weight:300;line-height:1.6;}
-.bilan-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
-.bilan-kpi{background:rgba(255,255,255,0.1);padding:12px 14px;}
-.bilan-kpi-val{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;line-height:1;}
-.bilan-kpi-label{font-size:10px;opacity:0.65;margin-top:3px;letter-spacing:0.5px;}
+.info-card { background: var(--white); border: 1px solid var(--border); padding: 28px 32px; margin-bottom: 2px; }
+.info-card-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--sage-mid); margin-bottom: 8px; }
+.info-card-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--brown-deep); margin-bottom: 16px; }
+.info-card-text { font-size: 14px; font-weight: 300; color: var(--brown-mid); line-height: 1.8; }
 
-/* SCORE CARD */
-.score-card{background:var(--white);border:1px solid var(--border);padding:28px 32px;margin-bottom:2px;}
-.score-card-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--brown-deep);margin-bottom:4px;}
-.score-card-sub{font-size:12px;font-weight:300;color:var(--muted);margin-bottom:24px;}
-.score-bars{display:grid;gap:16px;}
-.score-bar-item{display:grid;gap:6px;}
-.score-bar-top{display:flex;justify-content:space-between;align-items:baseline;}
-.score-bar-name{font-size:13px;font-weight:400;color:var(--brown);}
-.score-bar-val{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--brown-deep);}
-.score-bar-track{height:2px;background:var(--linen);overflow:hidden;}
-.score-bar-fill{height:100%;width:0;transition:width 1.4s cubic-bezier(0.16,1,0.3,1);}
-.fill-low{background:var(--warn);}
-.fill-mid{background:var(--gold);}
-.fill-high{background:var(--sage-mid);}
-.score-bar-comment{font-size:12px;font-weight:300;color:var(--muted);font-style:italic;line-height:1.5;}
+.score-card { background: var(--white); border: 1px solid var(--border); padding: 28px 32px; margin-bottom: 2px; }
+.score-bar-item { display: grid; gap: 6px; margin-bottom: 16px; }
+.score-bar-item:last-child { margin-bottom: 0; }
+.score-bar-top { display: flex; justify-content: space-between; align-items: baseline; }
+.score-bar-name { font-size: 13px; font-weight: 400; color: var(--brown); }
+.score-bar-val { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 300; color: var(--brown-deep); }
+.score-bar-track { height: 2px; background: var(--linen); overflow: hidden; }
+.score-bar-fill { height: 100%; width: 0; transition: width 1.4s ease; }
+.fill-low { background: var(--warn); }
+.fill-mid { background: var(--gold); }
+.fill-high { background: var(--sage-mid); }
+.score-bar-comment { font-size: 12px; font-weight: 300; color: var(--muted); font-style: italic; line-height: 1.5; }
 
-/* INFO CARD */
-.info-card{background:var(--white);border:1px solid var(--border);padding:28px 32px;margin-bottom:2px;}
-.info-card-eyebrow{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--sage-mid);margin-bottom:8px;}
-.info-card-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--brown-deep);margin-bottom:16px;}
-.info-card-text{font-size:14px;font-weight:300;color:var(--brown-mid);line-height:1.8;}
+.chiffres { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 2px; }
+.chiffre { background: var(--white); border: 1px solid var(--border); padding: 24px 28px; }
+.chiffre-val { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--sage-deep); line-height: 1; margin-bottom: 4px; }
+.chiffre-label { font-size: 11px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.chiffre-interp { font-size: 13px; font-weight: 300; color: var(--brown-mid); line-height: 1.6; }
 
-/* CHIFFRES */
-.chiffres{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px;}
-.chiffre{background:var(--white);border:1px solid var(--border);padding:24px 28px;}
-.chiffre-val{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--sage-deep);line-height:1;margin-bottom:4px;}
-.chiffre-label{font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-.chiffre-interp{font-size:13px;font-weight:300;color:var(--brown-mid);line-height:1.6;}
+.bloqueurs-card { background: var(--white); border: 1px solid var(--border); padding: 28px 32px; margin-bottom: 2px; }
+.bloqueurs-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--brown-deep); margin-bottom: 24px; }
+.blk { border-bottom: 1px solid var(--border); padding: 16px 0; }
+.blk:last-child { border-bottom: none; padding-bottom: 0; }
+.blk:first-of-type { padding-top: 0; }
+.blk-badge { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; display: inline-block; margin-bottom: 6px; }
+.blk-badge.critique { background: var(--warn-pale); color: var(--warn); }
+.blk-badge.modere { background: var(--gold-pale); color: #8B6914; }
+.blk-badge.faible { background: var(--sage-mist); color: var(--sage-deep); }
+.blk-title { font-size: 14px; font-weight: 500; color: var(--brown-deep); margin-bottom: 4px; }
+.blk-text { font-size: 13px; font-weight: 300; color: var(--brown-mid); line-height: 1.7; }
 
-/* BLOQUEURS */
-.bloqueurs-card{background:var(--white);border:1px solid var(--border);padding:28px 32px;margin-bottom:2px;}
-.bloqueurs-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--brown-deep);margin-bottom:24px;}
-.blk{border-bottom:1px solid var(--border);padding:16px 0;}
-.blk:last-child{border-bottom:none;padding-bottom:0;}
-.blk:first-child{padding-top:0;}
-.blk-header{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
-.blk-badge{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;flex-shrink:0;}
-.blk-badge.critique{background:var(--warn-pale);color:var(--warn);}
-.blk-badge.modere{background:var(--gold-pale);color:#8B6914;}
-.blk-badge.faible{background:var(--sage-mist);color:var(--sage-deep);}
-.blk-title{font-size:14px;font-weight:500;color:var(--brown-deep);}
-.blk-text{font-size:13px;font-weight:300;color:var(--brown-mid);line-height:1.7;}
-
-/* LOCK */
-.lock-section{position:relative;margin-bottom:2px;}
-.lock-blurred{background:var(--white);border:1px solid var(--border);padding:28px 32px;filter:blur(3px);user-select:none;pointer-events:none;}
-.lock-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(250,248,243,0) 0%,rgba(250,248,243,0.97) 35%);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:20px 32px 32px;text-align:center;}
-.lock-icon{width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:16px;}
-.lock-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--brown-deep);margin-bottom:8px;}
-.lock-sub{font-size:13px;font-weight:300;color:var(--muted);margin-bottom:20px;line-height:1.6;max-width:360px;}
-.lock-feats{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:20px;}
-.lock-feat{font-size:11px;font-weight:500;letter-spacing:0.5px;color:var(--gold);background:var(--gold-pale);padding:4px 12px;}
-.lock-btn{background:var(--sage-deep);color:var(--white);border:none;padding:14px 32px;font-family:'Jost',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;transition:background 0.3s;display:inline-block;text-decoration:none;}
-.lock-btn:hover{background:var(--sage);}
+.lock-section { position: relative; margin-bottom: 2px; }
+.lock-blurred { background: var(--white); border: 1px solid var(--border); padding: 28px 32px; filter: blur(3px); user-select: none; pointer-events: none; }
+.lock-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(250,248,243,0) 0%, rgba(250,248,243,0.97) 35%); display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 20px 32px 32px; text-align: center; }
+.lock-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--brown-deep); margin-bottom: 8px; }
+.lock-sub { font-size: 13px; font-weight: 300; color: var(--muted); margin-bottom: 20px; line-height: 1.6; max-width: 360px; }
+.lock-feats { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 20px; }
+.lock-feat { font-size: 11px; font-weight: 500; letter-spacing: 0.5px; color: var(--gold); background: var(--gold-pale); padding: 4px 12px; }
+.lock-btn { background: var(--sage-deep); color: var(--white); border: none; padding: 14px 32px; font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; letter-spacing: 0.5px; transition: background 0.3s; }
+.lock-btn:hover { background: var(--sage); }
 
 /* MODAL */
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(42,31,15,0.6);z-index:200;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(4px);}
-.modal-bg.open{display:flex;animation:fadeUp 0.3s ease;}
-.modal{background:var(--white);max-width:480px;width:100%;max-height:90vh;overflow-y:auto;position:relative;}
-.modal-top{background:var(--sage-deep);padding:32px 36px;color:var(--white);}
-.modal-top-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:0.6;margin-bottom:8px;}
-.modal-top h2{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:8px;line-height:1.2;}
-.modal-top p{font-size:13px;opacity:0.7;line-height:1.6;font-weight:300;}
-.modal-body{padding:28px 36px;}
+.modal-bg { display: none; position: fixed; inset: 0; background: rgba(42,31,15,0.6); z-index: 200; align-items: center; justify-content: center; padding: 24px; }
+.modal-bg.open { display: flex; }
+.modal { background: var(--white); max-width: 480px; width: 100%; max-height: 90vh; overflow-y: auto; }
+.modal-top { background: var(--sage-deep); padding: 32px 36px; color: var(--white); }
+.modal-top h2 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; margin-bottom: 8px; line-height: 1.2; }
+.modal-top p { font-size: 13px; opacity: 0.7; line-height: 1.6; font-weight: 300; }
+.modal-body { padding: 28px 36px; }
+.modal-testi { background: var(--cream-warm); border-left: 2px solid var(--sage-light); padding: 16px 18px; margin-bottom: 24px; }
+.modal-testi-stars { color: var(--gold); font-size: 11px; letter-spacing: 1.5px; margin-bottom: 6px; }
+.modal-testi-text { font-size: 13px; color: var(--brown); line-height: 1.7; font-style: italic; font-weight: 300; margin-bottom: 6px; }
+.modal-testi-author { font-size: 12px; color: var(--muted); }
+.modal-plan { background: var(--cream); border: 1px solid var(--border); padding: 20px 22px; margin-bottom: 2px; }
+.modal-plan.best { background: var(--white); border-color: var(--sage-deep); }
+.modal-plan-name { font-size: 11px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.modal-plan.best .modal-plan-name { color: var(--sage-deep); }
+.modal-plan-price { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--brown-deep); }
+.modal-plan-period { font-size: 12px; color: var(--muted); margin-bottom: 12px; font-weight: 300; }
+.modal-plan-feat { font-size: 12px; color: var(--brown-mid); display: flex; gap: 8px; font-weight: 300; margin-bottom: 6px; }
+.modal-plan-feat::before { content: '—'; color: var(--sage-mid); flex-shrink: 0; }
+.modal-guarantee { background: var(--sage-mist); padding: 12px 16px; font-size: 12px; color: var(--sage-deep); margin: 16px 0; font-weight: 300; }
+.modal-cta { display: block; width: 100%; border: none; padding: 15px; font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; letter-spacing: 0.5px; text-align: center; margin-bottom: 8px; transition: all 0.3s; text-decoration: none; }
+.modal-cta.primary { background: var(--sage-deep); color: var(--white); }
+.modal-cta.primary:hover { background: var(--sage); }
+.modal-cta.secondary { background: transparent; color: var(--brown); border: 1px solid var(--border); }
+.modal-cta.secondary:hover { border-color: var(--sage); color: var(--sage-deep); }
+.modal-close { font-size: 12px; color: var(--muted); cursor: pointer; display: block; text-align: center; background: none; border: none; font-family: 'Jost', sans-serif; padding: 8px 0; transition: color 0.3s; width: 100%; }
+.modal-close:hover { color: var(--brown); }
 
-.modal-testi{background:var(--cream-warm);border-left:2px solid var(--sage-light);padding:16px 18px;margin-bottom:24px;}
-.modal-testi-stars{color:var(--gold);font-size:11px;letter-spacing:1.5px;margin-bottom:6px;}
-.modal-testi-text{font-size:13px;color:var(--brown);line-height:1.7;font-style:italic;font-weight:300;margin-bottom:6px;}
-.modal-testi-author{font-size:12px;color:var(--muted);}
+.disclaimer { font-size: 11px; color: var(--muted); text-align: center; margin-top: 20px; line-height: 1.6; font-weight: 300; padding: 0 16px; }
 
-.modal-plans{display:grid;gap:2px;margin-bottom:20px;}
-.modal-plan{background:var(--cream);border:1px solid var(--border);padding:20px 22px;transition:border-color 0.3s;}
-.modal-plan.best{background:var(--white);border-color:var(--sage-deep);}
-.modal-plan-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;}
-.modal-plan-name{font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);}
-.modal-plan.best .modal-plan-name{color:var(--sage-deep);}
-.modal-plan-price{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--brown-deep);}
-.modal-plan-period{font-size:12px;color:var(--muted);margin-bottom:12px;font-weight:300;}
-.modal-plan-feats{list-style:none;display:grid;gap:6px;}
-.modal-plan-feats li{font-size:12px;color:var(--brown-mid);display:flex;gap:8px;font-weight:300;}
-.modal-plan-feats li::before{content:'—';color:var(--sage-mid);flex-shrink:0;}
-
-.modal-guarantee{background:var(--sage-mist);padding:12px 16px;font-size:12px;color:var(--sage-deep);margin-bottom:16px;font-weight:300;}
-.modal-cta-main{display:block;width:100%;background:var(--sage-deep);color:var(--white);border:none;padding:15px;font-family:'Jost',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;text-align:center;margin-bottom:8px;transition:background 0.3s;text-decoration:none;}
-.modal-cta-main:hover{background:var(--sage);}
-.modal-cta-sec{display:block;width:100%;background:transparent;color:var(--brown);border:1px solid var(--border);padding:13px;font-family:'Jost',sans-serif;font-size:13px;letter-spacing:0.5px;text-align:center;margin-bottom:16px;transition:all 0.3s;text-decoration:none;}
-.modal-cta-sec:hover{border-color:var(--sage);color:var(--sage-deep);}
-.modal-close{font-size:12px;color:var(--muted);display:block;text-align:center;background:none;border:none;font-family:'Jost',sans-serif;padding:0;transition:color 0.3s;}
-.modal-close:hover{color:var(--brown);}
-
-.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--sage-deep);color:var(--white);padding:14px 28px;font-size:13px;font-weight:400;letter-spacing:0.3px;z-index:300;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);white-space:nowrap;}
-.toast.show{transform:translateX(-50%) translateY(0);}
-
-.disclaimer{font-size:11px;color:var(--muted);text-align:center;margin-top:20px;line-height:1.6;font-weight:300;padding:0 16px;}
-
-@media(max-width:768px){
-  .header{padding:16px 20px;}
-  .form-wrap,.welcome,.email-gate,.loading-wrap,.bilan-wrap{padding:40px 20px;}
-  .field-grid,.chiffres,.bilan-kpis{grid-template-columns:1fr;}
-  .choices.two{grid-template-columns:1fr;}
-  .pillars{grid-template-columns:1fr;}
-  .modal-body{padding:20px 24px;}
-  .modal-top{padding:24px 28px;}
+@media(max-width: 768px) {
+  .header { padding: 16px 20px; }
+  .form-wrap, .welcome, .gate-wrap, .loading-wrap, .bilan-wrap { padding: 40px 20px; }
+  .field-grid, .chiffres, .bilan-kpis { grid-template-columns: 1fr; }
+  .choices.two { grid-template-columns: 1fr; }
+  .pillars { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 
-
-
 <div class="header">
   <a href="equilib-landing.html" class="logo">Equi<em>lib</em></a>
-  <div class="header-right">
-    <span class="step-indicator" id="step-indicator" style="display:none">Étape <span id="step-num">1</span> sur 6</span>
-  </div>
+  <span class="step-indicator" id="step-indicator" style="display:none">Étape <span id="step-num">1</span> sur 6</span>
 </div>
-
-<div class="progress-wrap" id="progress-wrap">
+<div class="progress-wrap" id="progress-wrap" style="display:none">
   <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
 </div>
 
-<!-- S0 WELCOME -->
+<!-- ÉCRAN 0 : ACCUEIL -->
 <div class="screen active" id="s0">
   <div class="welcome">
     <div class="welcome-eyebrow">Bilan personnalisé gratuit</div>
     <h1>Comprendre ce qui<br><em>bloque vraiment.</em></h1>
-    <p>En cinq minutes, notre analyse identifie précisément ce qui freine ta progression — et te propose un chemin qui te ressemble, sans frustration.</p>
+    <p>En cinq minutes, notre analyse identifie précisément ce qui freine ta progression et te propose un chemin qui te ressemble, sans frustration.</p>
     <div class="pillars">
       <div class="pillar"><div class="pillar-num">01</div><div class="pillar-title">Diagnostic</div><div class="pillar-sub">Ce qui bloque vraiment</div></div>
       <div class="pillar"><div class="pillar-num">02</div><div class="pillar-title">Tes chiffres</div><div class="pillar-sub">Expliqués clairement</div></div>
       <div class="pillar"><div class="pillar-num">03</div><div class="pillar-title">Plan sur mesure</div><div class="pillar-sub">Adapté à ta vie</div></div>
     </div>
-    <div class="consent-wrap">
-      <label class="consent-row" for="consent-input" style="cursor:pointer">
-        <input type="checkbox" id="consent-input" onchange="consentGiven=this.checked;document.getElementById('consent-err').classList.remove('show')" style="width:20px;height:20px;cursor:pointer;accent-color:#2D5016;flex-shrink:0;margin-top:2px">
-        <div class="consent-text-label">J'accepte que mes données de santé (poids, habitudes, stress, sommeil) soient analysées par Equilib pour générer mon bilan personnalisé. <a href="equilib-confidentialite.html" target="_blank" onclick="event.stopPropagation()">Politique de confidentialité</a></div>
+    <div class="consent-box">
+      <label class="consent-label">
+        <input type="checkbox" id="consent-check">
+        <span class="consent-text">J'accepte que mes données de santé (poids, habitudes, stress, sommeil) soient analysées par Equilib pour générer mon bilan personnalisé. <a href="equilib-confidentialite.html" target="_blank">Politique de confidentialité</a></span>
       </label>
-      <div class="consent-note">Tes données ne sont jamais revendues ni utilisées à des fins publicitaires. Retrait possible à tout moment via jieasymn@gmail.com — Art. 9 RGPD.</div>
+      <div class="consent-note">Tes données ne sont jamais revendues ni utilisées à des fins publicitaires. Retrait possible à tout moment — Art. 9 RGPD.</div>
       <div class="consent-err" id="consent-err">Merci de cocher cette case pour continuer.</div>
     </div>
-    <button class="btn-main" onclick="startWithConsent()"><span>Commencer mon bilan gratuit</span><span class="arr">→</span></button>
+    <button class="btn-main" onclick="startQuestionnaire()"><span>Commencer mon bilan gratuit</span><span class="arr">→</span></button>
     <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:14px;font-weight:300;">Sans inscription · 100% confidentiel · 2 400 bilans réalisés</p>
   </div>
 </div>
 
-<!-- S1 PROFIL -->
+<!-- ÉCRAN 1 : PROFIL -->
 <div class="screen" id="s1">
   <div class="form-wrap">
-    <button class="btn-back" onclick="goTo(0)">← Retour</button>
-    <div class="form-step-tag">Profil</div>
+    <button class="btn-back" onclick="showScreen(0)">← Retour</button>
+    <div class="step-tag">Profil</div>
     <h2 class="form-title">Parle-nous<br>de <em>toi</em></h2>
-    <p class="form-sub">Ces données servent uniquement à calculer ton bilan. Elles restent strictement confidentielles.</p>
+    <p class="form-sub">Ces données servent uniquement à calculer ton bilan.</p>
     <div class="field-grid">
       <div class="field"><label>Âge</label><input type="number" id="age" placeholder="38" min="18" max="90"></div>
       <div class="field"><label>Sexe</label><select id="sex"><option value="">Sélectionner</option><option value="f">Femme</option><option value="m">Homme</option><option value="nb">Autre</option></select></div>
@@ -339,432 +306,423 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
       <div class="field"><label>Poids actuel (kg)</label><input type="number" id="weight" placeholder="72"></div>
     </div>
     <div class="field"><label>Poids souhaité (kg)</label><input type="number" id="goal" placeholder="60"></div>
-    <button class="btn-main" onclick="step1Next()"><span>Continuer</span><span class="arr">→</span></button>
+    <button class="btn-main" onclick="validateStep1()"><span>Continuer</span><span class="arr">→</span></button>
   </div>
 </div>
 
-<!-- S2 APPROCHE -->
+<!-- ÉCRAN 2 : APPROCHE -->
 <div class="screen" id="s2">
   <div class="form-wrap">
-    <button class="btn-back" onclick="goTo(1)">← Retour</button>
-    <div class="form-step-tag">Approche</div>
+    <button class="btn-back" onclick="showScreen(1)">← Retour</button>
+    <div class="step-tag">Approche</div>
     <h2 class="form-title">Quelle méthode<br>te <em>correspond</em> ?</h2>
-    <p class="form-sub">Il n'y a pas de bonne ou mauvaise réponse. On part de ce qui te parle.</p>
-    <div class="choices" id="approche">
-      <div class="choice" style="cursor:pointer" onclick="pick('approche','if',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Jeûne intermittent</div><div class="choice-sub">Manger sur une fenêtre de 8h, sans compter les calories au quotidien</div></div></div>
-      <div class="choice" style="cursor:pointer" onclick="pick('approche','rqlib',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Rééquilibrage alimentaire</div><div class="choice-sub">Manger mieux progressivement, sans interdits ni frustration</div></div></div>
-      <div class="choice" style="cursor:pointer" onclick="pick('approche','classique',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Déficit calorique progressif</div><div class="choice-sub">Réduire les apports de façon mesurée et sustainable</div></div></div>
-      <div class="choice" style="cursor:pointer" onclick="pick('approche','sais-pas',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Je ne sais pas encore</div><div class="choice-sub">Laisser Equilib recommander la meilleure approche pour mon profil</div></div></div>
+    <p class="form-sub">Il n'y a pas de bonne ou mauvaise réponse.</p>
+    <div class="choices" id="choices-approche">
+      <div class="choice" onclick="selectChoice('approche','if',this)"><div class="choice-check"></div><div><div class="choice-title">Jeûne intermittent</div><div class="choice-sub">Manger sur une fenêtre de 8h, sans compter les calories au quotidien</div></div></div>
+      <div class="choice" onclick="selectChoice('approche','rqlib',this)"><div class="choice-check"></div><div><div class="choice-title">Rééquilibrage alimentaire</div><div class="choice-sub">Manger mieux progressivement, sans interdits ni frustration</div></div></div>
+      <div class="choice" onclick="selectChoice('approche','classique',this)"><div class="choice-check"></div><div><div class="choice-title">Déficit calorique progressif</div><div class="choice-sub">Réduire les apports de façon mesurée et sustainable</div></div></div>
+      <div class="choice" onclick="selectChoice('approche','sais-pas',this)"><div class="choice-check"></div><div><div class="choice-title">Je ne sais pas encore</div><div class="choice-sub">Laisser Equilib recommander la meilleure approche pour mon profil</div></div></div>
     </div>
-    <button class="btn-main" id="btn2" onclick="goTo(3)" disabled><span>Continuer</span><span class="arr">→</span></button>
+    <button class="btn-main" id="btn-s2" onclick="showScreen(3)" disabled><span>Continuer</span><span class="arr">→</span></button>
   </div>
 </div>
 
-<!-- S3 ALIMENTATION -->
+<!-- ÉCRAN 3 : ALIMENTATION -->
 <div class="screen" id="s3">
   <div class="form-wrap">
-    <button class="btn-back" onclick="goTo(2)">← Retour</button>
-    <div class="form-step-tag">Alimentation</div>
+    <button class="btn-back" onclick="showScreen(2)">← Retour</button>
+    <div class="step-tag">Alimentation</div>
     <h2 class="form-title">Tes habitudes<br><em>alimentaires</em></h2>
-    <p class="form-sub">Coche tout ce qui te correspond régulièrement. C'est important pour la précision du diagnostic.</p>
+    <p class="form-sub">Coche tout ce qui te correspond régulièrement.</p>
     <div class="checks" id="alim-checks">
-      <label class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div>Je saute souvent le petit-déjeuner</label>
-      <label class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div>Je grignote entre les repas</label>
-      <label class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div>Je mange souvent devant un écran</label>
-      <label class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div>Je mange au restaurant ou en livraison trois fois par semaine ou plus</label>
-      <label class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div>J'ai des fringales sucrées, surtout le soir</label>
-      <label class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div>Je ne bois pas assez d'eau</label>
-      <label class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div>Je mange rapidement, sans vraiment savourer</label>
-      <label class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div>J'ai déjà fait plusieurs régimes sans résultat durable</label>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>Je saute souvent le petit-déjeuner</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>Je grignote entre les repas</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>Je mange souvent devant un écran</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>Je mange au restaurant ou en livraison régulièrement</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>J'ai des fringales sucrées, surtout le soir</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>Je ne bois pas assez d'eau</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>Je mange rapidement, sans vraiment savourer</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>J'ai déjà fait plusieurs régimes sans résultat durable</span></div>
     </div>
-    <button class="btn-main" onclick="goTo(4)"><span>Continuer</span><span class="arr">→</span></button>
+    <button class="btn-main" onclick="showScreen(4)"><span>Continuer</span><span class="arr">→</span></button>
   </div>
 </div>
 
-<!-- S4 LIFESTYLE -->
+<!-- ÉCRAN 4 : LIFESTYLE -->
 <div class="screen" id="s4">
   <div class="form-wrap">
-    <button class="btn-back" onclick="goTo(3)">← Retour</button>
-    <div class="form-step-tag">Mode de vie</div>
+    <button class="btn-back" onclick="showScreen(3)">← Retour</button>
+    <div class="step-tag">Mode de vie</div>
     <h2 class="form-title">Ton quotidien<br>en <em>détail</em></h2>
-    <p class="form-sub">Le stress et le sommeil influencent directement la prise de poids — c'est prouvé scientifiquement.</p>
-
-    <div class="form-step-tag" style="margin-top:0;margin-bottom:16px">Activité physique</div>
-    <div class="choices two" id="activite" style="margin-bottom:28px;">
-      <div class="choice" onclick="pick('activite','sed',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Sédentaire</div><div class="choice-sub">Bureau, peu de marche</div></div></div>
-      <div class="choice" onclick="pick('activite','leger',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Léger</div><div class="choice-sub">Marche quotidienne</div></div></div>
-      <div class="choice" onclick="pick('activite','mod',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Modéré</div><div class="choice-sub">Sport 2-3 fois par semaine</div></div></div>
-      <div class="choice" onclick="pick('activite','actif',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Très actif</div><div class="choice-sub">Sport intense 4 fois ou plus</div></div></div>
+    <p class="form-sub">Le stress et le sommeil influencent directement la prise de poids.</p>
+    <div class="step-tag" style="margin-bottom:16px">Activité physique</div>
+    <div class="choices two" id="choices-activite" style="margin-bottom:28px">
+      <div class="choice" onclick="selectChoice('activite','sed',this)"><div class="choice-check"></div><div><div class="choice-title">Sédentaire</div><div class="choice-sub">Bureau, peu de marche</div></div></div>
+      <div class="choice" onclick="selectChoice('activite','leger',this)"><div class="choice-check"></div><div><div class="choice-title">Léger</div><div class="choice-sub">Marche quotidienne</div></div></div>
+      <div class="choice" onclick="selectChoice('activite','mod',this)"><div class="choice-check"></div><div><div class="choice-title">Modéré</div><div class="choice-sub">Sport 2-3 fois/semaine</div></div></div>
+      <div class="choice" onclick="selectChoice('activite','actif',this)"><div class="choice-check"></div><div><div class="choice-title">Très actif</div><div class="choice-sub">Sport intense 4+ fois</div></div></div>
     </div>
-
-    <div class="form-step-tag" style="margin-bottom:16px">Niveau de stress</div>
-    <div class="choices two" id="stress" style="margin-bottom:28px;">
-      <div class="choice" onclick="pick('stress','faible',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Faible</div></div></div>
-      <div class="choice" onclick="pick('stress','mod',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Modéré</div></div></div>
-      <div class="choice" onclick="pick('stress','eleve',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Élevé</div></div></div>
-      <div class="choice" onclick="pick('stress','chron',this)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Chronique</div></div></div>
+    <div class="step-tag" style="margin-bottom:16px">Niveau de stress</div>
+    <div class="choices two" id="choices-stress" style="margin-bottom:28px">
+      <div class="choice" onclick="selectChoice('stress','faible',this)"><div class="choice-check"></div><div><div class="choice-title">Faible</div></div></div>
+      <div class="choice" onclick="selectChoice('stress','mod',this)"><div class="choice-check"></div><div><div class="choice-title">Modéré</div></div></div>
+      <div class="choice" onclick="selectChoice('stress','eleve',this)"><div class="choice-check"></div><div><div class="choice-title">Élevé</div></div></div>
+      <div class="choice" onclick="selectChoice('stress','chron',this)"><div class="choice-check"></div><div><div class="choice-title">Chronique</div></div></div>
     </div>
-
-    <div class="form-step-tag" style="margin-bottom:16px">Sommeil par nuit</div>
+    <div class="step-tag" style="margin-bottom:16px">Sommeil par nuit</div>
     <div class="slider-wrap">
-      <div class="slider-display"><span class="slider-val" id="sleep-val">7</span><span class="slider-unit">heures</span></div>
+      <div class="slider-val-display"><span class="slider-val" id="sleep-val">7</span><span class="slider-unit">heures</span></div>
       <input type="range" min="4" max="10" value="7" step="0.5" oninput="document.getElementById('sleep-val').textContent=this.value">
       <div class="slider-labels"><span>4h</span><span>10h</span></div>
     </div>
-    <button class="btn-main" id="btn4" onclick="step4Next()" disabled><span>Continuer</span><span class="arr">→</span></button>
+    <button class="btn-main" id="btn-s4" onclick="showScreen(5)" disabled><span>Continuer</span><span class="arr">→</span></button>
   </div>
 </div>
 
-<!-- S5 OBSTACLES -->
+<!-- ÉCRAN 5 : OBSTACLES -->
 <div class="screen" id="s5">
   <div class="form-wrap">
-    <button class="btn-back" onclick="goTo(4)">← Retour</button>
-    <div class="form-step-tag">Obstacles</div>
+    <button class="btn-back" onclick="showScreen(4)">← Retour</button>
+    <div class="step-tag">Obstacles</div>
     <h2 class="form-title">Ce qui t'a<br><em>bloqué</em> jusqu'ici</h2>
-    <p class="form-sub">Choisis jusqu'à trois réponses. Elles guideront la précision de ton diagnostic.</p>
-    <div class="choices" id="obstacles">
-      <div class="choice" onclick="pickMulti('obstacles',this,3)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">La frustration et les envies</div><div class="choice-sub">Impossible de tenir sur la durée</div></div></div>
-      <div class="choice" onclick="pickMulti('obstacles',this,3)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Le manque de temps</div><div class="choice-sub">Cuisiner, faire du sport, se préparer</div></div></div>
-      <div class="choice" onclick="pickMulti('obstacles',this,3)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Le stress et les émotions</div><div class="choice-sub">Manger pour se réconforter</div></div></div>
-      <div class="choice" onclick="pickMulti('obstacles',this,3)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">La fatigue</div><div class="choice-sub">Pas l'énergie de changer ses habitudes</div></div></div>
-      <div class="choice" onclick="pickMulti('obstacles',this,3)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">Trop d'informations contradictoires</div><div class="choice-sub">Ne plus savoir quoi croire</div></div></div>
-      <div class="choice" onclick="pickMulti('obstacles',this,3)"><div class="choice-check"></div><div class="choice-content"><div class="choice-title">La stagnation malgré les efforts</div><div class="choice-sub">Le plateau impossible à franchir</div></div></div>
+    <p class="form-sub">Choisis jusqu'à trois réponses.</p>
+    <div class="choices" id="choices-obstacles">
+      <div class="choice" onclick="selectMulti('obstacles',this,3)"><div class="choice-check"></div><div><div class="choice-title">La frustration et les envies</div><div class="choice-sub">Impossible de tenir sur la durée</div></div></div>
+      <div class="choice" onclick="selectMulti('obstacles',this,3)"><div class="choice-check"></div><div><div class="choice-title">Le manque de temps</div><div class="choice-sub">Cuisiner, faire du sport, se préparer</div></div></div>
+      <div class="choice" onclick="selectMulti('obstacles',this,3)"><div class="choice-check"></div><div><div class="choice-title">Le stress et les émotions</div><div class="choice-sub">Manger pour se réconforter</div></div></div>
+      <div class="choice" onclick="selectMulti('obstacles',this,3)"><div class="choice-check"></div><div><div class="choice-title">La fatigue</div><div class="choice-sub">Pas l'énergie de changer ses habitudes</div></div></div>
+      <div class="choice" onclick="selectMulti('obstacles',this,3)"><div class="choice-check"></div><div><div class="choice-title">Trop d'informations contradictoires</div><div class="choice-sub">Ne plus savoir quoi croire</div></div></div>
+      <div class="choice" onclick="selectMulti('obstacles',this,3)"><div class="choice-check"></div><div><div class="choice-title">La stagnation malgré les efforts</div><div class="choice-sub">Le plateau impossible à franchir</div></div></div>
     </div>
-    <button class="btn-main" id="btn5" onclick="startGen()" disabled><span>Générer mon bilan</span><span class="arr">→</span></button>
+    <button class="btn-main" id="btn-s5" onclick="lancerGeneration()" disabled><span>Générer mon bilan</span><span class="arr">→</span></button>
   </div>
 </div>
 
-<!-- S6 LOADING -->
+<!-- ÉCRAN 6 : LOADING -->
 <div class="screen" id="s6">
   <div class="loading-wrap">
     <div class="spinner"></div>
     <div class="loading-title">Analyse en cours</div>
     <p class="loading-sub">Ton profil est analysé selon les dernières recherches en nutrition et comportement alimentaire.</p>
-    <div class="loading-steps" id="lsteps"></div>
+    <div id="lsteps"></div>
   </div>
 </div>
 
-<!-- S6b EMAIL GATE -->
+<!-- ÉCRAN 6b : EMAIL GATE -->
 <div class="screen" id="s6b">
-  <div class="email-gate">
+  <div class="gate-wrap">
     <div class="gate-eyebrow">Bilan prêt</div>
     <h2 class="gate-title">Ton bilan est<br><em>prêt.</em></h2>
-    <p class="gate-sub">Entre ton adresse pour recevoir ton bilan et le relire à tout moment. Ou continue directement pour le voir maintenant.</p>
+    <p class="gate-sub">Entre ton adresse pour recevoir ton bilan par email ou continue directement.</p>
     <div class="gate-preview">
       <div class="gate-preview-title">Contenu de ton bilan gratuit</div>
-      <div class="gate-items">
-        <div class="gate-item">Ton diagnostic personnalisé</div>
-        <div class="gate-item">Tes quatre scores détaillés et interprétés</div>
-        <div class="gate-item">Métabolisme de base et dépense totale expliqués</div>
-        <div class="gate-item">Les bloqueurs identifiés dans ton profil</div>
-        <div class="gate-item locked">Plan d'action complet (version premium)</div>
-        <div class="gate-item locked">Menus sur quatre semaines (version premium)</div>
-      </div>
+      <div class="gate-item">Ton diagnostic personnalisé</div>
+      <div class="gate-item">Tes quatre scores détaillés et interprétés</div>
+      <div class="gate-item">Métabolisme et calories expliqués</div>
+      <div class="gate-item">Les bloqueurs identifiés</div>
+      <div class="gate-item locked">Plan d'action complet (premium)</div>
+      <div class="gate-item locked">Menus sur quatre semaines (premium)</div>
     </div>
-    <div class="email-input-row">
+    <div class="email-row">
       <input type="email" id="email-input" placeholder="ton@email.com">
-      <button class="email-submit" onclick="submitEmail()">Voir mon bilan →</button>
+      <button class="email-btn" onclick="submitEmail()">Voir mon bilan →</button>
     </div>
     <div class="gate-trust">Pas de spam · Désabonnement en un clic · Gratuit</div>
-    <button class="gate-skip" onclick="skipEmail()">Continuer sans email</button>
+    <button class="gate-skip" onclick="showBilan()">Continuer sans email</button>
   </div>
 </div>
 
-<!-- S7 BILAN -->
+<!-- ÉCRAN 7 : BILAN -->
 <div class="screen" id="s7">
   <div class="bilan-wrap" id="bilan-content"></div>
 </div>
 
-<!-- MODAL -->
+<!-- MODAL PAYWALL -->
 <div class="modal-bg" id="modal">
   <div class="modal">
     <div class="modal-top">
-      <div class="modal-top-eyebrow">Plan complet</div>
       <h2>Ton programme<br>personnalisé</h2>
-      <p>Approche recommandée, plan d'action, menus, coach — tout pour progresser sans frustration.</p>
+      <p>Approche, plan d'action, menus, coach — tout pour progresser sans frustration.</p>
     </div>
     <div class="modal-body">
       <div class="modal-testi">
         <div class="modal-testi-stars">★★★★★</div>
         <div class="modal-testi-text">Le diagnostic m'a montré que mon problème venait du stress, pas de ce que je mangeais. Ça a tout changé.</div>
-        <div class="modal-testi-author">Sophie M. — 38 ans, a perdu 6 kg en trois mois</div>
+        <div class="modal-testi-author">Sophie M. — 38 ans, -6 kg en trois mois</div>
       </div>
-      <div class="modal-plans">
-        <div class="modal-plan">
-          <div class="modal-plan-header"><span class="modal-plan-name">Mensuel</span><span class="modal-plan-price">€9,99</span></div>
-          <div class="modal-plan-period">par mois · résiliable à tout moment</div>
-          <ul class="modal-plan-feats"><li>Plan d'action semaine par semaine</li><li>Menus adaptés à tes préférences</li><li>Coach illimité 24h/24</li><li>Suivi hebdomadaire</li></ul>
-        </div>
-        <div class="modal-plan best">
-          <div class="modal-plan-header"><span class="modal-plan-name">Trimestriel — économise 33%</span><span class="modal-plan-price">€19,99</span></div>
-          <div class="modal-plan-period">tous les trois mois · soit 6,66€/mois</div>
-          <ul class="modal-plan-feats"><li>Tout le plan mensuel</li><li>Coach illimité 24h/24</li><li>Nouveau bilan à quatre semaines</li><li>Suivi hebdomadaire</li></ul>
-        </div>
+      <div class="modal-plan">
+        <div class="modal-plan-name">Mensuel</div>
+        <div class="modal-plan-price">9,99€</div>
+        <div class="modal-plan-period">par mois · résiliable à tout moment</div>
+        <div class="modal-plan-feat">Plan d'action semaine par semaine</div>
+        <div class="modal-plan-feat">Menus adaptés à tes préférences</div>
+        <div class="modal-plan-feat">Coach illimité 24h/24</div>
+      </div>
+      <div class="modal-plan best">
+        <div class="modal-plan-name">Trimestriel — économise 33%</div>
+        <div class="modal-plan-price">19,99€</div>
+        <div class="modal-plan-period">tous les trois mois · soit 6,66€/mois</div>
+        <div class="modal-plan-feat">Tout le plan mensuel</div>
+        <div class="modal-plan-feat">Nouveau bilan à quatre semaines</div>
+        <div class="modal-plan-feat">Suivi hebdomadaire</div>
       </div>
       <div class="modal-guarantee">Satisfaite ou remboursée — quatorze jours, sans question</div>
-      <a href="https://buy.stripe.com/cNifZjbnd3Vjb24fwJg3601" class="modal-cta-main" target="_blank" onclick="trackEvent('modal_trimestriel_click')">Plan trimestriel — €19,99 →</a>
-      <a href="https://buy.stripe.com/eVq14pbnd0J70nq3O1g3600" class="modal-cta-sec" target="_blank" onclick="trackEvent('modal_mensuel_click')">Plan mensuel — €9,99/mois</a>
-      <button class="modal-close" onclick="closeModal()">Non merci, rester sur le bilan gratuit</button>
+      <a href="https://buy.stripe.com/cNifZjbnd3Vjb24fwJg3601" class="modal-cta primary" target="_blank">Plan trimestriel — 19,99€ →</a>
+      <a href="https://buy.stripe.com/eVq14pbnd0J70nq3O1g3600" class="modal-cta secondary" target="_blank">Plan mensuel — 9,99€/mois</a>
+      <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">Non merci, rester sur le bilan gratuit</button>
     </div>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
-
 <script>
-// CURSOR
-const cursor=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
-document.addEventListener('mousemove',e=>{
-  cursor.style.left=(e.clientX-4)+'px';cursor.style.top=(e.clientY-4)+'px';
-  ring.style.left=(e.clientX-18)+'px';ring.style.top=(e.clientY-18)+'px';
-});
-document.querySelectorAll('a,button,.choice,.check-item,.prob-card').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cursor.style.transform='scale(2.5)';ring.style.transform='scale(1.5)';ring.style.opacity='0.3';});
-  el.addEventListener('mouseleave',()=>{cursor.style.transform='scale(1)';ring.style.transform='scale(1)';ring.style.opacity='0.6';});
-});
+// ============================================
+// DONNÉES
+// ============================================
+var DATA = {};
+var selections = {};
+var multiSelections = {};
+var bilanData = null;
+var actFactors = { sed: 1.2, leger: 1.375, mod: 1.55, actif: 1.725 };
 
-const DATA={},picks={},multiPicks={};
-const actFactors={sed:1.2,leger:1.375,mod:1.55,actif:1.725};
-let bilanData=null,consentGiven=false;
+// ============================================
+// NAVIGATION
+// ============================================
+function showScreen(n) {
+  var screens = document.querySelectorAll('.screen');
+  for (var i = 0; i < screens.length; i++) {
+    screens[i].classList.remove('active');
+    screens[i].style.display = 'none';
+  }
+  var target = document.getElementById('s' + n);
+  if (!target) { console.error('Écran s' + n + ' introuvable'); return; }
+  target.style.display = 'block';
+  target.classList.add('active');
 
-function goTo(n){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('s'+n).classList.add('active');
-  const pw=document.getElementById('progress-wrap');
-  const si=document.getElementById('step-indicator');
-  if(n===0){pw.style.display='none';si.style.display='none';return;}
-  pw.style.display='block';si.style.display='inline';
-  const step=n==='6b'?6:+n;
-  document.getElementById('progress-fill').style.width=Math.round((step/7)*100)+'%';
-  document.getElementById('step-num').textContent=Math.min(step,6);
-  window.scrollTo(0,0);
-  if(typeof n==='number') trackEvent('questionnaire_step',{step:n});
+  var pw = document.getElementById('progress-wrap');
+  var si = document.getElementById('step-indicator');
+  if (n === 0 || n === '0') {
+    pw.style.display = 'none';
+    si.style.display = 'none';
+  } else {
+    pw.style.display = 'block';
+    si.style.display = 'inline';
+    var step = n === '6b' ? 6 : parseInt(n);
+    document.getElementById('progress-fill').style.width = Math.round((step / 7) * 100) + '%';
+    document.getElementById('step-num').textContent = Math.min(step, 6);
+  }
+  window.scrollTo(0, 0);
 }
 
-function toggleConsent(){
-  consentGiven=!consentGiven;
-  const cb=document.getElementById('consent-cb');
-  const err=document.getElementById('consent-err');
-  cb.classList.toggle('checked',consentGiven);
-  if(consentGiven){cb.classList.remove('error');err.classList.remove('show');}
-}
-
-function startWithConsent(){
-  consentGiven = document.getElementById('consent-input').checked;
-  if(!consentGiven){
-    document.getElementById('consent-err').classList.add('show');
-    document.getElementById('consent-input').style.outline='2px solid #C9773A';
+// ============================================
+// ÉTAPE 0 : CONSENTEMENT
+// ============================================
+function startQuestionnaire() {
+  var cb = document.getElementById('consent-check');
+  var err = document.getElementById('consent-err');
+  if (!cb.checked) {
+    err.classList.add('show');
     return;
   }
-  trackEvent('consent_given');trackEvent('questionnaire_start');goTo(1);
+  err.classList.remove('show');
+  if (typeof gtag !== 'undefined') gtag('event', 'questionnaire_start');
+  showScreen(1);
 }
 
-function pick(g,v,el){
-  document.querySelectorAll('#'+g+' .choice').forEach(c=>c.classList.remove('selected'));
-  el.classList.add('selected');picks[g]=v;
-  if(g==='approche')document.getElementById('btn2').disabled=false;
-  if(g==='activite'||g==='stress'){if(picks['activite']&&picks['stress'])document.getElementById('btn4').disabled=false;}
+// ============================================
+// ÉTAPE 1 : PROFIL
+// ============================================
+function validateStep1() {
+  var age = parseInt(document.getElementById('age').value);
+  var sex = document.getElementById('sex').value;
+  var height = parseInt(document.getElementById('height').value);
+  var weight = parseFloat(document.getElementById('weight').value);
+  var goal = parseFloat(document.getElementById('goal').value);
+
+  if (!age || age < 18 || age > 90) { alert('Merci d\'entrer un âge valide (18-90 ans).'); return; }
+  if (!sex) { alert('Merci de sélectionner ton sexe.'); return; }
+  if (!height || height < 140 || height > 220) { alert('Merci d\'entrer une taille valide (140-220 cm).'); return; }
+  if (!weight || weight < 40 || weight > 300) { alert('Merci d\'entrer un poids valide.'); return; }
+  if (!goal || goal < 40 || goal >= weight) { alert('L\'objectif doit être inférieur à ton poids actuel.'); return; }
+
+  DATA.age = age; DATA.sex = sex; DATA.height = height; DATA.weight = weight; DATA.goal = goal;
+  DATA.imc = parseFloat((weight / Math.pow(height / 100, 2)).toFixed(1));
+  if (sex === 'f') DATA.tmb = Math.round(10 * weight + 6.25 * height - 5 * age - 161);
+  else DATA.tmb = Math.round(10 * weight + 6.25 * height - 5 * age + 5);
+  showScreen(2);
 }
 
-function pickMulti(g,el,max){
-  if(!multiPicks[g])multiPicks[g]=[];
-  if(el.classList.contains('selected')){el.classList.remove('selected');multiPicks[g]=multiPicks[g].filter(e=>e!==el);}
-  else{if(multiPicks[g].length>=max)return;el.classList.add('selected');multiPicks[g].push(el);}
-  document.getElementById('btn5').disabled=multiPicks[g].length===0;
+// ============================================
+// CHOIX UNIQUES
+// ============================================
+function selectChoice(group, value, el) {
+  var container = document.getElementById('choices-' + group);
+  if (!container) return;
+  var items = container.querySelectorAll('.choice');
+  for (var i = 0; i < items.length; i++) items[i].classList.remove('selected');
+  el.classList.add('selected');
+  selections[group] = value;
+  if (group === 'approche') document.getElementById('btn-s2').disabled = false;
+  if (group === 'activite' || group === 'stress') {
+    if (selections['activite'] && selections['stress']) document.getElementById('btn-s4').disabled = false;
+  }
 }
 
-function toggleCheck(el){el.classList.toggle('checked');}
-
-function step1Next(){
-  const age=document.getElementById('age').value,sex=document.getElementById('sex').value,
-    h=document.getElementById('height').value,w=document.getElementById('weight').value,g=document.getElementById('goal').value;
-  if(!age||!sex||!h||!w||!g){alert('Merci de remplir tous les champs.');return;}
-  DATA.age=+age;DATA.sex=sex;DATA.height=+h;DATA.weight=+w;DATA.goal=+g;
-  DATA.imc=+(DATA.weight/(DATA.height/100)**2).toFixed(1);
-  DATA.aPerdi=+(DATA.weight-DATA.goal).toFixed(1);
-  if(sex==='f')DATA.tmb=Math.round(10*DATA.weight+6.25*DATA.height-5*DATA.age-161);
-  else DATA.tmb=Math.round(10*DATA.weight+6.25*DATA.height-5*DATA.age+5);
-  trackEvent('profile_complete',{age:DATA.age,imc:DATA.imc});
-  goTo(2);
+// ============================================
+// CHOIX MULTIPLES
+// ============================================
+function selectMulti(group, el, max) {
+  if (!multiSelections[group]) multiSelections[group] = [];
+  if (el.classList.contains('selected')) {
+    el.classList.remove('selected');
+    multiSelections[group] = multiSelections[group].filter(function(e) { return e !== el; });
+  } else {
+    if (multiSelections[group].length >= max) return;
+    el.classList.add('selected');
+    multiSelections[group].push(el);
+  }
+  document.getElementById('btn-s5').disabled = multiSelections[group].length === 0;
 }
 
-function step4Next(){DATA.sleep=document.getElementById('sleep-val').textContent+'h';goTo(5);}
-function getAlim(){return Array.from(document.querySelectorAll('#alim-checks .check-item.checked')).map(c=>c.textContent.trim());}
-function getObs(){return multiPicks['obstacles']?multiPicks['obstacles'].map(el=>el.querySelector('.choice-title').textContent.trim()):[]; }
-function openModal(){document.getElementById('modal').classList.add('open');trackEvent('paywall_shown');}
-function closeModal(){document.getElementById('modal').classList.remove('open');}
+function toggleCheck(el) { el.classList.toggle('checked'); }
 
-function showToast(msg){
-  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
-}
+// ============================================
+// GÉNÉRATION DU BILAN
+// ============================================
+async function lancerGeneration() {
+  DATA.approche = selections['approche'] || 'sais-pas';
+  DATA.activite = selections['activite'] || 'sed';
+  DATA.stress = selections['stress'] || 'mod';
+  DATA.sleep = document.getElementById('sleep-val').textContent + 'h';
+  DATA.tdee = Math.round(DATA.tmb * (actFactors[DATA.activite] || 1.375));
+  DATA.alim = Array.from(document.querySelectorAll('#alim-checks .check-item.checked span')).map(function(s) { return s.textContent.trim(); });
+  DATA.obstacles = (multiSelections['obstacles'] || []).map(function(el) { return el.querySelector('.choice-title').textContent.trim(); });
 
-function submitEmail(){
-  const email=document.getElementById('email-input').value.trim();
-  if(!email||!email.includes('@')){document.getElementById('email-input').style.borderColor=var(--warn);return;}
-  DATA.email=email;trackEvent('email_captured');
-  showToast('Bilan envoyé à '+email);showBilan();
-}
-function skipEmail(){trackEvent('email_skipped');showBilan();}
-function showBilan(){if(bilanData)renderBilan(bilanData);else renderFallback();}
+  localStorage.setItem('equilib_profil', JSON.stringify(DATA));
+  showScreen(6);
 
-async function startGen(){
-  goTo(6);
-  DATA.approche=picks['approche']||'sais-pas';DATA.activite=picks['activite']||'sed';
-  DATA.stress=picks['stress']||'mod';DATA.alim=getAlim();DATA.obstacles=getObs();
-  DATA.tdee=Math.round(DATA.tmb*(actFactors[DATA.activite]||1.375));
-  localStorage.setItem('equilib_profil',JSON.stringify({age:DATA.age,sex:DATA.sex,height:DATA.height,weight:DATA.weight,goal:DATA.goal,approche:DATA.approche,activite:DATA.activite,stress:DATA.stress,sleep:DATA.sleep,alim:DATA.alim,obstacles:DATA.obstacles,imc:DATA.imc,tmb:DATA.tmb,tdee:DATA.tdee}));
-  trackEvent('bilan_generation_start');
-
-  const steps=[
-    {text:'Calcul du métabolisme de base et dépense totale'},
-    {text:'Analyse de tes habitudes alimentaires'},
-    {text:'Détection des bloqueurs comportementaux'},
-    {text:'Interprétation de tes indicateurs'},
-    {text:'Rédaction de ton diagnostic personnalisé'}
+  var steps = [
+    'Calcul du métabolisme de base',
+    'Analyse de tes habitudes alimentaires',
+    'Détection des bloqueurs comportementaux',
+    'Interprétation de tes indicateurs',
+    'Rédaction de ton diagnostic personnalisé'
   ];
-  const lsteps=document.getElementById('lsteps');
-  for(let i=0;i<steps.length;i++){
-    await new Promise(r=>setTimeout(r,850));
-    const d=document.createElement('div');d.className='lstep';
-    d.innerHTML=`<div class="lstep-icon"></div><span>${steps[i].text}</span>`;
+
+  var lsteps = document.getElementById('lsteps');
+  for (var i = 0; i < steps.length; i++) {
+    await new Promise(function(r) { setTimeout(r, 850); });
+    var d = document.createElement('div');
+    d.className = 'lstep';
+    d.innerHTML = '<div class="lstep-icon"></div><span>' + steps[i] + '</span>';
     lsteps.appendChild(d);
-    if(i>0){const prev=lsteps.children[i-1];prev.classList.add('done');prev.querySelector('.lstep-icon').textContent='✓';}
+    if (i > 0) {
+      var prev = lsteps.children[i - 1];
+      prev.classList.add('done');
+      prev.querySelector('.lstep-icon').textContent = '✓';
+    }
   }
 
-  try{
-    const res=await fetch('/api/bilan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({profil:{age:DATA.age,sex:DATA.sex,height:DATA.height,weight:DATA.weight,goal:DATA.goal,approche:DATA.approche,activite:DATA.activite,stress:DATA.stress,sleep:DATA.sleep,alim:DATA.alim,obstacles:DATA.obstacles}})});
-    const d=await res.json();
-    if(d.error)throw new Error(d.error);
-    bilanData=d.bilan;
-    if(d.computed){DATA.imc=d.computed.imc;DATA.tmb=d.computed.tmb;DATA.tdee=d.computed.tdee;}
-    trackEvent('bilan_generation_success');
-  }catch(e){bilanData=null;trackEvent('bilan_generation_error');}
-  await new Promise(r=>setTimeout(r,400));
-  goTo('6b');
-}
-
-function barColor(v){return v<=3?'fill-low':v<=6?'fill-mid':'fill-high';}
-function bloqClass(n){return n==='critique'?'critique':n==='modéré'?'modere':'faible';}
-
-function renderBilan(b){
-  trackEvent('bilan_viewed');
-  const html=`
-    <div class="bilan-hero">
-      <div class="bilan-hero-eyebrow">Ton bilan Equilib — Version gratuite</div>
-      <div class="bilan-hero-title">Score global : ${b.score_facilite}/10</div>
-      <div class="bilan-hero-sub">${b.hero_subtitle}</div>
-      <div class="bilan-kpis">
-        <div class="bilan-kpi"><div class="bilan-kpi-val">${DATA.imc}</div><div class="bilan-kpi-label">IMC · ${b.imc_label}</div></div>
-        <div class="bilan-kpi"><div class="bilan-kpi-val">${DATA.tmb}</div><div class="bilan-kpi-label">kcal · Métabolisme</div></div>
-        <div class="bilan-kpi"><div class="bilan-kpi-val">${DATA.tdee}</div><div class="bilan-kpi-label">kcal · Dépense totale</div></div>
-        <div class="bilan-kpi"><div class="bilan-kpi-val">${b.temps_realiste}</div><div class="bilan-kpi-label">Durée estimée</div></div>
-      </div>
-    </div>
-
-    <div class="score-card">
-      <div class="score-card-title">Tes quatre indicateurs</div>
-      <div class="score-card-sub">Calculés uniquement à partir de tes réponses — pas des moyennes génériques.</div>
-      <div class="score-bars">
-        <div class="score-bar-item">
-          <div class="score-bar-top"><span class="score-bar-name">Facilité globale</span><span class="score-bar-val">${b.score_facilite}/10</span></div>
-          <div class="score-bar-track"><div class="score-bar-fill ${barColor(b.score_facilite)}" id="sb0"></div></div>
-          <div class="score-bar-comment">${b.score_facilite_comment}</div>
-        </div>
-        <div class="score-bar-item">
-          <div class="score-bar-top"><span class="score-bar-name">Alimentation</span><span class="score-bar-val">${b.score_alimentation}/10</span></div>
-          <div class="score-bar-track"><div class="score-bar-fill ${barColor(b.score_alimentation)}" id="sb1"></div></div>
-          <div class="score-bar-comment">${b.score_alimentation_comment}</div>
-        </div>
-        <div class="score-bar-item">
-          <div class="score-bar-top"><span class="score-bar-name">Mode de vie</span><span class="score-bar-val">${b.score_lifestyle}/10</span></div>
-          <div class="score-bar-track"><div class="score-bar-fill ${barColor(b.score_lifestyle)}" id="sb2"></div></div>
-          <div class="score-bar-comment">${b.score_lifestyle_comment}</div>
-        </div>
-        <div class="score-bar-item">
-          <div class="score-bar-top"><span class="score-bar-name">Obstacles identifiés</span><span class="score-bar-val">${b.score_motivation}/10</span></div>
-          <div class="score-bar-track"><div class="score-bar-fill ${barColor(b.score_motivation)}" id="sb3"></div></div>
-          <div class="score-bar-comment">${b.score_motivation_comment}</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="info-card">
-      <div class="info-card-eyebrow">Diagnostic</div>
-      <div class="info-card-title">Ce qu'on observe dans ton profil</div>
-      <div class="info-card-text">${b.diagnostic}</div>
-    </div>
-
-    <div class="chiffres">
-      <div class="chiffre"><div class="chiffre-val">${DATA.tmb} kcal</div><div class="chiffre-label">Métabolisme de base</div><div class="chiffre-interp">${b.tmb_interpretation}</div></div>
-      <div class="chiffre"><div class="chiffre-val">${DATA.tdee} kcal</div><div class="chiffre-label">Dépense totale (TDEE)</div><div class="chiffre-interp">${b.tdee_interpretation}</div></div>
-      <div class="chiffre"><div class="chiffre-val">${b.calories_conseillees} kcal</div><div class="chiffre-label">Objectif calorique</div><div class="chiffre-interp">${b.deficit_interpretation}</div></div>
-      <div class="chiffre"><div class="chiffre-val">${DATA.imc}</div><div class="chiffre-label">Indice de masse corporelle</div><div class="chiffre-interp">${b.imc_interpretation}</div></div>
-    </div>
-
-    <div class="bloqueurs-card">
-      <div class="bloqueurs-title">${b.bloqueurs.length} bloqueurs identifiés dans ton profil</div>
-      ${b.bloqueurs.map(bl=>`
-        <div class="blk">
-          <div class="blk-header"><span class="blk-badge ${bloqClass(bl.niveau)}">${bl.niveau}</span><span class="blk-title">${bl.titre}</span></div>
-          <div class="blk-text">${bl.explication}</div>
-        </div>`).join('')}
-    </div>
-
-    <div class="lock-section">
-      <div class="lock-blurred">
-        <div class="bloqueurs-title">Ton plan d'action personnalisé</div>
-        <div class="blk"><div class="blk-title">Approche recommandée et fenêtre adaptée à ton profil</div></div>
-        <div class="blk"><div class="blk-title">Plan semaine par semaine avec menus adaptés</div></div>
-        <div class="blk"><div class="blk-title">Stratégies anti-frustration et conseils plaisir</div></div>
-        <div class="blk"><div class="blk-title">Solutions concrètes pour chacun de tes bloqueurs</div></div>
-      </div>
-      <div class="lock-overlay">
-        <div class="lock-icon">—</div>
-        <div class="lock-title">Les solutions sont dans ton plan complet</div>
-        <div class="lock-sub">${b.teaser_premium}</div>
-        <div class="lock-feats"><span class="lock-feat">Plan d'action</span><span class="lock-feat">Menus 4 semaines</span><span class="lock-feat">Coach</span><span class="lock-feat">Suivi</span></div>
-        <button class="lock-btn" onclick="openModal()">Débloquer mon plan complet →</button>
-      </div>
-    </div>
-
-    <div class="disclaimer">${b.message_fin}<br><br>Ce bilan est fourni à titre informatif et ne remplace pas l'avis d'un médecin ou d'un diététicien agréé.</div>
-  `;
-  document.getElementById('bilan-content').innerHTML=html;
-  goTo(7);
-  setTimeout(()=>{
-    [b.score_facilite,b.score_alimentation,b.score_lifestyle,b.score_motivation].forEach((v,i)=>{
-      const el=document.getElementById('sb'+i);if(el)el.style.width=(v*10)+'%';
+  try {
+    var res = await fetch('/api/bilan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ profil: DATA })
     });
-  },200);
+    var d2 = await res.json();
+    if (d2.error) throw new Error(d2.error);
+    bilanData = d2.bilan;
+    if (d2.computed) { DATA.imc = d2.computed.imc; DATA.tmb = d2.computed.tmb; DATA.tdee = d2.computed.tdee; }
+  } catch(e) {
+    bilanData = null;
+  }
+
+  await new Promise(function(r) { setTimeout(r, 400); });
+  showScreen('6b');
 }
 
-function renderFallback(){
-  document.getElementById('bilan-content').innerHTML=`
-    <div class="bilan-hero">
-      <div class="bilan-hero-eyebrow">Ton bilan Equilib</div>
-      <div class="bilan-hero-title">Analyse complète</div>
-      <div class="bilan-kpis">
-        <div class="bilan-kpi"><div class="bilan-kpi-val">${DATA.imc}</div><div class="bilan-kpi-label">IMC</div></div>
-        <div class="bilan-kpi"><div class="bilan-kpi-val">${DATA.tmb}</div><div class="bilan-kpi-label">kcal · Métabolisme</div></div>
-      </div>
-    </div>
-    <div class="info-card"><div class="info-card-text">Ton profil a bien été analysé. Accède au plan complet pour découvrir ton diagnostic détaillé et ton plan d'action sur mesure.</div></div>
-    <div class="lock-section">
-      <div class="lock-blurred"><div class="bloqueurs-title">Ton plan d'action</div><div class="blk"><div class="blk-title">Approche, menus, coach, suivi...</div></div></div>
-      <div class="lock-overlay">
-        <div class="lock-icon">—</div>
-        <div class="lock-title">Les solutions sont dans ton plan complet</div>
-        <div class="lock-sub">Plan d'action, menus, coach et suivi hebdomadaire.</div>
-        <div class="lock-feats"><span class="lock-feat">Plan d'action</span><span class="lock-feat">Menus</span><span class="lock-feat">Coach</span></div>
-        <button class="lock-btn" onclick="openModal()">Débloquer mon plan →</button>
-      </div>
-    </div>`;
-  goTo(7);
+// ============================================
+// EMAIL GATE
+// ============================================
+function submitEmail() {
+  var email = document.getElementById('email-input').value.trim();
+  if (!email || !email.includes('@')) { alert('Merci d\'entrer une adresse email valide.'); return; }
+  DATA.email = email;
+  if (typeof gtag !== 'undefined') gtag('event', 'email_captured');
+  showBilan();
 }
 
-function trackEvent(name,params={}){if(typeof gtag!=='undefined')gtag('event',name,params);}
-trackEvent('page_view',{page:'questionnaire'});
+function showBilan() {
+  if (bilanData) renderBilan(bilanData);
+  else renderFallback();
+}
+
+// ============================================
+// RENDU DU BILAN
+// ============================================
+function barColor(v) { return v <= 3 ? 'fill-low' : v <= 6 ? 'fill-mid' : 'fill-high'; }
+function bloqClass(n) { return n === 'critique' ? 'critique' : n === 'modéré' ? 'modere' : 'faible'; }
+
+function renderBilan(b) {
+  var html = '<div class="bilan-hero">' +
+    '<div class="bilan-hero-eyebrow">Ton bilan Equilib — Version gratuite</div>' +
+    '<div class="bilan-hero-title">Score global : ' + b.score_facilite + '/10</div>' +
+    '<div class="bilan-hero-sub">' + b.hero_subtitle + '</div>' +
+    '<div class="bilan-kpis">' +
+      '<div class="bilan-kpi"><div class="bilan-kpi-val">' + DATA.imc + '</div><div class="bilan-kpi-label">IMC</div></div>' +
+      '<div class="bilan-kpi"><div class="bilan-kpi-val">' + DATA.tmb + '</div><div class="bilan-kpi-label">kcal Métabolisme</div></div>' +
+      '<div class="bilan-kpi"><div class="bilan-kpi-val">' + DATA.tdee + '</div><div class="bilan-kpi-label">kcal Dépense totale</div></div>' +
+      '<div class="bilan-kpi"><div class="bilan-kpi-val">' + b.temps_realiste + '</div><div class="bilan-kpi-label">Durée estimée</div></div>' +
+    '</div></div>' +
+
+    '<div class="score-card">' +
+      '<div class="info-card-eyebrow">Tes quatre indicateurs</div>' +
+      '<br>' +
+      '<div class="score-bar-item"><div class="score-bar-top"><span class="score-bar-name">Facilité globale</span><span class="score-bar-val">' + b.score_facilite + '/10</span></div><div class="score-bar-track"><div class="score-bar-fill ' + barColor(b.score_facilite) + '" id="sb0"></div></div><div class="score-bar-comment">' + b.score_facilite_comment + '</div></div>' +
+      '<div class="score-bar-item"><div class="score-bar-top"><span class="score-bar-name">Alimentation</span><span class="score-bar-val">' + b.score_alimentation + '/10</span></div><div class="score-bar-track"><div class="score-bar-fill ' + barColor(b.score_alimentation) + '" id="sb1"></div></div><div class="score-bar-comment">' + b.score_alimentation_comment + '</div></div>' +
+      '<div class="score-bar-item"><div class="score-bar-top"><span class="score-bar-name">Mode de vie</span><span class="score-bar-val">' + b.score_lifestyle + '/10</span></div><div class="score-bar-track"><div class="score-bar-fill ' + barColor(b.score_lifestyle) + '" id="sb2"></div></div><div class="score-bar-comment">' + b.score_lifestyle_comment + '</div></div>' +
+      '<div class="score-bar-item"><div class="score-bar-top"><span class="score-bar-name">Motivation</span><span class="score-bar-val">' + b.score_motivation + '/10</span></div><div class="score-bar-track"><div class="score-bar-fill ' + barColor(b.score_motivation) + '" id="sb3"></div></div><div class="score-bar-comment">' + b.score_motivation_comment + '</div></div>' +
+    '</div>' +
+
+    '<div class="info-card"><div class="info-card-eyebrow">Diagnostic</div><div class="info-card-title">Ce qu\'on observe dans ton profil</div><div class="info-card-text">' + b.diagnostic + '</div></div>' +
+
+    '<div class="chiffres">' +
+      '<div class="chiffre"><div class="chiffre-val">' + DATA.tmb + ' kcal</div><div class="chiffre-label">Métabolisme de base</div><div class="chiffre-interp">' + b.tmb_interpretation + '</div></div>' +
+      '<div class="chiffre"><div class="chiffre-val">' + DATA.tdee + ' kcal</div><div class="chiffre-label">Dépense totale</div><div class="chiffre-interp">' + b.tdee_interpretation + '</div></div>' +
+      '<div class="chiffre"><div class="chiffre-val">' + b.calories_conseillees + ' kcal</div><div class="chiffre-label">Objectif calorique</div><div class="chiffre-interp">' + b.deficit_interpretation + '</div></div>' +
+      '<div class="chiffre"><div class="chiffre-val">' + DATA.imc + '</div><div class="chiffre-label">IMC</div><div class="chiffre-interp">' + b.imc_interpretation + '</div></div>' +
+    '</div>' +
+
+    '<div class="bloqueurs-card"><div class="bloqueurs-title">' + b.bloqueurs.length + ' bloqueurs identifiés dans ton profil</div>' +
+    b.bloqueurs.map(function(bl) {
+      return '<div class="blk"><span class="blk-badge ' + bloqClass(bl.niveau) + '">' + bl.niveau + '</span><div class="blk-title">' + bl.titre + '</div><div class="blk-text">' + bl.explication + '</div></div>';
+    }).join('') + '</div>' +
+
+    '<div class="lock-section">' +
+      '<div class="lock-blurred"><div class="bloqueurs-title">Ton plan d\'action personnalisé</div><div class="blk"><div class="blk-title">Approche recommandée pour ton profil</div></div><div class="blk"><div class="blk-title">Plan semaine par semaine avec menus</div></div><div class="blk"><div class="blk-title">Solutions concrètes pour chaque bloqueur</div></div></div>' +
+      '<div class="lock-overlay"><div class="lock-title">Les solutions sont dans ton plan complet</div><div class="lock-sub">' + b.teaser_premium + '</div><div class="lock-feats"><span class="lock-feat">Plan d\'action</span><span class="lock-feat">Menus 4 semaines</span><span class="lock-feat">Coach</span></div><button class="lock-btn" onclick="document.getElementById(\'modal\').classList.add(\'open\')">Débloquer mon plan complet →</button></div>' +
+    '</div>' +
+
+    '<div class="disclaimer">' + b.message_fin + '<br><br>Ce bilan est fourni à titre informatif et ne remplace pas l\'avis d\'un médecin.</div>';
+
+  document.getElementById('bilan-content').innerHTML = html;
+  showScreen(7);
+
+  setTimeout(function() {
+    var vals = [b.score_facilite, b.score_alimentation, b.score_lifestyle, b.score_motivation];
+    for (var i = 0; i < vals.length; i++) {
+      var el = document.getElementById('sb' + i);
+      if (el) el.style.width = (vals[i] * 10) + '%';
+    }
+  }, 300);
+}
+
+function renderFallback() {
+  document.getElementById('bilan-content').innerHTML =
+    '<div class="bilan-hero"><div class="bilan-hero-eyebrow">Ton bilan Equilib</div><div class="bilan-hero-title">Analyse complète</div><div class="bilan-kpis"><div class="bilan-kpi"><div class="bilan-kpi-val">' + DATA.imc + '</div><div class="bilan-kpi-label">IMC</div></div><div class="bilan-kpi"><div class="bilan-kpi-val">' + DATA.tmb + '</div><div class="bilan-kpi-label">kcal TMB</div></div></div></div>' +
+    '<div class="info-card"><div class="info-card-text">Ton profil a bien été analysé. Accède au plan complet pour découvrir ton diagnostic détaillé et ton plan d\'action sur mesure.</div></div>' +
+    '<div class="lock-section"><div class="lock-blurred"><div class="bloqueurs-title">Ton plan d\'action</div><div class="blk"><div class="blk-title">Approche, menus, coach, suivi...</div></div></div><div class="lock-overlay"><div class="lock-title">Les solutions sont dans ton plan complet</div><div class="lock-sub">Plan d\'action, menus sur 4 semaines, coach IA et suivi hebdomadaire.</div><div class="lock-feats"><span class="lock-feat">Plan d\'action</span><span class="lock-feat">Menus</span><span class="lock-feat">Coach</span></div><button class="lock-btn" onclick="document.getElementById(\'modal\').classList.add(\'open\')">Débloquer mon plan →</button></div></div>';
+  showScreen(7);
+}
 </script>
 </body>
 </html>
