@@ -337,7 +337,15 @@ async function generer() {
       throw new Error('Pas de bilan');
     }
   } catch(e) {
-    afficherErreur();
+    console.error('Erreur premium:', e);
+    // Afficher erreur détaillée
+    document.getElementById('result-content').innerHTML =
+      '<div style="max-width:520px;margin:0 auto;padding:80px 48px;text-align:center">' +
+      '<h2 style="font-family:Cormorant Garamond,serif;font-size:24px;font-weight:300;color:var(--brown-deep);margin-bottom:12px">Erreur détaillée</h2>' +
+      '<p style="font-size:13px;color:var(--muted);margin-bottom:28px;line-height:1.7;font-family:monospace;text-align:left;background:var(--cream-warm);padding:16px">' + e.message + '</p>' +
+      '<button class="btn-main" onclick="location.reload()"><span>Réessayer</span></button>' +
+      '</div>';
+    showPage("page-result");
   }
 }
 
