@@ -4,7 +4,7 @@ function checkRateLimit(ip) {
   const now = Date.now();
   const entry = rateLimitMap.get(ip) || { count: 0, start: now };
   if (now - entry.start > 3600000) { rateLimitMap.set(ip, { count: 1, start: now }); return true; }
-  if (entry.count >= 20) return false;
+  if (entry.count >= 50) return false;
   entry.count++;
   rateLimitMap.set(ip, entry);
   return true;
