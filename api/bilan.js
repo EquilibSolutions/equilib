@@ -1,556 +1,156 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Equilib — Mon plan complet</title>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ESC33XPPQ5"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ESC33XPPQ5');</script>
-<script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","wkv9bow1lz");</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-:root {
-  --sage-deep:#2D5016;--sage:#4A7C3F;--sage-mid:#6B9E5E;--sage-light:#A8C99E;--sage-pale:#D4E8CE;--sage-mist:#EEF5EB;
-  --cream:#FAF8F3;--cream-warm:#F5F0E8;--linen:#EDE8DC;
-  --gold:#C9A84C;--gold-light:#E8D5A0;--gold-pale:#F7F0DC;
-  --brown-deep:#2A1F0F;--brown:#4A3520;--brown-mid:#7A6248;--muted:#9E8E7A;
-  --border:#DDD5C5;--white:#FDFCFA;--warn:#C9773A;--warn-pale:#F9EDE3;
+const rateLimitMap = new Map();
+
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip) || { count: 0, start: now };
+  if (now - entry.start > 3600000) { rateLimitMap.set(ip, { count: 1, start: now }); return true; }
+  if (entry.count >= 50) return false;
+  entry.count++;
+  rateLimitMap.set(ip, entry);
+  return true;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--brown);min-height:100vh;}
-button,a,input,select,label{cursor:pointer;}
 
-.header{background:var(--white);border-bottom:1px solid var(--border);padding:18px 48px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
-.logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500;color:var(--sage-deep);text-decoration:none;}
-.logo em{color:var(--gold);font-style:italic;}
-.premium-pill{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown-deep);background:var(--gold);padding:5px 14px;}
-
-/* PAGES */
-.page{display:none;}
-.page.active{display:block;}
-
-/* FORMULAIRE */
-.form-page{max-width:520px;margin:0 auto;padding:80px 48px;}
-.form-eyebrow{font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
-.form-eyebrow::before{content:'';width:16px;height:1px;background:var(--gold);}
-.form-page h2{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:var(--brown-deep);margin-bottom:12px;line-height:1.15;}
-.form-page h2 em{font-style:italic;color:var(--sage);}
-.form-page p{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:36px;font-weight:300;}
-.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
-.field{margin-bottom:20px;}
-.field label{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px;}
-.field input,.field select{width:100%;padding:14px 16px;border:1px solid var(--border);background:var(--white);font-family:'Jost',sans-serif;font-size:15px;color:var(--brown);outline:none;transition:border-color 0.3s;-webkit-appearance:none;cursor:pointer;}
-.field input:focus,.field select:focus{border-color:var(--sage);}
-.btn-main{display:flex;align-items:center;justify-content:center;gap:12px;background:var(--sage-deep);color:var(--white);font-family:'Jost',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;padding:16px 36px;border:none;width:100%;cursor:pointer;transition:background 0.3s;margin-top:8px;}
-.btn-main:hover{background:var(--sage);}
-
-/* LOADING */
-.loading-page{max-width:480px;margin:0 auto;padding:100px 48px;text-align:center;}
-.spinner{width:48px;height:48px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 32px;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.loading-page h2{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--brown-deep);margin-bottom:10px;}
-.loading-page p{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:36px;font-weight:300;}
-.lstep{display:flex;align-items:center;gap:12px;padding:12px 0;font-size:13px;color:var(--muted);border-bottom:1px solid var(--border);font-weight:300;}
-.lstep:last-child{border-bottom:none;}
-.lstep-icon{width:20px;height:20px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;transition:all 0.3s;}
-.lstep.done .lstep-icon{background:var(--sage-deep);border-color:var(--sage-deep);color:var(--white);}
-.lstep.done{color:var(--brown);}
-
-/* CONTENU PREMIUM */
-.pw{max-width:720px;margin:0 auto;padding:48px;}
-.p-hero{background:linear-gradient(135deg,var(--brown-deep),#3A2810);padding:40px 44px;color:var(--white);margin-bottom:2px;position:relative;overflow:hidden;}
-.p-hero::before{content:'';position:absolute;bottom:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(201,168,76,0.08);}
-.p-hero-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);opacity:0.8;margin-bottom:8px;}
-.p-hero-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:6px;line-height:1.2;}
-.p-hero-sub{font-size:13px;opacity:0.65;margin-bottom:24px;font-weight:300;line-height:1.6;}
-.p-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-.p-kpi{background:rgba(255,255,255,0.07);padding:14px 16px;border-top:1px solid rgba(201,168,76,0.3);}
-.p-kpi-val{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;line-height:1;color:var(--gold-light);}
-.p-kpi-label{font-size:10px;opacity:0.55;margin-top:4px;letter-spacing:0.5px;}
-
-.p-card{background:var(--white);border:1px solid var(--border);padding:32px 36px;margin-bottom:2px;}
-.p-card-eyebrow{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--sage-mid);margin-bottom:8px;}
-.p-card-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--brown-deep);margin-bottom:16px;}
-.p-card-text{font-size:14px;font-weight:300;color:var(--brown-mid);line-height:1.8;}
-
-.approche-box{background:var(--sage-mist);border-left:2px solid var(--sage-deep);padding:20px 24px;margin-bottom:16px;}
-.approche-box h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--sage-deep);margin-bottom:8px;}
-.approche-box p{font-size:13px;color:var(--brown-mid);line-height:1.7;font-weight:300;}
-
-.if-box{background:var(--cream-warm);padding:16px 20px;margin-top:16px;}
-.if-box-label{font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
-.if-bar{display:flex;height:8px;margin-bottom:8px;}
-.if-fast{background:var(--sage-pale);flex:4;}
-.if-eat{background:var(--warn-pale);flex:8;}
-.if-fast2{background:var(--sage-pale);flex:4;}
-.if-times{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);}
-
-.actions-list{display:grid;gap:2px;}
-.action-item{background:var(--cream-warm);padding:20px 24px;display:flex;gap:16px;transition:background 0.2s;}
-.action-item:hover{background:var(--linen);}
-.action-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--sage-light);flex-shrink:0;min-width:32px;line-height:1;}
-.action-title{font-size:14px;font-weight:500;color:var(--brown-deep);margin-bottom:4px;}
-.action-text{font-size:13px;color:var(--brown-mid);line-height:1.6;font-weight:300;}
-
-.semaines{display:grid;gap:2px;}
-.semaine{background:var(--white);border:1px solid var(--border);}
-.semaine-header{background:var(--sage-deep);color:var(--white);padding:12px 20px;display:flex;align-items:baseline;gap:12px;}
-.semaine-num{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;}
-.semaine-obj{font-size:12px;opacity:0.7;font-weight:300;}
-.jour{display:flex;gap:16px;padding:12px 20px;border-bottom:1px solid var(--border);font-size:13px;font-weight:300;}
-.jour:last-child{border-bottom:none;}
-.jour-nom{color:var(--sage-deep);font-weight:500;min-width:80px;flex-shrink:0;}
-.jour-repas{color:var(--brown-mid);line-height:1.5;}
-
-.conseils-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
-.conseil-item{background:var(--cream-warm);padding:20px 22px;}
-.conseil-title{font-size:13px;font-weight:500;color:var(--brown-deep);margin-bottom:4px;}
-.conseil-text{font-size:12px;color:var(--muted);line-height:1.6;font-weight:300;}
-
-/* COACH */
-.coach-wrap{background:var(--white);border:1px solid var(--border);margin-bottom:2px;}
-.coach-header{background:var(--brown-deep);padding:24px 32px;color:var(--white);}
-.coach-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);opacity:0.7;margin-bottom:6px;}
-.coach-header h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;margin-bottom:4px;}
-.coach-header p{font-size:13px;opacity:0.55;font-weight:300;}
-.chat-messages{padding:20px 24px;display:flex;flex-direction:column;gap:14px;max-height:360px;overflow-y:auto;}
-.msg{display:flex;gap:10px;align-items:flex-start;}
-.msg.user{flex-direction:row-reverse;}
-.msg-av{width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;margin-top:2px;}
-.msg-av.ai{background:var(--sage-mist);color:var(--sage-deep);border:1px solid var(--sage-pale);}
-.msg-av.user{background:var(--gold-pale);color:var(--brown-deep);border:1px solid var(--gold-light);}
-.msg-bubble{max-width:78%;padding:12px 16px;font-size:13px;line-height:1.7;font-weight:300;}
-.msg.ai .msg-bubble{background:var(--cream);border:1px solid var(--border);color:var(--brown);}
-.msg.user .msg-bubble{background:var(--sage-deep);color:var(--white);}
-.chat-input-row{border-top:1px solid var(--border);padding:16px 24px;display:flex;}
-.chat-input-row input{flex:1;padding:13px 16px;border:1px solid var(--border);border-right:none;font-family:'Jost',sans-serif;font-size:14px;color:var(--brown);background:var(--white);outline:none;transition:border-color 0.3s;cursor:text;}
-.chat-input-row input:focus{border-color:var(--sage);}
-.chat-send{background:var(--sage-deep);color:var(--white);border:none;padding:13px 22px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;cursor:pointer;letter-spacing:0.5px;transition:background 0.3s;white-space:nowrap;}
-.chat-send:hover{background:var(--sage);}
-.chat-send:disabled{background:var(--linen);color:var(--muted);cursor:not-allowed;}
-.typing{display:flex;gap:4px;padding:2px 0;}
-.typing span{width:6px;height:6px;background:var(--muted);border-radius:50%;animation:bounce 1.2s infinite;}
-.typing span:nth-child(2){animation-delay:.2s;}
-.typing span:nth-child(3){animation-delay:.4s;}
-@keyframes bounce{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-5px);}}
-
-.disclaimer{font-size:11px;color:var(--muted);text-align:center;margin-top:24px;line-height:1.6;font-weight:300;}
-
-@media(max-width:768px){
-  .header{padding:16px 20px;}
-  .form-page,.loading-page,.pw{padding:40px 20px;}
-  .p-hero{padding:28px 24px;}
-  .p-kpis{grid-template-columns:1fr 1fr;}
-  .p-card{padding:24px 20px;}
-  .field-grid,.conseils-grid{grid-template-columns:1fr;}
+function parseJSON(text) {
+  const clean = text.replace(/```json|```/g, '').trim();
+  const match = clean.match(/\{[\s\S]*\}/);
+  return JSON.parse(match ? match[0] : clean);
 }
-</style>
-</head>
-<body>
 
-<div class="header">
-  <a href="equilib-landing.html" class="logo">Equi<em>lib</em></a>
-  <div class="premium-pill">Plan complet</div>
-</div>
+async function callAI(prompt, maxTokens, model) {
+  const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+      'HTTP-Referer': 'https://equilib.vercel.app',
+      'X-Title': 'Equilib'
+    },
+    body: JSON.stringify({
+      model: model || 'anthropic/claude-sonnet-4-5',
+      max_tokens: maxTokens,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+  const data = await res.json();
+  return (data.choices?.[0]?.message?.content || '').trim();
+}
 
-<!-- PAGE FORMULAIRE -->
-<div class="page active" id="page-form">
-  <div class="form-page">
-    <div class="form-eyebrow">Plan complet</div>
-    <h2>Bienvenue dans<br>ton espace <em>premium</em></h2>
-    <p>Remplis ou vérifie tes informations pour générer ton plan personnalisé.</p>
-    <div class="field-grid">
-      <div class="field"><label>Âge</label><input type="number" id="p-age" placeholder="35" min="18" max="90"></div>
-      <div class="field"><label>Sexe</label>
-        <select id="p-sex">
-          <option value="">Sélectionner</option>
-          <option value="f">Femme</option>
-          <option value="m">Homme</option>
-          <option value="nb">Autre</option>
-        </select>
-      </div>
-    </div>
-    <div class="field-grid">
-      <div class="field"><label>Taille (cm)</label><input type="number" id="p-height" placeholder="165"></div>
-      <div class="field"><label>Poids actuel (kg)</label><input type="number" id="p-weight" placeholder="72"></div>
-    </div>
-    <div class="field"><label>Poids souhaité (kg)</label><input type="number" id="p-goal" placeholder="60"></div>
-    <div class="field-grid">
-      <div class="field"><label>Niveau de stress</label>
-        <select id="p-stress">
-          <option value="faible">Faible</option>
-          <option value="mod">Modéré</option>
-          <option value="eleve">Élevé</option>
-          <option value="chron">Chronique</option>
-        </select>
-      </div>
-      <div class="field"><label>Activité physique</label>
-        <select id="p-activite">
-          <option value="sed">Sédentaire</option>
-          <option value="leger">Léger</option>
-          <option value="mod">Modéré</option>
-          <option value="actif">Très actif</option>
-        </select>
-      </div>
-    </div>
-    <button class="btn-main" onclick="soumettre()">
-      <span>Générer mon plan complet</span>
-      <span style="transition:transform 0.3s">→</span>
-    </button>
-  </div>
-</div>
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-<!-- PAGE LOADING -->
-<div class="page" id="page-loading">
-  <div class="loading-page">
-    <div class="spinner"></div>
-    <h2>Génération en cours</h2>
-    <p>Ton plan personnalisé est en cours de préparation selon les dernières recherches scientifiques.</p>
-    <div id="loading-steps"></div>
-  </div>
-</div>
+  const ip = req.headers['x-forwarded-for']?.split(',')[0] || 'unknown';
+  if (!checkRateLimit(ip)) return res.status(429).json({ error: 'Trop de requêtes. Réessaie dans une heure.' });
 
-<!-- PAGE RÉSULTAT -->
-<div class="page" id="page-result">
-  <div class="pw" id="result-content"></div>
-</div>
+  const body = req.body || {};
+  const mode = body.mode || 'gratuit';
 
-<script>
-var PROFIL = {};
-var chatHistory = [];
-
-// ============================================
-// INIT — pré-remplir le formulaire si profil sauvegardé
-// ============================================
-window.addEventListener('DOMContentLoaded', function() {
-  // Accès direct si profil dans localStorage
-  var saved = localStorage.getItem('equilib_profil');
-  if (saved) {
+  // MODE CHAT
+  if (mode === 'chat') {
+    const messages = body.messages || [];
+    if (!messages.length) return res.status(400).json({ error: 'Messages manquants' });
     try {
-      var p = JSON.parse(saved);
-      if (p.age && p.weight && p.goal) {
-        PROFIL = p;
-        generer();
-        return;
-      }
-      // Pré-remplir le formulaire
-      if (p.age) document.getElementById('p-age').value = p.age;
-      if (p.sex) document.getElementById('p-sex').value = p.sex;
-      if (p.height) document.getElementById('p-height').value = p.height;
-      if (p.weight) document.getElementById('p-weight').value = p.weight;
-      if (p.goal) document.getElementById('p-goal').value = p.goal;
-      if (p.stress) document.getElementById('p-stress').value = p.stress;
-      if (p.activite) document.getElementById('p-activite').value = p.activite;
-    } catch(e) {}
-  }
-});
-
-// ============================================
-// SOUMETTRE LE FORMULAIRE
-// ============================================
-function soumettre() {
-  var age = parseInt(document.getElementById('p-age').value);
-  var sex = document.getElementById('p-sex').value;
-  var height = parseInt(document.getElementById('p-height').value);
-  var weight = parseFloat(document.getElementById('p-weight').value);
-  var goal = parseFloat(document.getElementById('p-goal').value);
-  var stress = document.getElementById('p-stress').value;
-  var activite = document.getElementById('p-activite').value;
-
-  if (!age || age < 18 || age > 90) { alert('Merci d\'entrer un âge valide.'); return; }
-  if (!sex) { alert('Merci de sélectionner ton sexe.'); return; }
-  if (!height || height < 140) { alert('Merci d\'entrer ta taille.'); return; }
-  if (!weight || weight < 40) { alert('Merci d\'entrer ton poids.'); return; }
-  if (!goal || goal >= weight) { alert('L\'objectif doit être inférieur à ton poids actuel.'); return; }
-
-  PROFIL = { age: age, sex: sex, height: height, weight: weight, goal: goal, stress: stress, activite: activite, alim: [], obstacles: [] };
-  generer();
-}
-
-// ============================================
-// AFFICHER UNE PAGE
-// ============================================
-function showPage(id) {
-  var pages = document.querySelectorAll('.page');
-  for (var i = 0; i < pages.length; i++) {
-    pages[i].classList.remove('active');
-    pages[i].style.display = 'none';
-  }
-  var target = document.getElementById(id);
-  target.style.display = 'block';
-  target.classList.add('active');
-  window.scrollTo(0, 0);
-}
-
-// ============================================
-// GÉNÉRATION DU PLAN
-// ============================================
-async function generer() {
-  showPage('page-loading');
-
-  var steps = [
-    'Analyse de ton profil métabolique',
-    'Sélection de l\'approche optimale',
-    'Génération du plan d\'action',
-    'Création des menus sur quatre semaines',
-    'Préparation des conseils personnalisés'
-  ];
-
-  var container = document.getElementById('loading-steps');
-  container.innerHTML = '';
-
-  for (var i = 0; i < 3; i++) {
-    await new Promise(function(r) { setTimeout(r, 800); });
-    var d = document.createElement('div');
-    d.className = 'lstep';
-    d.innerHTML = '<div class="lstep-icon"></div><span>' + steps[i] + '</span>';
-    container.appendChild(d);
-    if (i > 0) {
-      container.children[i-1].classList.add('done');
-      container.children[i-1].querySelector('.lstep-icon').textContent = '✓';
+      const conv = messages.slice(-4).map(m => m.role + ': ' + m.content).join('\n');
+      const reply = await callAI('Coach nutrition Equilib. Réponds en français, court et pratique.\n\n' + conv, 400, 'anthropic/claude-haiku-4-5-20251001');
+      return res.status(200).json({ reply });
+    } catch(e) {
+      return res.status(500).json({ error: 'Erreur coach' });
     }
   }
 
-  var actFactors = { sed: 1.2, leger: 1.375, mod: 1.55, actif: 1.725 };
-  var imc = parseFloat((PROFIL.weight / Math.pow(PROFIL.height / 100, 2)).toFixed(1));
-  var tmb = PROFIL.sex === 'f'
-    ? Math.round(10 * PROFIL.weight + 6.25 * PROFIL.height - 5 * PROFIL.age - 161)
-    : Math.round(10 * PROFIL.weight + 6.25 * PROFIL.height - 5 * PROFIL.age + 5);
-  var tdee = Math.round(tmb * (actFactors[PROFIL.activite] || 1.375));
-  PROFIL.imc = imc; PROFIL.tmb = tmb; PROFIL.tdee = tdee;
+  const profil = body.profil || {};
+  const { age, sex, height, weight, goal } = profil;
+  if (!age || !sex || !height || !weight || !goal) return res.status(400).json({ error: 'Profil incomplet' });
 
-  var bilan = null;
-  var menus = null;
+  const imc = +(weight / (height/100)**2).toFixed(1);
+  const tmb = sex === 'f'
+    ? Math.round(10*weight + 6.25*height - 5*age - 161)
+    : Math.round(10*weight + 6.25*height - 5*age + 5);
+  const actFactors = { sed:1.2, leger:1.375, mod:1.55, actif:1.725 };
+  const tdee = Math.round(tmb * (actFactors[profil.activite] || 1.375));
 
-  // APPEL 1 : approche + actions + conseils
-  try {
-    var res1 = await fetch('/api/bilan', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ profil: PROFIL, mode: 'premium' })
-    });
-    var data1 = await res1.json();
-    if (data1.bilan) bilan = data1.bilan;
-  } catch(e) { console.error('Erreur appel 1:', e); }
+  // MODE GRATUIT
+  if (mode !== 'premium' && mode !== 'premium-menus') {
+    const prompt = `Tu es un expert en nutrition et perte de poids bienveillant. Tu parles en "tu", de façon humaine et directe. Pas de solutions dans le gratuit — seulement le diagnostic.
 
-  // Étape 4
-  await new Promise(function(r) { setTimeout(r, 300); });
-  var d4 = document.createElement('div');
-  d4.className = 'lstep';
-  d4.innerHTML = '<div class="lstep-icon"></div><span>' + steps[3] + '</span>';
-  container.appendChild(d4);
-  if (container.children[2]) { container.children[2].classList.add('done'); container.children[2].querySelector('.lstep-icon').textContent = '✓'; }
+Profil :
+- Âge : ${age} ans | Sexe : ${sex === 'f' ? 'Femme' : sex === 'm' ? 'Homme' : 'Autre'}
+- Taille : ${height} cm | Poids : ${weight} kg | Objectif : ${goal} kg | À perdre : ${+(weight-goal).toFixed(1)} kg
+- IMC : ${imc} | TMB : ${tmb} kcal | TDEE : ${tdee} kcal
+- Approche souhaitée : ${profil.approche || 'non précisé'}
+- Activité : ${profil.activite || 'sed'} | Stress : ${profil.stress || 'mod'} | Sommeil : ${profil.sleep || '7h'}
+- Habitudes : ${(profil.alim || []).join(', ') || 'aucune'}
+- Obstacles : ${(profil.obstacles || []).join(', ') || 'non précisé'}
 
-  // APPEL 2 : menus 4 semaines
-  try {
-    var res2 = await fetch('/api/bilan', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ profil: PROFIL, mode: 'premium-menus', approche: bilan ? bilan.approche_nom : 'rééquilibrage alimentaire' })
-    });
-    var data2 = await res2.json();
-    if (data2.menus) menus = data2.menus;
-  } catch(e) { console.error('Erreur appel 2:', e); }
-  
-  // Fallback menus si API échoue
-  if (!menus) {
-    menus = [
-      {semaine:1, objectif:'Mise en place des bonnes habitudes', jours:[
-        {jour:'Lundi', repas:'Yaourt nature · Salade poulet avocat · Saumon vapeur + légumes verts'},
-        {jour:'Mardi', repas:'Flocons avoine + fruit · Wrap thon crudités · Omelette champignons + salade'},
-        {jour:'Mercredi', repas:'Fruit + amandes · Riz complet poulet brocoli · Soupe lentilles + pain'},
-        {jour:'Jeudi', repas:'Pain complet oeuf · Salade niçoise · Steak haricots verts + quinoa'},
-        {jour:'Vendredi', repas:'Smoothie banane · Pâtes complètes pesto · Cabillaud courgettes rôties'},
-        {jour:'Week-end', repas:'Repas libres — profite sans culpabilité, reprise lundi'}
-      ]},
-      {semaine:2, objectif:'Consolidation — les habitudes deviennent naturelles', jours:[
-        {jour:'Lundi', repas:'Fromage blanc miel · Poulet rôti patate douce · Velouté butternut'},
-        {jour:'Mardi', repas:'Pain complet beurre cacahuète · Bowl riz thon crudités · Tofu sauté légumes'},
-        {jour:'Mercredi', repas:'Kiwi + noix · Salade quinoa feta · Filet de sole épinards'},
-        {jour:'Jeudi', repas:'Yaourt grec granola · Wrap dinde crudités · Curry lentilles corail'},
-        {jour:'Vendredi', repas:'Fruit + café · Poke bowl saumon · Poulet citron haricots verts'},
-        {jour:'Week-end', repas:'Un repas plaisir — savoure-le pleinement et sans stress'}
-      ]},
-      {semaine:3, objectif:'Progression — on consolide les résultats', jours:[
-        {jour:'Lundi', repas:'Smoothie vert · Salade lentilles betterave · Lieu noir fenouil rôti'},
-        {jour:'Mardi', repas:'Oeufs brouillés pain · Wrap poulet avocat · Soupe pois chiches'},
-        {jour:'Mercredi', repas:'Fromage blanc fruits rouges · Bowl buddha légumes · Steak thon riz'},
-        {jour:'Jeudi', repas:'Flocons lait végétal · Salade grecque pain complet · Poulet mariné quinoa'},
-        {jour:'Vendredi', repas:'Fruit + amandes · Pasta complète tomates · Crevettes wok légumes'},
-        {jour:'Week-end', repas:'Repas libres — tu as bien travaillé, profites-en'}
-      ]},
-      {semaine:4, objectif:'Autonomie — tu maîtrises maintenant ta nutrition', jours:[
-        {jour:'Lundi', repas:'Yaourt granola maison · Salade composée au choix · Poisson vapeur légumes'},
-        {jour:'Mardi', repas:'Pain complet avocat · Bowl au choix · Omelette salade verte'},
-        {jour:'Mercredi', repas:'Smoothie protéiné · Wrap au choix · Viande blanche féculents'},
-        {jour:'Jeudi', repas:'Fruit + noix · Salade repas pain · Curry légumineuses'},
-        {jour:'Vendredi', repas:'Toast avocat · Pâtes complètes sauce légère · Poisson légumes rôtis'},
-        {jour:'Week-end', repas:'Bilan du mois — continue sur cette lancée !'}
-      ]}
-    ];
+Réponds UNIQUEMENT avec du JSON brut (pas de markdown, pas de backticks) :
+{"imc_label":"<Insuffisance pondérale|Poids normal|Surpoids|Obésité modérée>","imc_badge_color":"<vert|orange|rouge>","score_facilite":<1-10>,"score_alimentation":<1-10>,"score_lifestyle":<1-10>,"score_motivation":<1-10>,"score_facilite_comment":"<1 phrase>","score_alimentation_comment":"<1 phrase>","score_lifestyle_comment":"<1 phrase>","score_motivation_comment":"<1 phrase>","hero_subtitle":"<1 phrase accrocheuse>","diagnostic":"<3-4 phrases bienveillantes et très personnalisées>","temps_realiste":"<ex: 4-6 mois>","calories_conseillees":<nombre>,"imc_interpretation":"<2 phrases>","tmb_interpretation":"<2 phrases>","tdee_interpretation":"<2 phrases>","deficit_interpretation":"<2 phrases>","bloqueurs":[{"niveau":"critique|modéré|faible","titre":"...","explication":"<2-3 phrases>"},{"niveau":"critique|modéré|faible","titre":"...","explication":"<2-3 phrases>"},{"niveau":"critique|modéré|faible","titre":"...","explication":"<2-3 phrases>"}],"teaser_premium":"<phrase engageante et personnalisée>","message_fin":"<message court et sincère>"}`;
+
+    try {
+      const text = await callAI(prompt, 1600);
+      const bilan = parseJSON(text);
+      return res.status(200).json({ bilan, computed: { imc, tmb, tdee } });
+    } catch(e) {
+      return res.status(500).json({ error: 'Erreur bilan: ' + e.message });
+    }
   }
 
-  // Étape 5
-  await new Promise(function(r) { setTimeout(r, 300); });
-  var d5 = document.createElement('div');
-  d5.className = 'lstep done';
-  d5.innerHTML = '<div class="lstep-icon">✓</div><span>' + steps[4] + '</span>';
-  container.appendChild(d5);
-  if (container.children[3]) { container.children[3].classList.add('done'); container.children[3].querySelector('.lstep-icon').textContent = '✓'; }
+  // MODE PREMIUM-MENUS — génère uniquement les menus 4 semaines
+  if (mode === 'premium-menus') {
+    const approche = body.approche || 'rééquilibrage alimentaire';
+    const prompt = `Nutritionniste expert. Crée 4 semaines de menus complets et variés pour ${sex==='f'?'une femme':'un homme'} de ${age} ans, ${weight}kg, objectif ${goal}kg, activité ${profil.activite||'sed'}, stress ${profil.stress||'mod'}. Approche : ${approche}. Calories cibles : ${tdee-400} kcal/jour.
 
-  await new Promise(function(r) { setTimeout(r, 300); });
+Réponds UNIQUEMENT avec du JSON brut (pas de markdown) :
+{"menus":[{"semaine":1,"objectif":"<objectif semaine 1>","jours":[{"jour":"Lundi","repas":"<petit-déj · déjeuner · dîner>"},{"jour":"Mardi","repas":"<repas>"},{"jour":"Mercredi","repas":"<repas>"},{"jour":"Jeudi","repas":"<repas>"},{"jour":"Vendredi","repas":"<repas>"},{"jour":"Week-end","repas":"<conseil et repas libre>"}]},{"semaine":2,"objectif":"<objectif>","jours":[{"jour":"Lundi","repas":"<repas>"},{"jour":"Mardi","repas":"<repas>"},{"jour":"Mercredi","repas":"<repas>"},{"jour":"Jeudi","repas":"<repas>"},{"jour":"Vendredi","repas":"<repas>"},{"jour":"Week-end","repas":"<conseil>"}]},{"semaine":3,"objectif":"<objectif>","jours":[{"jour":"Lundi","repas":"<repas>"},{"jour":"Mardi","repas":"<repas>"},{"jour":"Mercredi","repas":"<repas>"},{"jour":"Jeudi","repas":"<repas>"},{"jour":"Vendredi","repas":"<repas>"},{"jour":"Week-end","repas":"<conseil>"}]},{"semaine":4,"objectif":"<objectif>","jours":[{"jour":"Lundi","repas":"<repas>"},{"jour":"Mardi","repas":"<repas>"},{"jour":"Mercredi","repas":"<repas>"},{"jour":"Jeudi","repas":"<repas>"},{"jour":"Vendredi","repas":"<repas>"},{"jour":"Week-end","repas":"<conseil>"}]}]}`;
 
-  if (bilan) {
-    if (menus) bilan.menus = menus;
-    afficherPremium(bilan, { imc: imc, tmb: tmb, tdee: tdee });
-  } else {
-    afficherErreur();
-  }
-}
-
-
-function afficherPremium(b, c) {
-  var ifHtml = '';
-  if (b.fenetre_if && b.fenetre_if !== 'null') {
-    var parts = b.fenetre_if.split('-');
-    ifHtml = '<div class="if-box"><div class="if-box-label">Ta fenêtre alimentaire recommandée</div>' +
-      '<div class="if-bar"><div class="if-fast"></div><div class="if-eat"></div><div class="if-fast2"></div></div>' +
-      '<div class="if-times"><span>00h</span><span>' + (parts[0]||'12h') + '</span><span>' + (parts[1]||'20h') + '</span><span>24h</span></div></div>';
+    try {
+      const text = await callAI(prompt, 2000, 'anthropic/claude-haiku-4-5-20251001');
+      const data = parseJSON(text);
+      return res.status(200).json(data);
+    } catch(e) {
+      return res.status(500).json({ error: 'Erreur menus: ' + e.message });
+    }
   }
 
-  var menusLocaux = genererMenus(PROFIL);
-  var menusHtml = menusLocaux.map(function(s) {
-    return '<div class="semaine">' +
-      '<div class="semaine-header"><span class="semaine-num">Semaine ' + s.semaine + '</span><span class="semaine-obj">— ' + s.objectif + '</span></div>' +
-      s.jours.map(function(j) {
-        return '<div class="jour"><div class="jour-nom">' + j.jour + '</div><div class="jour-repas">' + j.repas + '</div></div>';
-      }).join('') +
-      '</div>';
-  }).join('');
-
-  var actionsHtml = b.actions.map(function(a, i) {
-    return '<div class="action-item"><div class="action-num">0' + (i+1) + '</div><div><div class="action-title">' + a.titre + '</div><div class="action-text">' + a.detail + '</div></div></div>';
-  }).join('');
-
-  var conseilsHtml = b.conseils_plaisir.map(function(c) {
-    return '<div class="conseil-item"><div class="conseil-title">' + c.titre + '</div><div class="conseil-text">' + c.conseil + '</div></div>';
-  }).join('');
-
-  var html =
-    '<div class="p-hero">' +
-      '<div class="p-hero-eyebrow">Ton plan Equilib — Version complète</div>' +
-      '<div class="p-hero-title">' + b.message_bienvenue + '</div>' +
-      '<div class="p-hero-sub">Plan d\'action, menus sur quatre semaines, conseils et coach disponible à tout moment.</div>' +
-      '<div class="p-kpis">' +
-        '<div class="p-kpi"><div class="p-kpi-val">' + c.imc + '</div><div class="p-kpi-label">Ton IMC</div></div>' +
-        '<div class="p-kpi"><div class="p-kpi-val">' + b.calories_jour + '</div><div class="p-kpi-label">kcal objectif/jour</div></div>' +
-        '<div class="p-kpi"><div class="p-kpi-val">' + parseFloat(PROFIL.weight - PROFIL.goal).toFixed(1) + ' kg</div><div class="p-kpi-label">À atteindre</div></div>' +
-      '</div>' +
-    '</div>' +
-
-    '<div class="p-card">' +
-      '<div class="p-card-eyebrow">Approche recommandée</div>' +
-      '<div class="p-card-title">' + b.approche_nom + '</div>' +
-      '<div class="approche-box"><h3>Pourquoi cette approche pour toi</h3><p>' + b.approche_pourquoi + '</p></div>' +
-      '<div class="p-card-text"><strong style="font-weight:500;color:var(--brown-deep)">Comment l\'appliquer</strong><br><br>' + b.approche_comment + '</div>' +
-      ifHtml +
-    '</div>' +
-
-    '<div class="p-card" style="padding:0">' +
-      '<div style="padding:32px 36px 20px"><div class="p-card-eyebrow">Plan d\'action</div><div class="p-card-title">Cinq étapes concrètes</div></div>' +
-      '<div class="actions-list">' + actionsHtml + '</div>' +
-    '</div>' +
-
-    '<div class="p-card" style="padding:0">' +
-      '<div style="padding:32px 36px 20px"><div class="p-card-eyebrow">Menus personnalisés</div><div class="p-card-title">Quatre semaines complètes</div></div>' +
-      '<div class="semaines">' + menusHtml + '</div>' +
-    '</div>' +
-
-    '<div class="p-card" style="padding:0">' +
-      '<div style="padding:32px 36px 20px"><div class="p-card-eyebrow">Garder le plaisir</div><div class="p-card-title">Sans frustration ni culpabilité</div></div>' +
-      '<div class="conseils-grid">' + conseilsHtml + '</div>' +
-    '</div>' +
-
-    '<div class="coach-wrap">' +
-      '<div class="coach-header">' +
-        '<div class="coach-eyebrow">Coach personnel</div>' +
-        '<h3>Disponible vingt-quatre heures sur vingt-quatre</h3>' +
-        '<p>Recettes, conseils, motivation — pose toutes tes questions.</p>' +
-      '</div>' +
-      '<div class="chat-messages" id="chat-messages">' +
-        '<div class="msg ai"><div class="msg-av ai">E</div><div class="msg-bubble">' + b.message_coach_intro + '</div></div>' +
-      '</div>' +
-      '<div class="chat-input-row">' +
-        '<input type="text" id="chat-input" placeholder="Pose ta question..." onkeydown="if(event.key===\'Enter\')envoyerMessage()">' +
-        '<button class="chat-send" id="chat-btn" onclick="envoyerMessage()">Envoyer</button>' +
-      '</div>' +
-    '</div>' +
-
-    '<div class="disclaimer">Ce plan est fourni à titre informatif et ne remplace pas l\'avis d\'un médecin ou d\'un diététicien agréé.</div>';
-
-  document.getElementById('result-content').innerHTML = html;
-  showPage('page-result');
-
-  chatHistory = [
-    { role: 'user', content: 'Mon profil : ' + PROFIL.age + ' ans, ' + PROFIL.weight + 'kg, objectif ' + PROFIL.goal + 'kg, approche ' + b.approche_nom + '.' },
-    { role: 'assistant', content: b.message_coach_intro }
-  ];
-}
-
-// ============================================
-// COACH IA — CHAT
-// ============================================
-async function envoyerMessage() {
-  var input = document.getElementById('chat-input');
-  var msg = input.value.trim();
-  if (!msg) return;
-
-  input.value = '';
-  document.getElementById('chat-btn').disabled = true;
-
-  var md = document.getElementById('chat-messages');
-  md.innerHTML += '<div class="msg user"><div class="msg-av user">T</div><div class="msg-bubble">' + msg + '</div></div>';
-
-  var tid = 't' + Date.now();
-  md.innerHTML += '<div class="msg ai" id="' + tid + '"><div class="msg-av ai">E</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>';
-  md.scrollTop = md.scrollHeight;
-
-  chatHistory.push({ role: 'user', content: msg });
+  // MODE PREMIUM
+  const p = `Nutritionniste. ${sex==='f'?'F':'H'} ${age}a ${weight}kg>${goal}kg.
+JSON valide court:
+{"approche_nom":"approche","approche_pourquoi":"phrase","approche_comment":"phrase","fenetre_if":null,"calories_jour":${tdee-400},"message_bienvenue":"message","actions":[{"titre":"t1","detail":"phrase"},{"titre":"t2","detail":"phrase"},{"titre":"t3","detail":"phrase"},{"titre":"t4","detail":"phrase"},{"titre":"t5","detail":"phrase"}],"conseils_plaisir":[{"titre":"Pizza","conseil":"phrase"},{"titre":"Alcool","conseil":"phrase"},{"titre":"Chocolat","conseil":"phrase"},{"titre":"Restaurant","conseil":"phrase"}],"message_coach_intro":"phrase"}`;
 
   try {
-    var systemMsg = 'Tu es le coach bienveillant d\'Equilib. Tu aides ' + (PROFIL.sex === 'f' ? 'une femme' : 'un homme') + ' de ' + PROFIL.age + ' ans à perdre du poids sans frustration. Profil : ' + PROFIL.weight + 'kg, objectif ' + PROFIL.goal + 'kg. Réponds de façon courte, humaine et pratique en français.';
-    var res = await fetch('/api/bilan', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mode: 'chat', profil: PROFIL, messages: [{ role: 'user', content: systemMsg }].concat(chatHistory) })
-    });
-    var data = await res.json();
-    var reply = data.reply || 'Je suis là pour t\'aider. Que souhaites-tu savoir ?';
-    document.getElementById(tid).remove();
-    md.innerHTML += '<div class="msg ai"><div class="msg-av ai">E</div><div class="msg-bubble">' + reply + '</div></div>';
-    chatHistory.push({ role: 'assistant', content: reply });
+    const text = await callAI(p, 600, 'anthropic/claude-haiku-4-5-20251001');
+    let bilan;
+    try {
+      bilan = parseJSON(text);
+    } catch(parseErr) {
+      // Fallback si JSON invalide
+      bilan = {
+        approche_nom: 'Rééquilibrage alimentaire',
+        approche_pourquoi: `Adapté à ton profil de ${age} ans avec un objectif de ${+(weight-goal).toFixed(1)}kg à perdre.`,
+        approche_comment: 'Mange équilibré en 3 repas, réduis les sucres rapides et les aliments ultra-transformés.',
+        fenetre_if: null,
+        calories_jour: tdee - 400,
+        message_bienvenue: `Bienvenue dans ton plan personnalisé ! Voici tout ce qu'il te faut pour atteindre ton objectif.`,
+        actions: [
+          {titre: 'Structurer tes repas', detail: 'Mange à heures fixes pour réguler ta faim et ton métabolisme.'},
+          {titre: 'Augmenter les protéines', detail: 'Vise 1,2g de protéines par kg de poids pour préserver ta masse musculaire.'},
+          {titre: 'Gérer le stress', detail: 'Le stress chronique augmente le cortisol et favorise le stockage. Intègre 10 min de relaxation par jour.'},
+          {titre: 'Améliorer le sommeil', detail: 'Un manque de sommeil augmente la faim de 24%. Vise 7-8h par nuit.'},
+          {titre: 'Bouger quotidiennement', detail: 'Commence par 20 min de marche rapide par jour — suffisant pour démarrer.'}
+        ],
+        conseils_plaisir: [
+          {titre: 'Pizza', conseil: 'Une pizza le week-end ne ruine pas tes efforts — compense avec un dîner léger.'},
+          {titre: 'Alcool', conseil: 'Préfère un verre de vin sec à la bière — moins de sucres et moins de calories.'},
+          {titre: 'Chocolat', conseil: 'Un carré de chocolat noir 70%+ le soir satisfait l\'envie de sucre sans excès.'},
+          {titre: 'Restaurant', conseil: 'Choisis une entrée légère, un plat protéiné et évite les sauces crémeuses.'}
+        ],
+        message_coach_intro: `Bonjour ! Je suis ton coach Equilib. Je suis là pour répondre à toutes tes questions sur ton plan, tes menus ou tes habitudes. Qu'est-ce que tu veux savoir ?`
+      };
+    }
+    return res.status(200).json({ bilan, computed: { imc, tmb, tdee } });
   } catch(e) {
-    document.getElementById(tid).remove();
-    md.innerHTML += '<div class="msg ai"><div class="msg-av ai">E</div><div class="msg-bubble">Une erreur s\'est produite. Réessaie dans un instant.</div></div>';
+    return res.status(500).json({ error: 'Erreur premium: ' + e.message });
   }
-
-  md.scrollTop = md.scrollHeight;
-  document.getElementById('chat-btn').disabled = false;
 }
-
-// ============================================
-// ERREUR
-// ============================================
-function afficherErreur() {
-  document.getElementById('result-content').innerHTML =
-    '<div style="max-width:520px;margin:0 auto;padding:80px 48px;text-align:center">' +
-    '<h2 style="font-family:\'Cormorant Garamond\',serif;font-size:30px;font-weight:300;color:var(--brown-deep);margin-bottom:12px">Erreur lors de la génération</h2>' +
-    '<p style="font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.7;font-weight:300">Une erreur technique s\'est produite. Tes informations sont sauvegardées. Recharge la page pour réessayer.</p>' +
-    '<button class="btn-main" onclick="location.reload()"><span>Réessayer</span></button>' +
-    '</div>';
-  showPage('page-result');
-}
-</script>
-</body>
-</html>
