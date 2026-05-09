@@ -16,7 +16,7 @@ function parseJSON(text) {
   return JSON.parse(match ? match[0] : clean);
 }
 
-async function callAI(prompt, maxTokens) {
+async function callAI(prompt, maxTokens, model) {
   const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -26,7 +26,7 @@ async function callAI(prompt, maxTokens) {
       'X-Title': 'Equilib'
     },
     body: JSON.stringify({
-      model: 'anthropic/claude-haiku-4-5-20251001',
+      model: model || 'anthropic/claude-sonnet-4-5',
       max_tokens: maxTokens,
       messages: [{ role: 'user', content: prompt }]
     })
@@ -54,7 +54,7 @@ export default async function handler(req, res) {
     if (!messages.length) return res.status(400).json({ error: 'Messages manquants' });
     try {
       const conv = messages.slice(-4).map(m => m.role + ': ' + m.content).join('\n');
-      const reply = await callAI('Coach nutrition Equilib. Français, court et pratique.\n\n' + conv, 300);
+      const reply = await callAI('Coach nutrition Equilib. Réponds en français, court et pratique.\n\n' + conv, 400, 'anthropic/claude-haiku-4-5-20251001');
       return res.status(200).json({ reply });
     } catch(e) {
       return res.status(500).json({ error: 'Erreur coach' });
@@ -72,13 +72,24 @@ export default async function handler(req, res) {
   const actFactors = { sed:1.2, leger:1.375, mod:1.55, actif:1.725 };
   const tdee = Math.round(tmb * (actFactors[profil.activite] || 1.375));
 
-  // MODE GRATUIT
+  // MODE GRATUIT — Sonnet pour qualité maximale
   if (mode !== 'premium') {
-    const prompt = `Expert nutrition. Parle en "tu". Diagnostic sans solutions.
-Profil: ${age}ans ${sex==='f'?'F':'M'} ${height}cm ${weight}kg obj:${goal}kg IMC:${imc} TMB:${tmb} TDEE:${tdee} stress:${profil.stress||'mod'} act:${profil.activite||'sed'}.
-JSON uniquement: {"imc_label":"Poids normal","imc_badge_color":"vert","score_facilite":7,"score_alimentation":6,"score_lifestyle":5,"score_motivation":8,"score_facilite_comment":"phrase","score_alimentation_comment":"phrase","score_lifestyle_comment":"phrase","score_motivation_comment":"phrase","hero_subtitle":"phrase","diagnostic":"2 phrases","temps_realiste":"4-6 mois","calories_conseillees":1500,"imc_interpretation":"1 phrase","tmb_interpretation":"1 phrase","tdee_interpretation":"1 phrase","deficit_interpretation":"1 phrase","bloqueurs":[{"niveau":"critique","titre":"bloqueur","explication":"2 phrases"},{"niveau":"modéré","titre":"bloqueur","explication":"2 phrases"},{"niveau":"faible","titre":"bloqueur","explication":"1 phrase"}],"teaser_premium":"phrase","message_fin":"phrase"}`;
+    const prompt = `Tu es un expert en nutrition et perte de poids bienveillant. Tu parles en "tu", de façon humaine et directe. Pas de solutions dans le gratuit — seulement le diagnostic.
+
+Profil :
+- Âge : ${age} ans | Sexe : ${sex === 'f' ? 'Femme' : sex === 'm' ? 'Homme' : 'Autre'}
+- Taille : ${height} cm | Poids : ${weight} kg | Objectif : ${goal} kg | À perdre : ${+(weight-goal).toFixed(1)} kg
+- IMC : ${imc} | TMB : ${tmb} kcal | TDEE : ${tdee} kcal
+- Approche souhaitée : ${profil.approche || 'non précisé'}
+- Activité : ${profil.activite || 'sed'} | Stress : ${profil.stress || 'mod'} | Sommeil : ${profil.sleep || '7h'}
+- Habitudes : ${(profil.alim || []).join(', ') || 'aucune'}
+- Obstacles : ${(profil.obstacles || []).join(', ') || 'non précisé'}
+
+Réponds UNIQUEMENT avec du JSON brut (pas de markdown, pas de backticks) :
+{"imc_label":"<Insuffisance pondérale|Poids normal|Surpoids|Obésité modérée>","imc_badge_color":"<vert|orange|rouge>","score_facilite":<1-10>,"score_alimentation":<1-10>,"score_lifestyle":<1-10>,"score_motivation":<1-10>,"score_facilite_comment":"<1 phrase>","score_alimentation_comment":"<1 phrase>","score_lifestyle_comment":"<1 phrase>","score_motivation_comment":"<1 phrase>","hero_subtitle":"<1 phrase accrocheuse>","diagnostic":"<3-4 phrases bienveillantes et très personnalisées>","temps_realiste":"<ex: 4-6 mois>","calories_conseillees":<nombre>,"imc_interpretation":"<2 phrases>","tmb_interpretation":"<2 phrases>","tdee_interpretation":"<2 phrases>","deficit_interpretation":"<2 phrases>","bloqueurs":[{"niveau":"critique|modéré|faible","titre":"...","explication":"<2-3 phrases>"},{"niveau":"critique|modéré|faible","titre":"...","explication":"<2-3 phrases>"},{"niveau":"critique|modéré|faible","titre":"...","explication":"<2-3 phrases>"}],"teaser_premium":"<phrase engageante et personnalisée>","message_fin":"<message court et sincère>"}`;
+
     try {
-      const text = await callAI(prompt, 900);
+      const text = await callAI(prompt, 1600);
       const bilan = parseJSON(text);
       return res.status(200).json({ bilan, computed: { imc, tmb, tdee } });
     } catch(e) {
@@ -86,14 +97,14 @@ JSON uniquement: {"imc_label":"Poids normal","imc_badge_color":"vert","score_fac
     }
   }
 
-  // MODE PREMIUM — prompt court, menus générés côté client
+  // MODE PREMIUM — Haiku pour rapidité, menus générés côté client
   const prompt = `Nutritionniste bienveillant. Parle en "tu".
 Profil: ${sex==='f'?'Femme':'Homme'} ${age}ans ${weight}kg objectif ${goal}kg stress:${profil.stress||'mod'} activité:${profil.activite||'sed'}.
-JSON uniquement:
-{"approche_nom":"nom approche","approche_pourquoi":"1 phrase","approche_comment":"1 phrase","fenetre_if":null,"calories_jour":${tdee-400},"message_bienvenue":"message chaleureux","actions":[{"titre":"titre","detail":"1 phrase"},{"titre":"titre","detail":"1 phrase"},{"titre":"titre","detail":"1 phrase"},{"titre":"titre","detail":"1 phrase"},{"titre":"titre","detail":"1 phrase"}],"conseils_plaisir":[{"titre":"Pizza","conseil":"1 phrase"},{"titre":"Alcool","conseil":"1 phrase"},{"titre":"Chocolat","conseil":"1 phrase"},{"titre":"Restaurant","conseil":"1 phrase"}],"message_coach_intro":"1 phrase chaleureuse"}`;
+Réponds UNIQUEMENT en JSON brut sans markdown:
+{"approche_nom":"nom de l'approche recommandée","approche_pourquoi":"1 phrase expliquant pourquoi","approche_comment":"1 phrase expliquant comment","fenetre_if":null,"calories_jour":${tdee-400},"message_bienvenue":"message chaleureux personnalisé","actions":[{"titre":"titre action 1","detail":"1 phrase concrète"},{"titre":"titre action 2","detail":"1 phrase"},{"titre":"titre action 3","detail":"1 phrase"},{"titre":"titre action 4","detail":"1 phrase"},{"titre":"titre action 5","detail":"1 phrase"}],"conseils_plaisir":[{"titre":"Pizza","conseil":"1 phrase"},{"titre":"Alcool","conseil":"1 phrase"},{"titre":"Chocolat","conseil":"1 phrase"},{"titre":"Restaurant","conseil":"1 phrase"}],"message_coach_intro":"1 phrase de bienvenue du coach"}`;
 
   try {
-    const text = await callAI(prompt, 800);
+    const text = await callAI(prompt, 800, 'anthropic/claude-haiku-4-5-20251001');
     const bilan = parseJSON(text);
     return res.status(200).json({ bilan, computed: { imc, tmb, tdee } });
   } catch(e) {
