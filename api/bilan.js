@@ -138,12 +138,12 @@ JSON valide court:
           {titre: 'Augmenter les protéines', detail: 'Vise 1,2g de protéines par kg de poids pour préserver ta masse musculaire.'},
           {titre: 'Gérer le stress', detail: 'Le stress chronique augmente le cortisol et favorise le stockage. Intègre 10 min de relaxation par jour.'},
           {titre: 'Améliorer le sommeil', detail: 'Un manque de sommeil augmente la faim de 24%. Vise 7-8h par nuit.'},
-          {titre: 'Bouger quotidiennement', detail: 'Commence par 20 min de marche rapide par jour — c'est suffisant pour démarrer.'}
+          {titre: 'Bouger quotidiennement', detail: 'Commence par 20 min de marche rapide par jour — suffisant pour démarrer.'}
         ],
         conseils_plaisir: [
           {titre: 'Pizza', conseil: 'Une pizza le week-end ne ruine pas tes efforts — compense avec un dîner léger.'},
           {titre: 'Alcool', conseil: 'Préfère un verre de vin sec à la bière — moins de sucres et moins de calories.'},
-          {titre: 'Chocolat', conseil: 'Un carré de chocolat noir 70%+ le soir satisfait l'envie de sucre sans excès.'},
+          {titre: 'Chocolat', conseil: 'Un carré de chocolat noir 70%+ le soir satisfait l\'envie de sucre sans excès.'},
           {titre: 'Restaurant', conseil: 'Choisis une entrée légère, un plat protéiné et évite les sauces crémeuses.'}
         ],
         message_coach_intro: `Bonjour ! Je suis ton coach Equilib. Je suis là pour répondre à toutes tes questions sur ton plan, tes menus ou tes habitudes. Qu'est-ce que tu veux savoir ?`
