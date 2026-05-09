@@ -75,7 +75,10 @@ JSON brut uniquement: {"imc_label":"Poids normal","imc_badge_color":"vert","scor
 
     try {
       const text = await callAI(prompt, 1200);
-      const bilan = JSON.parse(text);
+      let jsonStr = text;
+      const match = text.match(/\{[\s\S]*\}/);
+      if (match) jsonStr = match[0];
+      const bilan = JSON.parse(jsonStr);
       return res.status(200).json({ bilan, computed: { imc, tmb, tdee } });
     } catch(e) {
       return res.status(500).json({ error: 'Erreur bilan gratuit: ' + e.message });
@@ -90,7 +93,11 @@ JSON brut uniquement (pas de markdown):
 
   try {
     const text = await callAI(prompt, 2000);
-    const bilan = JSON.parse(text);
+    // Extraction robuste du JSON
+    let jsonStr = text;
+    const match = text.match(/\{[\s\S]*\}/);
+    if (match) jsonStr = match[0];
+    const bilan = JSON.parse(jsonStr);
     return res.status(200).json({ bilan, computed: { imc, tmb, tdee } });
   } catch(e) {
     return res.status(500).json({ error: 'Erreur plan premium: ' + e.message });
