@@ -352,6 +352,44 @@ async function generer() {
     var data2 = await res2.json();
     if (data2.menus) menus = data2.menus;
   } catch(e) { console.error('Erreur appel 2:', e); }
+  
+  // Fallback menus si API échoue
+  if (!menus) {
+    menus = [
+      {semaine:1, objectif:'Mise en place des bonnes habitudes', jours:[
+        {jour:'Lundi', repas:'Yaourt nature · Salade poulet avocat · Saumon vapeur + légumes verts'},
+        {jour:'Mardi', repas:'Flocons avoine + fruit · Wrap thon crudités · Omelette champignons + salade'},
+        {jour:'Mercredi', repas:'Fruit + amandes · Riz complet poulet brocoli · Soupe lentilles + pain'},
+        {jour:'Jeudi', repas:'Pain complet oeuf · Salade niçoise · Steak haricots verts + quinoa'},
+        {jour:'Vendredi', repas:'Smoothie banane · Pâtes complètes pesto · Cabillaud courgettes rôties'},
+        {jour:'Week-end', repas:'Repas libres — profite sans culpabilité, reprise lundi'}
+      ]},
+      {semaine:2, objectif:'Consolidation — les habitudes deviennent naturelles', jours:[
+        {jour:'Lundi', repas:'Fromage blanc miel · Poulet rôti patate douce · Velouté butternut'},
+        {jour:'Mardi', repas:'Pain complet beurre cacahuète · Bowl riz thon crudités · Tofu sauté légumes'},
+        {jour:'Mercredi', repas:'Kiwi + noix · Salade quinoa feta · Filet de sole épinards'},
+        {jour:'Jeudi', repas:'Yaourt grec granola · Wrap dinde crudités · Curry lentilles corail'},
+        {jour:'Vendredi', repas:'Fruit + café · Poke bowl saumon · Poulet citron haricots verts'},
+        {jour:'Week-end', repas:'Un repas plaisir — savoure-le pleinement et sans stress'}
+      ]},
+      {semaine:3, objectif:'Progression — on consolide les résultats', jours:[
+        {jour:'Lundi', repas:'Smoothie vert · Salade lentilles betterave · Lieu noir fenouil rôti'},
+        {jour:'Mardi', repas:'Oeufs brouillés pain · Wrap poulet avocat · Soupe pois chiches'},
+        {jour:'Mercredi', repas:'Fromage blanc fruits rouges · Bowl buddha légumes · Steak thon riz'},
+        {jour:'Jeudi', repas:'Flocons lait végétal · Salade grecque pain complet · Poulet mariné quinoa'},
+        {jour:'Vendredi', repas:'Fruit + amandes · Pasta complète tomates · Crevettes wok légumes'},
+        {jour:'Week-end', repas:'Repas libres — tu as bien travaillé, profites-en'}
+      ]},
+      {semaine:4, objectif:'Autonomie — tu maîtrises maintenant ta nutrition', jours:[
+        {jour:'Lundi', repas:'Yaourt granola maison · Salade composée au choix · Poisson vapeur légumes'},
+        {jour:'Mardi', repas:'Pain complet avocat · Bowl au choix · Omelette salade verte'},
+        {jour:'Mercredi', repas:'Smoothie protéiné · Wrap au choix · Viande blanche féculents'},
+        {jour:'Jeudi', repas:'Fruit + noix · Salade repas pain · Curry légumineuses'},
+        {jour:'Vendredi', repas:'Toast avocat · Pâtes complètes sauce légère · Poisson légumes rôtis'},
+        {jour:'Week-end', repas:'Bilan du mois — continue sur cette lancée !'}
+      ]}
+    ];
+  }
 
   // Étape 5
   await new Promise(function(r) { setTimeout(r, 300); });
