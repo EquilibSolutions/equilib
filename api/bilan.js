@@ -10,6 +10,12 @@ function checkRateLimit(ip) {
   return true;
 }
 
+function parseJSON(text) {
+  const clean = text.replace(/```json|```/g, '').trim();
+  const match = clean.match(/\{[\s\S]*\}/);
+  return JSON.parse(match ? match[0] : clean);
+}
+
 async function callAI(prompt, maxTokens) {
   const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     method: 'POST',
@@ -26,7 +32,7 @@ async function callAI(prompt, maxTokens) {
     })
   });
   const data = await res.json();
-  return (data.choices?.[0]?.message?.content || '').replace(/```json|```/g, '').trim();
+  return (data.choices?.[0]?.message?.content || '').trim();
 }
 
 export default async function handler(req, res) {
@@ -47,8 +53,8 @@ export default async function handler(req, res) {
     const messages = body.messages || [];
     if (!messages.length) return res.status(400).json({ error: 'Messages manquants' });
     try {
-      const systemPrompt = `Tu es le coach bienveillant d'Equilib. Réponds en français, de façon courte et pratique.`;
-      const reply = await callAI(systemPrompt + '\n\n' + messages.map(m => m.role + ': ' + m.content).join('\n'), 400);
+      const conv = messages.slice(-6).map(m => m.role + ': ' + m.content).join('\n');
+      const reply = await callAI('Coach nutrition bienveillant Equilib. Réponds en français, court et pratique.\n\n' + conv, 400);
       return res.status(200).json({ reply });
     } catch(e) {
       return res.status(500).json({ error: 'Erreur coach' });
@@ -69,37 +75,43 @@ export default async function handler(req, res) {
 
   // MODE GRATUIT
   if (mode !== 'premium') {
-    const prompt = `Expert nutrition bienveillant. Parle en "tu". Diagnostic SANS solutions.
-Profil: ${age}ans ${sex==='f'?'F':'M'} ${height}cm ${weight}kg objectif${goal}kg IMC${imc} TMB${tmb} TDEE${tdee} stress:${profil.stress||'mod'} activité:${profil.activite||'sed'}.
-JSON brut uniquement: {"imc_label":"Poids normal","imc_badge_color":"vert","score_facilite":7,"score_alimentation":6,"score_lifestyle":5,"score_motivation":8,"score_facilite_comment":"phrase courte","score_alimentation_comment":"phrase courte","score_lifestyle_comment":"phrase courte","score_motivation_comment":"phrase courte","hero_subtitle":"phrase accrocheuse","diagnostic":"3 phrases personnalisées","temps_realiste":"4-6 mois","calories_conseillees":1500,"imc_interpretation":"2 phrases","tmb_interpretation":"2 phrases","tdee_interpretation":"2 phrases","deficit_interpretation":"2 phrases","bloqueurs":[{"niveau":"critique","titre":"nom du bloqueur","explication":"2 phrases"},{"niveau":"modéré","titre":"nom","explication":"2 phrases"},{"niveau":"faible","titre":"nom","explication":"2 phrases"}],"teaser_premium":"phrase engageante","message_fin":"message court"}`;
+    const prompt = `Expert nutrition. Parle en "tu". SANS solutions, diagnostic seulement.
+Profil: ${age}ans ${sex==='f'?'F':'M'} ${height}cm ${weight}kg obj:${goal}kg IMC:${imc} TMB:${tmb} TDEE:${tdee} stress:${profil.stress||'mod'} activité:${profil.activite||'sed'}.
+Réponds en JSON valide uniquement, sans markdown:
+{"imc_label":"Poids normal","imc_badge_color":"vert","score_facilite":7,"score_alimentation":6,"score_lifestyle":5,"score_motivation":8,"score_facilite_comment":"1 phrase","score_alimentation_comment":"1 phrase","score_lifestyle_comment":"1 phrase","score_motivation_comment":"1 phrase","hero_subtitle":"1 phrase","diagnostic":"2-3 phrases","temps_realiste":"4-6 mois","calories_conseillees":1500,"imc_interpretation":"1 phrase","tmb_interpretation":"1 phrase","tdee_interpretation":"1 phrase","deficit_interpretation":"1 phrase","bloqueurs":[{"niveau":"critique","titre":"bloqueur 1","explication":"2 phrases"},{"niveau":"modéré","titre":"bloqueur 2","explication":"2 phrases"},{"niveau":"faible","titre":"bloqueur 3","explication":"2 phrases"}],"teaser_premium":"1 phrase","message_fin":"1 phrase"}`;
 
     try {
-      const text = await callAI(prompt, 1200);
-      let jsonStr = text;
-      const match = text.match(/\{[\s\S]*\}/);
-      if (match) jsonStr = match[0];
-      const bilan = JSON.parse(jsonStr);
+      const text = await callAI(prompt, 1000);
+      const bilan = parseJSON(text);
       return res.status(200).json({ bilan, computed: { imc, tmb, tdee } });
     } catch(e) {
-      return res.status(500).json({ error: 'Erreur bilan gratuit: ' + e.message });
+      return res.status(500).json({ error: 'Erreur bilan: ' + e.message });
     }
   }
 
-  // MODE PREMIUM — prompt court pour éviter le timeout
-  const prompt = `Expert nutrition. Parle en "tu". Plan COMPLET mais CONCIS.
-Profil: ${age}ans ${sex==='f'?'F':'M'} ${height}cm ${weight}kg objectif${goal}kg stress:${profil.stress||'mod'} activité:${profil.activite||'sed'}.
-JSON brut uniquement (pas de markdown):
-{"approche_nom":"Rééquilibrage alimentaire","approche_pourquoi":"2 phrases pourquoi c'est adapté","approche_comment":"2 phrases comment faire","fenetre_if":null,"calories_jour":1600,"message_bienvenue":"message chaleureux court","actions":[{"titre":"titre action 1","detail":"2 phrases concrètes"},{"titre":"titre action 2","detail":"2 phrases"},{"titre":"titre action 3","detail":"2 phrases"},{"titre":"titre action 4","detail":"2 phrases"},{"titre":"titre action 5","detail":"2 phrases"}],"menus":[{"semaine":1,"objectif":"objectif semaine 1","jours":[{"jour":"Lundi","repas":"Yaourt · Salade poulet · Poisson légumes"},{"jour":"Mardi","repas":"Flocons avoine · Wrap thon · Omelette"},{"jour":"Mercredi","repas":"Fruit · Riz poulet · Soupe lentilles"},{"jour":"Jeudi","repas":"Pain complet · Salade niçoise · Steak"},{"jour":"Vendredi","repas":"Smoothie · Pâtes complètes · Cabillaud"},{"jour":"Week-end","repas":"Repas libres avec modération"}]},{"semaine":2,"objectif":"objectif semaine 2","jours":[{"jour":"Lundi","repas":"repas adapté"},{"jour":"Mardi","repas":"repas adapté"},{"jour":"Mercredi","repas":"repas adapté"},{"jour":"Jeudi","repas":"repas adapté"},{"jour":"Vendredi","repas":"repas adapté"},{"jour":"Week-end","repas":"conseil plaisir"}]},{"semaine":3,"objectif":"objectif semaine 3","jours":[{"jour":"Lundi","repas":"repas"},{"jour":"Mardi","repas":"repas"},{"jour":"Mercredi","repas":"repas"},{"jour":"Jeudi","repas":"repas"},{"jour":"Vendredi","repas":"repas"},{"jour":"Week-end","repas":"conseil"}]},{"semaine":4,"objectif":"objectif semaine 4","jours":[{"jour":"Lundi","repas":"repas"},{"jour":"Mardi","repas":"repas"},{"jour":"Mercredi","repas":"repas"},{"jour":"Jeudi","repas":"repas"},{"jour":"Vendredi","repas":"repas"},{"jour":"Week-end","repas":"conseil"}]}],"conseils_plaisir":[{"titre":"Pizza","conseil":"1 phrase"},{"titre":"Alcool","conseil":"1 phrase"},{"titre":"Chocolat","conseil":"1 phrase"},{"titre":"Restaurant","conseil":"1 phrase"}],"message_coach_intro":"message coach personnalisé"}`;
-
+  // MODE PREMIUM — séparé en 2 appels pour éviter le timeout
   try {
-    const text = await callAI(prompt, 2000);
-    // Extraction robuste du JSON
-    let jsonStr = text;
-    const match = text.match(/\{[\s\S]*\}/);
-    if (match) jsonStr = match[0];
-    const bilan = JSON.parse(jsonStr);
+    // Appel 1 : approche + actions + conseils
+    const prompt1 = `Expert nutrition. Parle en "tu". Plan personnalisé.
+Profil: ${age}ans ${sex==='f'?'F':'M'} ${height}cm ${weight}kg obj:${goal}kg stress:${profil.stress||'mod'} activité:${profil.activite||'sed'} IMC:${imc} TMB:${tmb}.
+JSON valide uniquement sans markdown:
+{"approche_nom":"Rééquilibrage alimentaire","approche_pourquoi":"2 phrases","approche_comment":"2 phrases","fenetre_if":null,"calories_jour":1600,"message_bienvenue":"message court chaleureux","actions":[{"titre":"titre","detail":"2 phrases"},{"titre":"titre","detail":"2 phrases"},{"titre":"titre","detail":"2 phrases"},{"titre":"titre","detail":"2 phrases"},{"titre":"titre","detail":"2 phrases"}],"conseils_plaisir":[{"titre":"Pizza","conseil":"1 phrase"},{"titre":"Alcool","conseil":"1 phrase"},{"titre":"Chocolat","conseil":"1 phrase"},{"titre":"Restaurant","conseil":"1 phrase"}],"message_coach_intro":"message coach court"}`;
+
+    const text1 = await callAI(prompt1, 1200);
+    const part1 = parseJSON(text1);
+
+    // Appel 2 : menus 4 semaines
+    const prompt2 = `Expert nutrition. Crée 4 semaines de menus adaptés pour ${sex==='f'?'une femme':'un homme'} de ${age}ans ${weight}kg objectif ${goal}kg activité ${profil.activite||'sed'}.
+JSON valide uniquement sans markdown:
+{"menus":[{"semaine":1,"objectif":"objectif s1","jours":[{"jour":"Lundi","repas":"petit-déj · déjeuner · dîner"},{"jour":"Mardi","repas":"repas"},{"jour":"Mercredi","repas":"repas"},{"jour":"Jeudi","repas":"repas"},{"jour":"Vendredi","repas":"repas"},{"jour":"Week-end","repas":"conseil"}]},{"semaine":2,"objectif":"objectif s2","jours":[{"jour":"Lundi","repas":"repas"},{"jour":"Mardi","repas":"repas"},{"jour":"Mercredi","repas":"repas"},{"jour":"Jeudi","repas":"repas"},{"jour":"Vendredi","repas":"repas"},{"jour":"Week-end","repas":"conseil"}]},{"semaine":3,"objectif":"objectif s3","jours":[{"jour":"Lundi","repas":"repas"},{"jour":"Mardi","repas":"repas"},{"jour":"Mercredi","repas":"repas"},{"jour":"Jeudi","repas":"repas"},{"jour":"Vendredi","repas":"repas"},{"jour":"Week-end","repas":"conseil"}]},{"semaine":4,"objectif":"objectif s4","jours":[{"jour":"Lundi","repas":"repas"},{"jour":"Mardi","repas":"repas"},{"jour":"Mercredi","repas":"repas"},{"jour":"Jeudi","repas":"repas"},{"jour":"Vendredi","repas":"repas"},{"jour":"Week-end","repas":"conseil"}]}]}`;
+
+    const text2 = await callAI(prompt2, 1500);
+    const part2 = parseJSON(text2);
+
+    const bilan = { ...part1, ...part2 };
     return res.status(200).json({ bilan, computed: { imc, tmb, tdee } });
+
   } catch(e) {
-    return res.status(500).json({ error: 'Erreur plan premium: ' + e.message });
+    return res.status(500).json({ error: 'Erreur premium: ' + e.message });
   }
 }
