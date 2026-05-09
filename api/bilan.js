@@ -105,7 +105,7 @@ JSON valide uniquement sans markdown:
 JSON valide uniquement sans markdown:
 {"menus":[{"semaine":1,"objectif":"objectif s1","jours":[{"jour":"Lundi","repas":"petit-déj · déjeuner · dîner"},{"jour":"Mardi","repas":"repas"},{"jour":"Mercredi","repas":"repas"},{"jour":"Jeudi","repas":"repas"},{"jour":"Vendredi","repas":"repas"},{"jour":"Week-end","repas":"conseil"}]},{"semaine":2,"objectif":"objectif s2","jours":[{"jour":"Lundi","repas":"repas"},{"jour":"Mardi","repas":"repas"},{"jour":"Mercredi","repas":"repas"},{"jour":"Jeudi","repas":"repas"},{"jour":"Vendredi","repas":"repas"},{"jour":"Week-end","repas":"conseil"}]},{"semaine":3,"objectif":"objectif s3","jours":[{"jour":"Lundi","repas":"repas"},{"jour":"Mardi","repas":"repas"},{"jour":"Mercredi","repas":"repas"},{"jour":"Jeudi","repas":"repas"},{"jour":"Vendredi","repas":"repas"},{"jour":"Week-end","repas":"conseil"}]},{"semaine":4,"objectif":"objectif s4","jours":[{"jour":"Lundi","repas":"repas"},{"jour":"Mardi","repas":"repas"},{"jour":"Mercredi","repas":"repas"},{"jour":"Jeudi","repas":"repas"},{"jour":"Vendredi","repas":"repas"},{"jour":"Week-end","repas":"conseil"}]}]}`;
 
-    const text2 = await callAI(prompt2, 1500);
+    const text2 = await callAI(prompt2, 4000);
     const part2 = parseJSON(text2);
 
     const bilan = { ...part1, ...part2 };
