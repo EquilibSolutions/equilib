@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root {
+:root{
   --sage-deep:#2D5016;--sage:#4A7C3F;--sage-mid:#6B9E5E;--sage-light:#A8C99E;--sage-pale:#D4E8CE;--sage-mist:#EEF5EB;
   --cream:#FAF8F3;--cream-warm:#F5F0E8;--linen:#EDE8DC;
   --gold:#C9A84C;--gold-light:#E8D5A0;--gold-pale:#F7F0DC;
@@ -26,11 +26,10 @@ button,a,input,select,label{cursor:pointer;}
 .logo em{color:var(--gold);font-style:italic;}
 .premium-pill{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown-deep);background:var(--gold);padding:5px 14px;}
 
-/* PAGES */
 .page{display:none;}
 .page.active{display:block;}
 
-/* FORMULAIRE */
+/* FORM */
 .form-page{max-width:520px;margin:0 auto;padding:80px 48px;}
 .form-eyebrow{font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
 .form-eyebrow::before{content:'';width:16px;height:1px;background:var(--gold);}
@@ -40,7 +39,7 @@ button,a,input,select,label{cursor:pointer;}
 .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
 .field{margin-bottom:20px;}
 .field label{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px;}
-.field input,.field select{width:100%;padding:14px 16px;border:1px solid var(--border);background:var(--white);font-family:'Jost',sans-serif;font-size:15px;color:var(--brown);outline:none;transition:border-color 0.3s;-webkit-appearance:none;cursor:pointer;}
+.field input,.field select{width:100%;padding:14px 16px;border:1px solid var(--border);background:var(--white);font-family:'Jost',sans-serif;font-size:15px;color:var(--brown);outline:none;transition:border-color 0.3s;-webkit-appearance:none;}
 .field input:focus,.field select:focus{border-color:var(--sage);}
 .btn-main{display:flex;align-items:center;justify-content:center;gap:12px;background:var(--sage-deep);color:var(--white);font-family:'Jost',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;padding:16px 36px;border:none;width:100%;cursor:pointer;transition:background 0.3s;margin-top:8px;}
 .btn-main:hover{background:var(--sage);}
@@ -57,7 +56,7 @@ button,a,input,select,label{cursor:pointer;}
 .lstep.done .lstep-icon{background:var(--sage-deep);border-color:var(--sage-deep);color:var(--white);}
 .lstep.done{color:var(--brown);}
 
-/* CONTENU PREMIUM */
+/* PREMIUM CONTENT */
 .pw{max-width:720px;margin:0 auto;padding:48px;}
 .p-hero{background:linear-gradient(135deg,var(--brown-deep),#3A2810);padding:40px 44px;color:var(--white);margin-bottom:2px;position:relative;overflow:hidden;}
 .p-hero::before{content:'';position:absolute;bottom:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(201,168,76,0.08);}
@@ -108,7 +107,6 @@ button,a,input,select,label{cursor:pointer;}
 .conseil-title{font-size:13px;font-weight:500;color:var(--brown-deep);margin-bottom:4px;}
 .conseil-text{font-size:12px;color:var(--muted);line-height:1.6;font-weight:300;}
 
-/* COACH */
 .coach-wrap{background:var(--white);border:1px solid var(--border);margin-bottom:2px;}
 .coach-header{background:var(--brown-deep);padding:24px 32px;color:var(--white);}
 .coach-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);opacity:0.7;margin-bottom:6px;}
@@ -154,17 +152,16 @@ button,a,input,select,label{cursor:pointer;}
   <div class="premium-pill">Plan complet</div>
 </div>
 
-<!-- PAGE FORMULAIRE -->
 <div class="page active" id="page-form">
   <div class="form-page">
     <div class="form-eyebrow">Plan complet</div>
     <h2>Bienvenue dans<br>ton espace <em>premium</em></h2>
-    <p>Remplis ou vérifie tes informations pour générer ton plan personnalisé.</p>
+    <p>Vérifie tes informations pour générer ton plan personnalisé.</p>
     <div class="field-grid">
-      <div class="field"><label>Âge</label><input type="number" id="p-age" placeholder="35" min="18" max="90"></div>
+      <div class="field"><label>Age</label><input type="number" id="p-age" placeholder="35" min="18" max="90"></div>
       <div class="field"><label>Sexe</label>
         <select id="p-sex">
-          <option value="">Sélectionner</option>
+          <option value="">Selectionner</option>
           <option value="f">Femme</option>
           <option value="m">Homme</option>
           <option value="nb">Autre</option>
@@ -175,43 +172,41 @@ button,a,input,select,label{cursor:pointer;}
       <div class="field"><label>Taille (cm)</label><input type="number" id="p-height" placeholder="165"></div>
       <div class="field"><label>Poids actuel (kg)</label><input type="number" id="p-weight" placeholder="72"></div>
     </div>
-    <div class="field"><label>Poids souhaité (kg)</label><input type="number" id="p-goal" placeholder="60"></div>
+    <div class="field"><label>Poids souhaite (kg)</label><input type="number" id="p-goal" placeholder="60"></div>
     <div class="field-grid">
       <div class="field"><label>Niveau de stress</label>
         <select id="p-stress">
           <option value="faible">Faible</option>
-          <option value="mod">Modéré</option>
-          <option value="eleve">Élevé</option>
+          <option value="mod">Modere</option>
+          <option value="eleve">Eleve</option>
           <option value="chron">Chronique</option>
         </select>
       </div>
-      <div class="field"><label>Activité physique</label>
+      <div class="field"><label>Activite physique</label>
         <select id="p-activite">
-          <option value="sed">Sédentaire</option>
-          <option value="leger">Léger</option>
-          <option value="mod">Modéré</option>
-          <option value="actif">Très actif</option>
+          <option value="sed">Sedentaire</option>
+          <option value="leger">Leger</option>
+          <option value="mod">Modere</option>
+          <option value="actif">Tres actif</option>
         </select>
       </div>
     </div>
     <button class="btn-main" onclick="soumettre()">
-      <span>Générer mon plan complet</span>
-      <span style="transition:transform 0.3s">→</span>
+      <span>Generer mon plan complet</span>
+      <span>→</span>
     </button>
   </div>
 </div>
 
-<!-- PAGE LOADING -->
 <div class="page" id="page-loading">
   <div class="loading-page">
     <div class="spinner"></div>
-    <h2>Génération en cours</h2>
-    <p>Ton plan personnalisé est en cours de préparation selon les dernières recherches scientifiques.</p>
+    <h2>Generation en cours</h2>
+    <p>Ton plan personnalise est en cours de preparation.</p>
     <div id="loading-steps"></div>
   </div>
 </div>
 
-<!-- PAGE RÉSULTAT -->
 <div class="page" id="page-result">
   <div class="pw" id="result-content"></div>
 </div>
@@ -220,21 +215,12 @@ button,a,input,select,label{cursor:pointer;}
 var PROFIL = {};
 var chatHistory = [];
 
-// ============================================
-// INIT — pré-remplir le formulaire si profil sauvegardé
-// ============================================
+// Pré-remplir depuis localStorage
 window.addEventListener('DOMContentLoaded', function() {
-  // Accès direct si profil dans localStorage
   var saved = localStorage.getItem('equilib_profil');
   if (saved) {
     try {
       var p = JSON.parse(saved);
-      if (p.age && p.weight && p.goal) {
-        PROFIL = p;
-        generer();
-        return;
-      }
-      // Pré-remplir le formulaire
       if (p.age) document.getElementById('p-age').value = p.age;
       if (p.sex) document.getElementById('p-sex').value = p.sex;
       if (p.height) document.getElementById('p-height').value = p.height;
@@ -246,31 +232,6 @@ window.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// ============================================
-// SOUMETTRE LE FORMULAIRE
-// ============================================
-function soumettre() {
-  var age = parseInt(document.getElementById('p-age').value);
-  var sex = document.getElementById('p-sex').value;
-  var height = parseInt(document.getElementById('p-height').value);
-  var weight = parseFloat(document.getElementById('p-weight').value);
-  var goal = parseFloat(document.getElementById('p-goal').value);
-  var stress = document.getElementById('p-stress').value;
-  var activite = document.getElementById('p-activite').value;
-
-  if (!age || age < 18 || age > 90) { alert('Merci d\'entrer un âge valide.'); return; }
-  if (!sex) { alert('Merci de sélectionner ton sexe.'); return; }
-  if (!height || height < 140) { alert('Merci d\'entrer ta taille.'); return; }
-  if (!weight || weight < 40) { alert('Merci d\'entrer ton poids.'); return; }
-  if (!goal || goal >= weight) { alert('L\'objectif doit être inférieur à ton poids actuel.'); return; }
-
-  PROFIL = { age: age, sex: sex, height: height, weight: weight, goal: goal, stress: stress, activite: activite, alim: [], obstacles: [] };
-  generer();
-}
-
-// ============================================
-// AFFICHER UNE PAGE
-// ============================================
 function showPage(id) {
   var pages = document.querySelectorAll('.page');
   for (var i = 0; i < pages.length; i++) {
@@ -283,25 +244,41 @@ function showPage(id) {
   window.scrollTo(0, 0);
 }
 
-// ============================================
-// GÉNÉRATION DU PLAN
-// ============================================
+function soumettre() {
+  var age = parseInt(document.getElementById('p-age').value);
+  var sex = document.getElementById('p-sex').value;
+  var height = parseInt(document.getElementById('p-height').value);
+  var weight = parseFloat(document.getElementById('p-weight').value);
+  var goal = parseFloat(document.getElementById('p-goal').value);
+  var stress = document.getElementById('p-stress').value;
+  var activite = document.getElementById('p-activite').value;
+
+  if (!age || age < 18 || age > 90) { alert('Merci entrer un age valide.'); return; }
+  if (!sex) { alert('Merci de selectionner ton sexe.'); return; }
+  if (!height || height < 140) { alert('Merci entrer ta taille.'); return; }
+  if (!weight || weight < 40) { alert('Merci entrer ton poids.'); return; }
+  if (!goal || goal >= weight) { alert('Objectif doit etre inferieur au poids actuel.'); return; }
+
+  PROFIL = { age: age, sex: sex, height: height, weight: weight, goal: goal, stress: stress, activite: activite, alim: [], obstacles: [] };
+  generer();
+}
+
 async function generer() {
   showPage('page-loading');
-
-  var steps = [
-    'Analyse de ton profil métabolique',
-    'Sélection de l\'approche optimale',
-    'Génération du plan d\'action',
-    'Création des menus sur quatre semaines',
-    'Préparation des conseils personnalisés'
-  ];
 
   var container = document.getElementById('loading-steps');
   container.innerHTML = '';
 
-  for (var i = 0; i < 3; i++) {
-    await new Promise(function(r) { setTimeout(r, 800); });
+  var steps = [
+    'Analyse de ton profil metabolique',
+    'Selection de approche optimale',
+    'Generation du plan action',
+    'Preparation des menus',
+    'Finalisation du programme'
+  ];
+
+  // Afficher les etapes progressivement
+  function addStep(i) {
     var d = document.createElement('div');
     d.className = 'lstep';
     d.innerHTML = '<div class="lstep-icon"></div><span>' + steps[i] + '</span>';
@@ -320,158 +297,204 @@ async function generer() {
   var tdee = Math.round(tmb * (actFactors[PROFIL.activite] || 1.375));
   PROFIL.imc = imc; PROFIL.tmb = tmb; PROFIL.tdee = tdee;
 
-  var bilan = null;
-  var menus = null;
+  // Afficher etape 1
+  await new Promise(function(r) { setTimeout(r, 600); });
+  addStep(0);
 
-  // APPEL 1 : approche + actions + conseils
+  // Appel API unique - juste approche + actions + conseils
+  var bilan = null;
   try {
-    var res1 = await fetch('/api/bilan', {
+    await new Promise(function(r) { setTimeout(r, 600); });
+    addStep(1);
+
+    var res = await fetch('/api/bilan', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ profil: PROFIL, mode: 'premium' })
     });
-    var data1 = await res1.json();
-    if (data1.bilan) bilan = data1.bilan;
-  } catch(e) { console.error('Erreur appel 1:', e); }
+    var data = await res.json();
+    if (data.bilan) bilan = data.bilan;
 
-  // Étape 4
-  await new Promise(function(r) { setTimeout(r, 300); });
-  var d4 = document.createElement('div');
-  d4.className = 'lstep';
-  d4.innerHTML = '<div class="lstep-icon"></div><span>' + steps[3] + '</span>';
-  container.appendChild(d4);
-  if (container.children[2]) { container.children[2].classList.add('done'); container.children[2].querySelector('.lstep-icon').textContent = '✓'; }
-
-  // APPEL 2 : menus 4 semaines
-  try {
-    var res2 = await fetch('/api/bilan', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ profil: PROFIL, mode: 'premium-menus', approche: bilan ? bilan.approche_nom : 'rééquilibrage alimentaire' })
-    });
-    var data2 = await res2.json();
-    if (data2.menus) menus = data2.menus;
-  } catch(e) { console.error('Erreur appel 2:', e); }
-  
-  // Fallback menus si API échoue
-  if (!menus) {
-    menus = [
-      {semaine:1, objectif:'Mise en place des bonnes habitudes', jours:[
-        {jour:'Lundi', repas:'Yaourt nature · Salade poulet avocat · Saumon vapeur + légumes verts'},
-        {jour:'Mardi', repas:'Flocons avoine + fruit · Wrap thon crudités · Omelette champignons + salade'},
-        {jour:'Mercredi', repas:'Fruit + amandes · Riz complet poulet brocoli · Soupe lentilles + pain'},
-        {jour:'Jeudi', repas:'Pain complet oeuf · Salade niçoise · Steak haricots verts + quinoa'},
-        {jour:'Vendredi', repas:'Smoothie banane · Pâtes complètes pesto · Cabillaud courgettes rôties'},
-        {jour:'Week-end', repas:'Repas libres — profite sans culpabilité, reprise lundi'}
-      ]},
-      {semaine:2, objectif:'Consolidation — les habitudes deviennent naturelles', jours:[
-        {jour:'Lundi', repas:'Fromage blanc miel · Poulet rôti patate douce · Velouté butternut'},
-        {jour:'Mardi', repas:'Pain complet beurre cacahuète · Bowl riz thon crudités · Tofu sauté légumes'},
-        {jour:'Mercredi', repas:'Kiwi + noix · Salade quinoa feta · Filet de sole épinards'},
-        {jour:'Jeudi', repas:'Yaourt grec granola · Wrap dinde crudités · Curry lentilles corail'},
-        {jour:'Vendredi', repas:'Fruit + café · Poke bowl saumon · Poulet citron haricots verts'},
-        {jour:'Week-end', repas:'Un repas plaisir — savoure-le pleinement et sans stress'}
-      ]},
-      {semaine:3, objectif:'Progression — on consolide les résultats', jours:[
-        {jour:'Lundi', repas:'Smoothie vert · Salade lentilles betterave · Lieu noir fenouil rôti'},
-        {jour:'Mardi', repas:'Oeufs brouillés pain · Wrap poulet avocat · Soupe pois chiches'},
-        {jour:'Mercredi', repas:'Fromage blanc fruits rouges · Bowl buddha légumes · Steak thon riz'},
-        {jour:'Jeudi', repas:'Flocons lait végétal · Salade grecque pain complet · Poulet mariné quinoa'},
-        {jour:'Vendredi', repas:'Fruit + amandes · Pasta complète tomates · Crevettes wok légumes'},
-        {jour:'Week-end', repas:'Repas libres — tu as bien travaillé, profites-en'}
-      ]},
-      {semaine:4, objectif:'Autonomie — tu maîtrises maintenant ta nutrition', jours:[
-        {jour:'Lundi', repas:'Yaourt granola maison · Salade composée au choix · Poisson vapeur légumes'},
-        {jour:'Mardi', repas:'Pain complet avocat · Bowl au choix · Omelette salade verte'},
-        {jour:'Mercredi', repas:'Smoothie protéiné · Wrap au choix · Viande blanche féculents'},
-        {jour:'Jeudi', repas:'Fruit + noix · Salade repas pain · Curry légumineuses'},
-        {jour:'Vendredi', repas:'Toast avocat · Pâtes complètes sauce légère · Poisson légumes rôtis'},
-        {jour:'Week-end', repas:'Bilan du mois — continue sur cette lancée !'}
-      ]}
-    ];
+    await new Promise(function(r) { setTimeout(r, 400); });
+    addStep(2);
+  } catch(e) {
+    console.error('Erreur API:', e);
   }
 
-  // Étape 5
-  await new Promise(function(r) { setTimeout(r, 300); });
-  var d5 = document.createElement('div');
-  d5.className = 'lstep done';
-  d5.innerHTML = '<div class="lstep-icon">✓</div><span>' + steps[4] + '</span>';
-  container.appendChild(d5);
-  if (container.children[3]) { container.children[3].classList.add('done'); container.children[3].querySelector('.lstep-icon').textContent = '✓'; }
+  // Menus generes localement selon le profil
+  await new Promise(function(r) { setTimeout(r, 400); });
+  addStep(3);
 
-  await new Promise(function(r) { setTimeout(r, 300); });
+  var menus = genererMenus(PROFIL, bilan ? bilan.approche_nom : null);
 
-  if (bilan) {
-    if (menus) bilan.menus = menus;
-    afficherPremium(bilan, { imc: imc, tmb: tmb, tdee: tdee });
-  } else {
-    afficherErreur();
+  await new Promise(function(r) { setTimeout(r, 400); });
+  addStep(4);
+  container.children[3].classList.add('done');
+  container.children[3].querySelector('.lstep-icon').textContent = '✓';
+
+  // Si pas de bilan IA, utiliser un bilan par defaut de qualite
+  if (!bilan) {
+    bilan = getBilanDefaut(PROFIL, imc, tmb, tdee);
   }
+
+  bilan.menus = menus;
+  await new Promise(function(r) { setTimeout(r, 300); });
+  afficherPremium(bilan, { imc: imc, tmb: tmb, tdee: tdee });
 }
 
+// Menus intelligents generes selon le profil
+function genererMenus(profil, approche) {
+  var estIF = approche && approche.toLowerCase().indexOf('intermittent') > -1;
+  var calories = profil.tdee ? Math.round(profil.tdee - 400) : 1600;
+  
+  // Menus adaptes selon activite
+  var actif = profil.activite === 'actif' || profil.activite === 'mod';
+  
+  var semaine1 = {
+    semaine: 1,
+    objectif: 'Mise en place — adopter le rythme et les bonnes habitudes',
+    jours: [
+      {jour: 'Lundi', repas: estIF ? 'Jeune matinal · Bowl poulet avocat quinoa · Saumon vapeur haricots verts' : 'Yaourt nature fruit · Salade poulet avocat · Saumon vapeur legumes'},
+      {jour: 'Mardi', repas: estIF ? 'Jeune matinal · Omelette legumes fromage · Steak haricots verts patate douce' : 'Flocons avoine lait · Wrap thon crudites · Omelette champignons salade'},
+      {jour: 'Mercredi', repas: estIF ? 'Jeune matinal · Riz complet poulet brocoli · Soupe lentilles pain complet' : 'Fruit amandes · Riz complet poulet brocoli · Soupe lentilles pain'},
+      {jour: 'Jeudi', repas: estIF ? 'Jeune matinal · Salade nicoise pain complet · Poulet citron courgettes' : 'Pain complet oeuf · Salade nicoise · Steak haricots verts quinoa'},
+      {jour: 'Vendredi', repas: estIF ? 'Jeune matinal · Pates completes thon sauce tomate · Cabillaud legumes roties' : 'Smoothie banane · Pates completes pesto · Cabillaud courgettes roties'},
+      {jour: 'Week-end', repas: 'Repas libres — profite pleinement, reviens sur les bonnes bases lundi'}
+    ]
+  };
+
+  var semaine2 = {
+    semaine: 2,
+    objectif: 'Consolidation — les habitudes deviennent naturelles',
+    jours: [
+      {jour: 'Lundi', repas: 'Fromage blanc miel · Poulet roti patate douce brocoli · Veloute butternut pain'},
+      {jour: 'Mardi', repas: 'Pain complet beurre cacahuete banane · Bowl riz thon crudites sesame · Tofu saute legumes wok'},
+      {jour: 'Mercredi', repas: 'Kiwi noix · Salade quinoa feta tomates · Filet de sole epinards citron'},
+      {jour: 'Jeudi', repas: 'Yaourt grec granola maison · Wrap dinde crudites moutarde · Curry lentilles corail riz'},
+      {jour: 'Vendredi', repas: 'Smoothie verde · Poke bowl saumon riz avocat · Poulet citron haricots verts'},
+      {jour: 'Week-end', repas: 'Un repas plaisir autorise — savoure-le pleinement et sans stress'}
+    ]
+  };
+
+  var semaine3 = {
+    semaine: 3,
+    objectif: 'Progression — les resultats commencent a etre visibles',
+    jours: [
+      {jour: 'Lundi', repas: 'Smoothie epinards banane proteines · Salade lentilles betterave feta · Lieu noir fenouil roti'},
+      {jour: 'Mardi', repas: 'Oeufs brouilles pain complet · Wrap poulet avocat · Soupe pois chiches croûtons'},
+      {jour: 'Mercredi', repas: 'Fromage blanc fruits rouges granola · Bowl buddha legumes houmous · Steak thon riz complet'},
+      {jour: 'Jeudi', repas: 'Flocons avoine lait vegetal cannelle · Salade grecque pain complet · Poulet marine citron quinoa'},
+      {jour: 'Vendredi', repas: 'Fruit amandes cafe · Pates completes tomates sauce legere · Crevettes wok legumes'},
+      {jour: 'Week-end', repas: 'Repas libres — tu as bien travaille cette semaine'}
+    ]
+  };
+
+  var semaine4 = {
+    semaine: 4,
+    objectif: 'Autonomie — tu maitrises ta nutrition et tes choix',
+    jours: [
+      {jour: 'Lundi', repas: 'Yaourt granola maison fruit de saison · Salade composee proteines au choix · Poisson vapeur legumes de saison'},
+      {jour: 'Mardi', repas: 'Pain complet avocat oeuf poche · Bowl proteines legumes au choix · Omelette complete salade verte'},
+      {jour: 'Mercredi', repas: 'Smoothie proteines fruits · Wrap proteines crudites au choix · Viande blanche feculent legumes'},
+      {jour: 'Jeudi', repas: 'Fruit noix cafe · Salade repas complete pain · Curry legumineuses riz complet'},
+      {jour: 'Vendredi', repas: 'Toast avocat oeuf · Pates completes sauce legere proteines · Poisson legumes roties'},
+      {jour: 'Week-end', repas: 'Bilan du mois — note ta progression et continue sur cette lancee !'}
+    ]
+  };
+
+  return [semaine1, semaine2, semaine3, semaine4];
+}
+
+// Bilan par defaut de qualite si API echoue
+function getBilanDefaut(profil, imc, tmb, tdee) {
+  var aPerdi = (profil.weight - profil.goal).toFixed(1);
+  var estFemme = profil.sex === 'f';
+  var calories = Math.round(tdee - 400);
+  
+  var approche = profil.approche === 'if' ? 'Jeune intermittent 16:8' : 'Reequilibrage alimentaire';
+  var estIF = profil.approche === 'if';
+
+  return {
+    approche_nom: approche,
+    approche_pourquoi: 'Le ' + approche.toLowerCase() + ' est ideal pour ton profil. Avec ' + aPerdi + ' kg a perdre et un stress ' + (profil.stress || 'modere') + ', cette approche permet de creer un deficit calorique sans privation brutale et de preserver ton equilibre hormonal.',
+    approche_comment: estIF
+      ? 'Tu manges uniquement entre 12h et 20h (8 heures). Le matin tu peux boire de eau, cafe ou the sans sucre. Les repas dans la fenetre doivent etre complets et equilibres — pas de restriction severe.'
+      : 'Tu manges 3 repas par jour a heures fixes. Tu privilegies les proteines, les legumes et les feculent complets. Tu reduis les sucres rapides et les aliments ultra-transformes sans les eliminer completement.',
+    fenetre_if: estIF ? '12h-20h' : null,
+    calories_jour: calories,
+    message_bienvenue: 'Bienvenue dans ton plan Equilib ! Voici ton programme personnalise pour atteindre ton objectif de ' + profil.goal + ' kg. Tout est calcule en fonction de ton metabolisme et de tes habitudes.',
+    actions: [
+      {titre: 'Structurer tes repas', detail: 'Mange a heures fixes pour stabiliser ta glycemie et eviter les fringales. La regularite est la base de tout reequilibrage alimentaire durable.'},
+      {titre: 'Augmenter les proteines', detail: 'Vise ' + Math.round(profil.weight * 1.2) + 'g de proteines par jour (viande, poisson, oeufs, legumineuses). Les proteines preservent la masse musculaire et augmentent la satiete.'},
+      {titre: 'Gerer le stress activement', detail: 'Le cortisol lie au stress favorise directement le stockage abdominal. Integre 10 min de respiration profonde ou de meditation chaque matin.'},
+      {titre: 'Optimiser ton sommeil', detail: 'Un manque de sommeil augmente la ghreline (hormone de la faim) de 24%. Couche-toi avant 23h et vise 7 a 8h de sommeil regulier.'},
+      {titre: 'Bouger a ton rythme', detail: 'Commence par ' + (profil.activite === 'sed' ? '20 min de marche rapide par jour' : '3 seances de sport modere par semaine') + '. La constance compte plus que l\'intensite.'}
+    ],
+    conseils_plaisir: [
+      {titre: 'Pizza et plats plaisir', conseil: 'Une pizza le week-end ne ruine pas tes efforts si le reste de la semaine est structure. Compense avec un diner leger le soir meme.'},
+      {titre: 'Alcool', conseil: 'Si tu bois, prefere un verre de vin sec a la biere — moins de sucres. Evite de boire l\'estomac vide et limite a 2 verres maximum.'},
+      {titre: 'Chocolat et sucre', conseil: 'Un carre de chocolat noir 70% le soir satisfait le besoin de sucre sans exceder 50 kcal. Le sucre noir apporte aussi des antioxydants.'},
+      {titre: 'Restaurant', conseil: 'Choisis une entree a base de legumes ou proteines, un plat avec viande ou poisson, et evite les sauces cremeuses. Tu peux tout a fait manger au restaurant regulierement.'}
+    ],
+    message_coach_intro: 'Bonjour ! Je suis ton coach Equilib. Je connais ton profil et ton plan. Pose-moi toutes tes questions — recettes, conseils, adaptation du programme, motivation. Je suis la pour toi.'
+  };
+}
 
 function afficherPremium(b, c) {
   var ifHtml = '';
   if (b.fenetre_if && b.fenetre_if !== 'null') {
     var parts = b.fenetre_if.split('-');
-    ifHtml = '<div class="if-box"><div class="if-box-label">Ta fenêtre alimentaire recommandée</div>' +
+    ifHtml = '<div class="if-box"><div class="if-box-label">Ta fenetre alimentaire recommandee</div>' +
       '<div class="if-bar"><div class="if-fast"></div><div class="if-eat"></div><div class="if-fast2"></div></div>' +
-      '<div class="if-times"><span>00h</span><span>' + (parts[0]||'12h') + '</span><span>' + (parts[1]||'20h') + '</span><span>24h</span></div></div>';
+      '<div class="if-times"><span>00h</span><span>' + (parts[0] || '12h') + '</span><span>' + (parts[1] || '20h') + '</span><span>24h</span></div></div>';
   }
-
-  var menusLocaux = genererMenus(PROFIL);
-  var menusHtml = menusLocaux.map(function(s) {
-    return '<div class="semaine">' +
-      '<div class="semaine-header"><span class="semaine-num">Semaine ' + s.semaine + '</span><span class="semaine-obj">— ' + s.objectif + '</span></div>' +
-      s.jours.map(function(j) {
-        return '<div class="jour"><div class="jour-nom">' + j.jour + '</div><div class="jour-repas">' + j.repas + '</div></div>';
-      }).join('') +
-      '</div>';
-  }).join('');
 
   var actionsHtml = b.actions.map(function(a, i) {
     return '<div class="action-item"><div class="action-num">0' + (i+1) + '</div><div><div class="action-title">' + a.titre + '</div><div class="action-text">' + a.detail + '</div></div></div>';
   }).join('');
 
-  var conseilsHtml = b.conseils_plaisir.map(function(c) {
-    return '<div class="conseil-item"><div class="conseil-title">' + c.titre + '</div><div class="conseil-text">' + c.conseil + '</div></div>';
+  var menusHtml = b.menus.map(function(s) {
+    return '<div class="semaine">' +
+      '<div class="semaine-header"><span class="semaine-num">Semaine ' + s.semaine + '</span><span class="semaine-obj">— ' + s.objectif + '</span></div>' +
+      s.jours.map(function(j) {
+        return '<div class="jour"><div class="jour-nom">' + j.jour + '</div><div class="jour-repas">' + j.repas + '</div></div>';
+      }).join('') + '</div>';
   }).join('');
 
-  var html =
+  var conseilsHtml = b.conseils_plaisir.map(function(cp) {
+    return '<div class="conseil-item"><div class="conseil-title">' + cp.titre + '</div><div class="conseil-text">' + cp.conseil + '</div></div>';
+  }).join('');
+
+  document.getElementById('result-content').innerHTML =
     '<div class="p-hero">' +
-      '<div class="p-hero-eyebrow">Ton plan Equilib — Version complète</div>' +
+      '<div class="p-hero-eyebrow">Ton plan Equilib — Version complete</div>' +
       '<div class="p-hero-title">' + b.message_bienvenue + '</div>' +
-      '<div class="p-hero-sub">Plan d\'action, menus sur quatre semaines, conseils et coach disponible à tout moment.</div>' +
+      '<div class="p-hero-sub">Plan action, menus sur quatre semaines, conseils et coach disponible a tout moment.</div>' +
       '<div class="p-kpis">' +
         '<div class="p-kpi"><div class="p-kpi-val">' + c.imc + '</div><div class="p-kpi-label">Ton IMC</div></div>' +
         '<div class="p-kpi"><div class="p-kpi-val">' + b.calories_jour + '</div><div class="p-kpi-label">kcal objectif/jour</div></div>' +
-        '<div class="p-kpi"><div class="p-kpi-val">' + parseFloat(PROFIL.weight - PROFIL.goal).toFixed(1) + ' kg</div><div class="p-kpi-label">À atteindre</div></div>' +
+        '<div class="p-kpi"><div class="p-kpi-val">' + parseFloat(PROFIL.weight - PROFIL.goal).toFixed(1) + ' kg</div><div class="p-kpi-label">A atteindre</div></div>' +
       '</div>' +
     '</div>' +
-
     '<div class="p-card">' +
-      '<div class="p-card-eyebrow">Approche recommandée</div>' +
+      '<div class="p-card-eyebrow">Approche recommandee</div>' +
       '<div class="p-card-title">' + b.approche_nom + '</div>' +
       '<div class="approche-box"><h3>Pourquoi cette approche pour toi</h3><p>' + b.approche_pourquoi + '</p></div>' +
-      '<div class="p-card-text"><strong style="font-weight:500;color:var(--brown-deep)">Comment l\'appliquer</strong><br><br>' + b.approche_comment + '</div>' +
+      '<div class="p-card-text"><strong style="font-weight:500;color:var(--brown-deep)">Comment appliquer</strong><br><br>' + b.approche_comment + '</div>' +
       ifHtml +
     '</div>' +
-
     '<div class="p-card" style="padding:0">' +
-      '<div style="padding:32px 36px 20px"><div class="p-card-eyebrow">Plan d\'action</div><div class="p-card-title">Cinq étapes concrètes</div></div>' +
+      '<div style="padding:32px 36px 20px"><div class="p-card-eyebrow">Plan action</div><div class="p-card-title">Cinq etapes concretes</div></div>' +
       '<div class="actions-list">' + actionsHtml + '</div>' +
     '</div>' +
-
     '<div class="p-card" style="padding:0">' +
-      '<div style="padding:32px 36px 20px"><div class="p-card-eyebrow">Menus personnalisés</div><div class="p-card-title">Quatre semaines complètes</div></div>' +
+      '<div style="padding:32px 36px 20px"><div class="p-card-eyebrow">Menus personnalises</div><div class="p-card-title">Quatre semaines completes</div></div>' +
       '<div class="semaines">' + menusHtml + '</div>' +
     '</div>' +
-
     '<div class="p-card" style="padding:0">' +
-      '<div style="padding:32px 36px 20px"><div class="p-card-eyebrow">Garder le plaisir</div><div class="p-card-title">Sans frustration ni culpabilité</div></div>' +
+      '<div style="padding:32px 36px 20px"><div class="p-card-eyebrow">Garder le plaisir</div><div class="p-card-title">Sans frustration ni culpabilite</div></div>' +
       '<div class="conseils-grid">' + conseilsHtml + '</div>' +
     '</div>' +
-
     '<div class="coach-wrap">' +
       '<div class="coach-header">' +
         '<div class="coach-eyebrow">Coach personnel</div>' +
@@ -486,70 +509,48 @@ function afficherPremium(b, c) {
         '<button class="chat-send" id="chat-btn" onclick="envoyerMessage()">Envoyer</button>' +
       '</div>' +
     '</div>' +
+    '<div class="disclaimer">Ce plan est fourni a titre informatif et ne remplace pas avis medecin ou dieteticien agree.</div>';
 
-    '<div class="disclaimer">Ce plan est fourni à titre informatif et ne remplace pas l\'avis d\'un médecin ou d\'un diététicien agréé.</div>';
-
-  document.getElementById('result-content').innerHTML = html;
   showPage('page-result');
 
   chatHistory = [
-    { role: 'user', content: 'Mon profil : ' + PROFIL.age + ' ans, ' + PROFIL.weight + 'kg, objectif ' + PROFIL.goal + 'kg, approche ' + b.approche_nom + '.' },
+    { role: 'user', content: 'Mon profil : ' + PROFIL.age + ' ans, ' + PROFIL.weight + 'kg, objectif ' + PROFIL.goal + 'kg.' },
     { role: 'assistant', content: b.message_coach_intro }
   ];
 }
 
-// ============================================
-// COACH IA — CHAT
-// ============================================
 async function envoyerMessage() {
   var input = document.getElementById('chat-input');
   var msg = input.value.trim();
   if (!msg) return;
-
   input.value = '';
   document.getElementById('chat-btn').disabled = true;
 
   var md = document.getElementById('chat-messages');
   md.innerHTML += '<div class="msg user"><div class="msg-av user">T</div><div class="msg-bubble">' + msg + '</div></div>';
-
   var tid = 't' + Date.now();
   md.innerHTML += '<div class="msg ai" id="' + tid + '"><div class="msg-av ai">E</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>';
   md.scrollTop = md.scrollHeight;
-
   chatHistory.push({ role: 'user', content: msg });
 
   try {
-    var systemMsg = 'Tu es le coach bienveillant d\'Equilib. Tu aides ' + (PROFIL.sex === 'f' ? 'une femme' : 'un homme') + ' de ' + PROFIL.age + ' ans à perdre du poids sans frustration. Profil : ' + PROFIL.weight + 'kg, objectif ' + PROFIL.goal + 'kg. Réponds de façon courte, humaine et pratique en français.';
     var res = await fetch('/api/bilan', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mode: 'chat', profil: PROFIL, messages: [{ role: 'user', content: systemMsg }].concat(chatHistory) })
+      body: JSON.stringify({ mode: 'chat', profil: PROFIL, messages: chatHistory })
     });
     var data = await res.json();
-    var reply = data.reply || 'Je suis là pour t\'aider. Que souhaites-tu savoir ?';
+    var reply = data.reply || 'Je suis la pour toi. Que souhaites-tu savoir ?';
     document.getElementById(tid).remove();
     md.innerHTML += '<div class="msg ai"><div class="msg-av ai">E</div><div class="msg-bubble">' + reply + '</div></div>';
     chatHistory.push({ role: 'assistant', content: reply });
   } catch(e) {
     document.getElementById(tid).remove();
-    md.innerHTML += '<div class="msg ai"><div class="msg-av ai">E</div><div class="msg-bubble">Une erreur s\'est produite. Réessaie dans un instant.</div></div>';
+    md.innerHTML += '<div class="msg ai"><div class="msg-av ai">E</div><div class="msg-bubble">Une erreur est survenue. Reessaie.</div></div>';
   }
 
   md.scrollTop = md.scrollHeight;
   document.getElementById('chat-btn').disabled = false;
-}
-
-// ============================================
-// ERREUR
-// ============================================
-function afficherErreur() {
-  document.getElementById('result-content').innerHTML =
-    '<div style="max-width:520px;margin:0 auto;padding:80px 48px;text-align:center">' +
-    '<h2 style="font-family:\'Cormorant Garamond\',serif;font-size:30px;font-weight:300;color:var(--brown-deep);margin-bottom:12px">Erreur lors de la génération</h2>' +
-    '<p style="font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.7;font-weight:300">Une erreur technique s\'est produite. Tes informations sont sauvegardées. Recharge la page pour réessayer.</p>' +
-    '<button class="btn-main" onclick="location.reload()"><span>Réessayer</span></button>' +
-    '</div>';
-  showPage('page-result');
 }
 </script>
 </body>
