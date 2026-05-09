@@ -54,7 +54,7 @@ export default async function handler(req, res) {
     if (!messages.length) return res.status(400).json({ error: 'Messages manquants' });
     try {
       const conv = messages.slice(-4).map(m => m.role + ': ' + m.content).join('\n');
-      const reply = await callAI('Coach nutrition Equilib. Réponds en français, court et pratique.\n\n' + conv, 300);
+      const reply = await callAI('Coach nutrition Equilib. Français, court et pratique.\n\n' + conv, 300);
       return res.status(200).json({ reply });
     } catch(e) {
       return res.status(500).json({ error: 'Erreur coach' });
@@ -74,9 +74,9 @@ export default async function handler(req, res) {
 
   // MODE GRATUIT
   if (mode !== 'premium') {
-    const prompt = `Expert nutrition. "tu". Diagnostic sans solutions. Profil: ${age}ans ${sex==='f'?'F':'M'} ${height}cm ${weight}kg obj:${goal}kg IMC:${imc} TMB:${tmb} TDEE:${tdee} stress:${profil.stress||'mod'} act:${profil.activite||'sed'}.
+    const prompt = `Expert nutrition. Parle en "tu". Diagnostic sans solutions.
+Profil: ${age}ans ${sex==='f'?'F':'M'} ${height}cm ${weight}kg obj:${goal}kg IMC:${imc} TMB:${tmb} TDEE:${tdee} stress:${profil.stress||'mod'} act:${profil.activite||'sed'}.
 JSON uniquement: {"imc_label":"Poids normal","imc_badge_color":"vert","score_facilite":7,"score_alimentation":6,"score_lifestyle":5,"score_motivation":8,"score_facilite_comment":"phrase","score_alimentation_comment":"phrase","score_lifestyle_comment":"phrase","score_motivation_comment":"phrase","hero_subtitle":"phrase","diagnostic":"2 phrases","temps_realiste":"4-6 mois","calories_conseillees":1500,"imc_interpretation":"1 phrase","tmb_interpretation":"1 phrase","tdee_interpretation":"1 phrase","deficit_interpretation":"1 phrase","bloqueurs":[{"niveau":"critique","titre":"bloqueur","explication":"2 phrases"},{"niveau":"modéré","titre":"bloqueur","explication":"2 phrases"},{"niveau":"faible","titre":"bloqueur","explication":"1 phrase"}],"teaser_premium":"phrase","message_fin":"phrase"}`;
-
     try {
       const text = await callAI(prompt, 900);
       const bilan = parseJSON(text);
@@ -86,13 +86,14 @@ JSON uniquement: {"imc_label":"Poids normal","imc_badge_color":"vert","score_fac
     }
   }
 
-  // MODE PREMIUM
-  const p = `Tu es nutritionniste. ${sex==='f'?'Femme':'Homme'} ${age}ans ${weight}kg objectif ${goal}kg.
-JSON valide COMPLET, champs très courts:
-{"approche_nom":"meilleure approche","approche_pourquoi":"1 phrase","approche_comment":"1 phrase","fenetre_if":null,"calories_jour":${tdee-400},"message_bienvenue":"message court","actions":[{"titre":"A1","detail":"1 phrase"},{"titre":"A2","detail":"1 phrase"},{"titre":"A3","detail":"1 phrase"},{"titre":"A4","detail":"1 phrase"},{"titre":"A5","detail":"1 phrase"}],"menus":[{"semaine":1,"objectif":"S1","jours":[{"jour":"Lun","repas":"déj·dej·din"},{"jour":"Mar","repas":"déj·dej·din"},{"jour":"Mer","repas":"déj·dej·din"},{"jour":"Jeu","repas":"déj·dej·din"},{"jour":"Ven","repas":"déj·dej·din"},{"jour":"WE","repas":"libre"}]},{"semaine":2,"objectif":"S2","jours":[{"jour":"Lun","repas":"déj·dej·din"},{"jour":"Mar","repas":"déj·dej·din"},{"jour":"Mer","repas":"déj·dej·din"},{"jour":"Jeu","repas":"déj·dej·din"},{"jour":"Ven","repas":"déj·dej·din"},{"jour":"WE","repas":"conseil"}]},{"semaine":3,"objectif":"S3","jours":[{"jour":"Lun","repas":"déj·dej·din"},{"jour":"Mar","repas":"déj·dej·din"},{"jour":"Mer","repas":"déj·dej·din"},{"jour":"Jeu","repas":"déj·dej·din"},{"jour":"Ven","repas":"déj·dej·din"},{"jour":"WE","repas":"conseil"}]},{"semaine":4,"objectif":"S4","jours":[{"jour":"Lun","repas":"déj·dej·din"},{"jour":"Mar","repas":"déj·dej·din"},{"jour":"Mer","repas":"déj·dej·din"},{"jour":"Jeu","repas":"déj·dej·din"},{"jour":"Ven","repas":"déj·dej·din"},{"jour":"WE","repas":"conseil"}]}],"conseils_plaisir":[{"titre":"Pizza","conseil":"phrase"},{"titre":"Alcool","conseil":"phrase"},{"titre":"Chocolat","conseil":"phrase"},{"titre":"Restaurant","conseil":"phrase"}],"message_coach_intro":"phrase"}`;
+  // MODE PREMIUM — prompt court, menus générés côté client
+  const prompt = `Nutritionniste bienveillant. Parle en "tu".
+Profil: ${sex==='f'?'Femme':'Homme'} ${age}ans ${weight}kg objectif ${goal}kg stress:${profil.stress||'mod'} activité:${profil.activite||'sed'}.
+JSON uniquement:
+{"approche_nom":"nom approche","approche_pourquoi":"1 phrase","approche_comment":"1 phrase","fenetre_if":null,"calories_jour":${tdee-400},"message_bienvenue":"message chaleureux","actions":[{"titre":"titre","detail":"1 phrase"},{"titre":"titre","detail":"1 phrase"},{"titre":"titre","detail":"1 phrase"},{"titre":"titre","detail":"1 phrase"},{"titre":"titre","detail":"1 phrase"}],"conseils_plaisir":[{"titre":"Pizza","conseil":"1 phrase"},{"titre":"Alcool","conseil":"1 phrase"},{"titre":"Chocolat","conseil":"1 phrase"},{"titre":"Restaurant","conseil":"1 phrase"}],"message_coach_intro":"1 phrase chaleureuse"}`;
 
   try {
-    const text = await callAI(p, 1800);
+    const text = await callAI(prompt, 800);
     const bilan = parseJSON(text);
     return res.status(200).json({ bilan, computed: { imc, tmb, tdee } });
   } catch(e) {
