@@ -114,23 +114,41 @@ Réponds UNIQUEMENT avec du JSON brut (pas de markdown) :
     }
   }
 
-  // MODE PREMIUM — approche + actions + conseils (sans menus)
-  const prompt = `Tu es un expert en nutrition et perte de poids bienveillant. Tu parles en "tu".
-
-Profil :
-- ${sex === 'f' ? 'Femme' : 'Homme'} de ${age} ans | ${height}cm | ${weight}kg | Objectif : ${goal}kg
-- Stress : ${profil.stress||'mod'} | Activité : ${profil.activite||'sed'}
-- Habitudes : ${(profil.alim||[]).join(', ')||'non précisé'}
-- Obstacles : ${(profil.obstacles||[]).join(', ')||'non précisé'}
-- Approche souhaitée : ${profil.approche||'à déterminer'}
-- Calories cibles : ${tdee-400} kcal/jour
-
-Réponds UNIQUEMENT avec du JSON brut (pas de markdown) :
-{"approche_nom":"<nom précis de l'approche>","approche_pourquoi":"<2-3 phrases expliquant pourquoi cette approche est idéale>","approche_comment":"<2-3 phrases expliquant comment l'appliquer concrètement>","fenetre_if":"<ex: 12h-20h | null si pas jeûne>","calories_jour":<nombre>,"message_bienvenue":"<message chaleureux et personnalisé>","actions":[{"titre":"<titre>","detail":"<2 phrases concrètes>"},{"titre":"<titre>","detail":"<2 phrases>"},{"titre":"<titre>","detail":"<2 phrases>"},{"titre":"<titre>","detail":"<2 phrases>"},{"titre":"<titre>","detail":"<2 phrases>"}],"conseils_plaisir":[{"titre":"<titre>","conseil":"<1 phrase concrète>"},{"titre":"<titre>","conseil":"<1 phrase>"},{"titre":"<titre>","conseil":"<1 phrase>"},{"titre":"<titre>","conseil":"<1 phrase>"}],"message_coach_intro":"<message coach personnalisé et chaleureux>"}`;
+  // MODE PREMIUM
+  const p = `Nutritionniste. ${sex==='f'?'F':'H'} ${age}a ${weight}kg>${goal}kg.
+JSON valide court:
+{"approche_nom":"approche","approche_pourquoi":"phrase","approche_comment":"phrase","fenetre_if":null,"calories_jour":${tdee-400},"message_bienvenue":"message","actions":[{"titre":"t1","detail":"phrase"},{"titre":"t2","detail":"phrase"},{"titre":"t3","detail":"phrase"},{"titre":"t4","detail":"phrase"},{"titre":"t5","detail":"phrase"}],"conseils_plaisir":[{"titre":"Pizza","conseil":"phrase"},{"titre":"Alcool","conseil":"phrase"},{"titre":"Chocolat","conseil":"phrase"},{"titre":"Restaurant","conseil":"phrase"}],"message_coach_intro":"phrase"}`;
 
   try {
-    const text = await callAI(prompt, 1200, 'anthropic/claude-haiku-4-5-20251001');
-    const bilan = parseJSON(text);
+    const text = await callAI(p, 600, 'anthropic/claude-haiku-4-5-20251001');
+    let bilan;
+    try {
+      bilan = parseJSON(text);
+    } catch(parseErr) {
+      // Fallback si JSON invalide
+      bilan = {
+        approche_nom: 'Rééquilibrage alimentaire',
+        approche_pourquoi: `Adapté à ton profil de ${age} ans avec un objectif de ${+(weight-goal).toFixed(1)}kg à perdre.`,
+        approche_comment: 'Mange équilibré en 3 repas, réduis les sucres rapides et les aliments ultra-transformés.',
+        fenetre_if: null,
+        calories_jour: tdee - 400,
+        message_bienvenue: `Bienvenue dans ton plan personnalisé ! Voici tout ce qu'il te faut pour atteindre ton objectif.`,
+        actions: [
+          {titre: 'Structurer tes repas', detail: 'Mange à heures fixes pour réguler ta faim et ton métabolisme.'},
+          {titre: 'Augmenter les protéines', detail: 'Vise 1,2g de protéines par kg de poids pour préserver ta masse musculaire.'},
+          {titre: 'Gérer le stress', detail: 'Le stress chronique augmente le cortisol et favorise le stockage. Intègre 10 min de relaxation par jour.'},
+          {titre: 'Améliorer le sommeil', detail: 'Un manque de sommeil augmente la faim de 24%. Vise 7-8h par nuit.'},
+          {titre: 'Bouger quotidiennement', detail: 'Commence par 20 min de marche rapide par jour — c'est suffisant pour démarrer.'}
+        ],
+        conseils_plaisir: [
+          {titre: 'Pizza', conseil: 'Une pizza le week-end ne ruine pas tes efforts — compense avec un dîner léger.'},
+          {titre: 'Alcool', conseil: 'Préfère un verre de vin sec à la bière — moins de sucres et moins de calories.'},
+          {titre: 'Chocolat', conseil: 'Un carré de chocolat noir 70%+ le soir satisfait l'envie de sucre sans excès.'},
+          {titre: 'Restaurant', conseil: 'Choisis une entrée légère, un plat protéiné et évite les sauces crémeuses.'}
+        ],
+        message_coach_intro: `Bonjour ! Je suis ton coach Equilib. Je suis là pour répondre à toutes tes questions sur ton plan, tes menus ou tes habitudes. Qu'est-ce que tu veux savoir ?`
+      };
+    }
     return res.status(200).json({ bilan, computed: { imc, tmb, tdee } });
   } catch(e) {
     return res.status(500).json({ error: 'Erreur premium: ' + e.message });
