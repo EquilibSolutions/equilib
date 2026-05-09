@@ -291,23 +291,24 @@ async function generer() {
 
   var steps = [
     'Analyse de ton profil métabolique',
-    'Sélection de l\'approche optimale',
-    'Génération du plan d\'action',
+    'Sélection de l'approche optimale',
+    'Génération du plan d'action',
     'Création des menus sur quatre semaines',
     'Préparation des conseils personnalisés'
   ];
 
   var container = document.getElementById('loading-steps');
-  for (var i = 0; i < steps.length; i++) {
-    await new Promise(function(r) { setTimeout(r, 950); });
+  container.innerHTML = '';
+
+  for (var i = 0; i < 3; i++) {
+    await new Promise(function(r) { setTimeout(r, 800); });
     var d = document.createElement('div');
     d.className = 'lstep';
     d.innerHTML = '<div class="lstep-icon"></div><span>' + steps[i] + '</span>';
     container.appendChild(d);
     if (i > 0) {
-      var prev = container.children[i - 1];
-      prev.classList.add('done');
-      prev.querySelector('.lstep-icon').textContent = '✓';
+      container.children[i-1].classList.add('done');
+      container.children[i-1].querySelector('.lstep-icon').textContent = '✓';
     }
   }
 
@@ -317,98 +318,60 @@ async function generer() {
     ? Math.round(10 * PROFIL.weight + 6.25 * PROFIL.height - 5 * PROFIL.age - 161)
     : Math.round(10 * PROFIL.weight + 6.25 * PROFIL.height - 5 * PROFIL.age + 5);
   var tdee = Math.round(tmb * (actFactors[PROFIL.activite] || 1.375));
-
   PROFIL.imc = imc; PROFIL.tmb = tmb; PROFIL.tdee = tdee;
 
-  var prompt = 'Tu es un expert en nutrition et perte de poids. Génère un plan COMPLET et DÉTAILLÉ. Tu parles en "tu", bienveillant et humain. ' +
-    'Profil : Âge ' + PROFIL.age + ' ans, Sexe ' + (PROFIL.sex==='f'?'Femme':'Homme') + ', Taille ' + PROFIL.height + 'cm, Poids ' + PROFIL.weight + 'kg, Objectif ' + PROFIL.goal + 'kg, IMC ' + imc + ', TMB ' + tmb + 'kcal, TDEE ' + tdee + 'kcal, Stress ' + PROFIL.stress + ', Activité ' + PROFIL.activite + '. ' +
-    'Réponds UNIQUEMENT avec du JSON brut (sans markdown) : {"approche_nom":"<Jeûne intermittent 16:8|Rééquilibrage alimentaire|Déficit calorique progressif>","approche_pourquoi":"<2-3 phrases>","approche_comment":"<2-3 phrases>","fenetre_if":"<ex: 12h-20h ou null>","calories_jour":<nombre>,"message_bienvenue":"<message chaleureux et personnalisé>","actions":[{"titre":"...","detail":"<2 phrases concrètes>"},{"titre":"...","detail":"<2 phrases>"},{"titre":"...","detail":"<2 phrases>"},{"titre":"...","detail":"<2 phrases>"},{"titre":"...","detail":"<2 phrases>"}],"menus":[{"semaine":1,"objectif":"<objectif semaine>","jours":[{"jour":"Lundi","repas":"<petit-déj · déjeuner · dîner>"},{"jour":"Mardi","repas":"<repas>"},{"jour":"Mercredi","repas":"<repas>"},{"jour":"Jeudi","repas":"<repas>"},{"jour":"Vendredi","repas":"<repas>"},{"jour":"Week-end","repas":"<conseil et repas libre>"}]},{"semaine":2,"objectif":"<objectif>","jours":[{"jour":"Lundi","repas":"<repas>"},{"jour":"Mardi","repas":"<repas>"},{"jour":"Mercredi","repas":"<repas>"},{"jour":"Jeudi","repas":"<repas>"},{"jour":"Vendredi","repas":"<repas>"},{"jour":"Week-end","repas":"<conseil>"}]},{"semaine":3,"objectif":"<objectif>","jours":[{"jour":"Lundi","repas":"<repas>"},{"jour":"Mardi","repas":"<repas>"},{"jour":"Mercredi","repas":"<repas>"},{"jour":"Jeudi","repas":"<repas>"},{"jour":"Vendredi","repas":"<repas>"},{"jour":"Week-end","repas":"<conseil>"}]},{"semaine":4,"objectif":"<objectif>","jours":[{"jour":"Lundi","repas":"<repas>"},{"jour":"Mardi","repas":"<repas>"},{"jour":"Mercredi","repas":"<repas>"},{"jour":"Jeudi","repas":"<repas>"},{"jour":"Vendredi","repas":"<repas>"},{"jour":"Week-end","repas":"<conseil>"}]}],"conseils_plaisir":[{"titre":"...","conseil":"<1 phrase concrète>"},{"titre":"...","conseil":"<1 phrase>"},{"titre":"...","conseil":"<1 phrase>"},{"titre":"...","conseil":"<1 phrase>"}],"message_coach_intro":"<message coach personnalisé et chaleureux>"}';
+  var bilan = null;
+  var menus = null;
 
+  // APPEL 1 : approche + actions + conseils
   try {
-    var res = await fetch('/api/bilan', {
+    var res1 = await fetch('/api/bilan', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ profil: PROFIL, mode: 'premium', prompt_override: prompt })
+      body: JSON.stringify({ profil: PROFIL, mode: 'premium' })
     });
-    var data = await res.json();
-    if (data.bilan) {
-      afficherPremium(data.bilan, { imc: imc, tmb: tmb, tdee: tdee });
-    } else {
-      throw new Error('Pas de bilan');
-    }
-  } catch(e) {
-    console.error('Erreur premium:', e);
-    // Afficher erreur détaillée
-    document.getElementById('result-content').innerHTML =
-      '<div style="max-width:520px;margin:0 auto;padding:80px 48px;text-align:center">' +
-      '<h2 style="font-family:Cormorant Garamond,serif;font-size:24px;font-weight:300;color:var(--brown-deep);margin-bottom:12px">Erreur détaillée</h2>' +
-      '<p style="font-size:13px;color:var(--muted);margin-bottom:28px;line-height:1.7;font-family:monospace;text-align:left;background:var(--cream-warm);padding:16px">' + e.message + '</p>' +
-      '<button class="btn-main" onclick="location.reload()"><span>Réessayer</span></button>' +
-      '</div>';
-    showPage("page-result");
+    var data1 = await res1.json();
+    if (data1.bilan) bilan = data1.bilan;
+  } catch(e) { console.error('Erreur appel 1:', e); }
+
+  // Étape 4
+  await new Promise(function(r) { setTimeout(r, 300); });
+  var d4 = document.createElement('div');
+  d4.className = 'lstep';
+  d4.innerHTML = '<div class="lstep-icon"></div><span>' + steps[3] + '</span>';
+  container.appendChild(d4);
+  if (container.children[2]) { container.children[2].classList.add('done'); container.children[2].querySelector('.lstep-icon').textContent = '✓'; }
+
+  // APPEL 2 : menus 4 semaines
+  try {
+    var res2 = await fetch('/api/bilan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ profil: PROFIL, mode: 'premium-menus', approche: bilan ? bilan.approche_nom : 'rééquilibrage alimentaire' })
+    });
+    var data2 = await res2.json();
+    if (data2.menus) menus = data2.menus;
+  } catch(e) { console.error('Erreur appel 2:', e); }
+
+  // Étape 5
+  await new Promise(function(r) { setTimeout(r, 300); });
+  var d5 = document.createElement('div');
+  d5.className = 'lstep done';
+  d5.innerHTML = '<div class="lstep-icon">✓</div><span>' + steps[4] + '</span>';
+  container.appendChild(d5);
+  if (container.children[3]) { container.children[3].classList.add('done'); container.children[3].querySelector('.lstep-icon').textContent = '✓'; }
+
+  await new Promise(function(r) { setTimeout(r, 300); });
+
+  if (bilan) {
+    if (menus) bilan.menus = menus;
+    afficherPremium(bilan, { imc: imc, tmb: tmb, tdee: tdee });
+  } else {
+    afficherErreur();
   }
 }
 
 
-// ============================================
-// MENUS GÉNÉRÉS LOCALEMENT
-// ============================================
-function genererMenus(profil) {
-  var calories = profil.tdee ? profil.tdee - 400 : 1600;
-  var estFemme = profil.sex === 'f';
-  
-  var menus_base = [
-    {
-      semaine: 1, objectif: 'Mise en place — prendre les bonnes habitudes',
-      jours: [
-        {jour: 'Lundi', repas: 'Yaourt nature + fruit · Salade poulet avocat · Saumon vapeur + légumes'},
-        {jour: 'Mardi', repas: 'Flocons avoine + lait · Wrap thon crudités · Omelette champignons + salade'},
-        {jour: 'Mercredi', repas: 'Fruit + amandes · Riz complet + poulet + brocoli · Soupe lentilles + pain'},
-        {jour: 'Jeudi', repas: 'Pain complet + œuf · Salade niçoise · Steak haricots verts + quinoa'},
-        {jour: 'Vendredi', repas: 'Smoothie banane · Pâtes complètes pesto · Cabillaud + courgettes rôties'},
-        {jour: 'Week-end', repas: 'Repas libres — profite sans culpabilité, reviens sur les bonnes bases lundi'}
-      ]
-    },
-    {
-      semaine: 2, objectif: 'Consolidation — les habitudes deviennent naturelles',
-      jours: [
-        {jour: 'Lundi', repas: 'Fromage blanc + miel · Poulet rôti + patate douce · Velouté butternut'},
-        {jour: 'Mardi', repas: 'Pain complet + beurre de cacahuète · Bowl riz thon crudités · Sauté tofu légumes'},
-        {jour: 'Mercredi', repas: 'Kiwi + noix · Salade quinoa feta · Filet de sole + épinards'},
-        {jour: 'Jeudi', repas: 'Yaourt grec + granola · Wrap dinde crudités · Curry lentilles corail'},
-        {jour: 'Vendredi', repas: 'Fruit + café · Poke bowl saumon · Poulet citron + haricots verts'},
-        {jour: 'Week-end', repas: 'Un repas plaisir autorisé — savoure-le pleinement et sans stress'}
-      ]
-    },
-    {
-      semaine: 3, objectif: 'Progression — on monte en régime',
-      jours: [
-        {jour: 'Lundi', repas: 'Smoothie vert · Salade lentilles betterave · Lieu noir + fenouil rôti'},
-        {jour: 'Mardi', repas: 'Œufs brouillés + pain · Wrap poulet avocat · Soupe pois chiches + croûtons'},
-        {jour: 'Mercredi', repas: 'Fromage blanc + fruits rouges · Bowl buddha légumes · Steak de thon + riz'},
-        {jour: 'Jeudi', repas: 'Flocons + lait végétal · Salade grecque + pain complet · Poulet mariné + quinoa'},
-        {jour: 'Vendredi', repas: 'Fruit + amandes · Pasta complète tomates · Crevettes wok légumes'},
-        {jour: 'Week-end', repas: 'Repas libres — tu as bien travaillé cette semaine, profites-en'}
-      ]
-    },
-    {
-      semaine: 4, objectif: 'Autonomie — tu connais maintenant ce qui te convient',
-      jours: [
-        {jour: 'Lundi', repas: 'Yaourt + granola maison · Salade composée au choix · Poisson vapeur + légumes'},
-        {jour: 'Mardi', repas: 'Pain complet + avocat · Bowl au choix · Omelette + salade verte'},
-        {jour: 'Mercredi', repas: 'Smoothie protéiné · Wrap au choix · Viande blanche + féculents'},
-        {jour: 'Jeudi', repas: 'Fruit + noix · Salade repas + pain · Curry légumineuses'},
-        {jour: 'Vendredi', repas: 'Café + toast · Pâtes complètes sauce légères · Poisson + légumes rôtis'},
-        {jour: 'Week-end', repas: 'Bilan de ton mois — tu es prêt(e) pour continuer sur cette lancée'}
-      ]
-    }
-  ];
-  
-  return menus_base;
-}
-// ============================================
-// AFFICHAGE DU PLAN PREMIUM
-// ============================================
 function afficherPremium(b, c) {
   var ifHtml = '';
   if (b.fenetre_if && b.fenetre_if !== 'null') {
