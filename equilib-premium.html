@@ -349,6 +349,63 @@ async function generer() {
   }
 }
 
+
+// ============================================
+// MENUS GÉNÉRÉS LOCALEMENT
+// ============================================
+function genererMenus(profil) {
+  var calories = profil.tdee ? profil.tdee - 400 : 1600;
+  var estFemme = profil.sex === 'f';
+  
+  var menus_base = [
+    {
+      semaine: 1, objectif: 'Mise en place — prendre les bonnes habitudes',
+      jours: [
+        {jour: 'Lundi', repas: 'Yaourt nature + fruit · Salade poulet avocat · Saumon vapeur + légumes'},
+        {jour: 'Mardi', repas: 'Flocons avoine + lait · Wrap thon crudités · Omelette champignons + salade'},
+        {jour: 'Mercredi', repas: 'Fruit + amandes · Riz complet + poulet + brocoli · Soupe lentilles + pain'},
+        {jour: 'Jeudi', repas: 'Pain complet + œuf · Salade niçoise · Steak haricots verts + quinoa'},
+        {jour: 'Vendredi', repas: 'Smoothie banane · Pâtes complètes pesto · Cabillaud + courgettes rôties'},
+        {jour: 'Week-end', repas: 'Repas libres — profite sans culpabilité, reviens sur les bonnes bases lundi'}
+      ]
+    },
+    {
+      semaine: 2, objectif: 'Consolidation — les habitudes deviennent naturelles',
+      jours: [
+        {jour: 'Lundi', repas: 'Fromage blanc + miel · Poulet rôti + patate douce · Velouté butternut'},
+        {jour: 'Mardi', repas: 'Pain complet + beurre de cacahuète · Bowl riz thon crudités · Sauté tofu légumes'},
+        {jour: 'Mercredi', repas: 'Kiwi + noix · Salade quinoa feta · Filet de sole + épinards'},
+        {jour: 'Jeudi', repas: 'Yaourt grec + granola · Wrap dinde crudités · Curry lentilles corail'},
+        {jour: 'Vendredi', repas: 'Fruit + café · Poke bowl saumon · Poulet citron + haricots verts'},
+        {jour: 'Week-end', repas: 'Un repas plaisir autorisé — savoure-le pleinement et sans stress'}
+      ]
+    },
+    {
+      semaine: 3, objectif: 'Progression — on monte en régime',
+      jours: [
+        {jour: 'Lundi', repas: 'Smoothie vert · Salade lentilles betterave · Lieu noir + fenouil rôti'},
+        {jour: 'Mardi', repas: 'Œufs brouillés + pain · Wrap poulet avocat · Soupe pois chiches + croûtons'},
+        {jour: 'Mercredi', repas: 'Fromage blanc + fruits rouges · Bowl buddha légumes · Steak de thon + riz'},
+        {jour: 'Jeudi', repas: 'Flocons + lait végétal · Salade grecque + pain complet · Poulet mariné + quinoa'},
+        {jour: 'Vendredi', repas: 'Fruit + amandes · Pasta complète tomates · Crevettes wok légumes'},
+        {jour: 'Week-end', repas: 'Repas libres — tu as bien travaillé cette semaine, profites-en'}
+      ]
+    },
+    {
+      semaine: 4, objectif: 'Autonomie — tu connais maintenant ce qui te convient',
+      jours: [
+        {jour: 'Lundi', repas: 'Yaourt + granola maison · Salade composée au choix · Poisson vapeur + légumes'},
+        {jour: 'Mardi', repas: 'Pain complet + avocat · Bowl au choix · Omelette + salade verte'},
+        {jour: 'Mercredi', repas: 'Smoothie protéiné · Wrap au choix · Viande blanche + féculents'},
+        {jour: 'Jeudi', repas: 'Fruit + noix · Salade repas + pain · Curry légumineuses'},
+        {jour: 'Vendredi', repas: 'Café + toast · Pâtes complètes sauce légères · Poisson + légumes rôtis'},
+        {jour: 'Week-end', repas: 'Bilan de ton mois — tu es prêt(e) pour continuer sur cette lancée'}
+      ]
+    }
+  ];
+  
+  return menus_base;
+}
 // ============================================
 // AFFICHAGE DU PLAN PREMIUM
 // ============================================
@@ -361,7 +418,8 @@ function afficherPremium(b, c) {
       '<div class="if-times"><span>00h</span><span>' + (parts[0]||'12h') + '</span><span>' + (parts[1]||'20h') + '</span><span>24h</span></div></div>';
   }
 
-  var menusHtml = b.menus.map(function(s) {
+  var menusLocaux = genererMenus(PROFIL);
+  var menusHtml = menusLocaux.map(function(s) {
     return '<div class="semaine">' +
       '<div class="semaine-header"><span class="semaine-num">Semaine ' + s.semaine + '</span><span class="semaine-obj">— ' + s.objectif + '</span></div>' +
       s.jours.map(function(j) {
