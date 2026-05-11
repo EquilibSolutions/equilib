@@ -307,7 +307,7 @@ async function generer() {
     await new Promise(function(r) { setTimeout(r, 600); });
     addStep(1);
 
-    var res = await fetch('/api/bilan', {
+    var res = await fetch('https://5wux20v3.up.railway.app/api/bilan', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ profil: PROFIL, mode: 'premium' })
@@ -534,7 +534,7 @@ async function envoyerMessage() {
   chatHistory.push({ role: 'user', content: msg });
 
   try {
-    var res = await fetch('/api/bilan', {
+    var res = await fetch('https://5wux20v3.up.railway.app/api/bilan', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ mode: 'chat', profil: PROFIL, messages: chatHistory })

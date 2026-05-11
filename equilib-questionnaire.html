@@ -623,7 +623,7 @@ async function lancerGeneration() {
   }
 
   try {
-    var res = await fetch('/api/bilan', {
+    var res = await fetch('https://5wux20v3.up.railway.app/api/bilan', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ profil: DATA })
