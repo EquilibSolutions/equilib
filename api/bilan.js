@@ -16,7 +16,10 @@ function parseJSON(text) {
   return JSON.parse(match ? match[0] : clean);
 }
 
-async function callAI(prompt, maxTokens, model) {
+async function callAI(promptOrMessages, maxTokens, model) {
+  const messages = Array.isArray(promptOrMessages)
+    ? promptOrMessages
+    : [{ role: 'user', content: promptOrMessages }];
   const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -28,7 +31,7 @@ async function callAI(prompt, maxTokens, model) {
     body: JSON.stringify({
       model: model || 'anthropic/claude-sonnet-4-5',
       max_tokens: maxTokens,
-      messages: [{ role: 'user', content: prompt }]
+      messages
     })
   });
   const data = await res.json();
@@ -51,10 +54,15 @@ export async function handler(req, res) {
   // MODE CHAT
   if (mode === 'chat') {
     const messages = body.messages || [];
+    const profil = body.profil || {};
     if (!messages.length) return res.status(400).json({ error: 'Messages manquants' });
     try {
-      const conv = messages.slice(-4).map(m => m.role + ': ' + m.content).join('\n');
-      const reply = await callAI('Coach nutrition Equilib. Réponds en français, court et pratique.\n\n' + conv, 400, 'anthropic/claude-haiku-4-5-20251001');
+      const systemPrompt = `Tu es un coach nutritionniste expert et bienveillant chez Equilib. Tu connais le profil de ton client : ${profil.age || '?'} ans, ${profil.weight || '?'}kg, objectif ${profil.goal || '?'}kg. Tu réponds en français, de façon précise, pratique et personnalisée. Tu donnes de vraies informations nutritionnelles, des recettes concrètes, des conseils scientifiquement fondés. Tu ne répètes jamais la même chose.`;
+      const apiMessages = [
+        { role: 'user', content: systemPrompt },
+        ...messages.slice(-8)
+      ];
+      const reply = await callAI(apiMessages, 600, 'anthropic/claude-haiku-4-5-20251001');
       return res.status(200).json({ reply });
     } catch(e) {
       return res.status(500).json({ error: 'Erreur coach' });
